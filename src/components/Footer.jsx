@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Warehouse,
   Phone,
@@ -8,13 +9,13 @@ import {
 } from "lucide-react";
 
 const quickLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Products", href: "#products" },
-  { label: "Services", href: "#services" },
-  { label: "Why Choose Us", href: "#why-us" },
-  { label: "About", href: "#about" },
-  { label: "Get Quotation", href: "#quotation" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "#home", type: "anchor" },
+  { label: "Products", href: "#products", type: "anchor" },
+  { label: "Services", href: "#services", type: "anchor" },
+  { label: "Why Choose Us", href: "#why-us", type: "anchor" },
+  { label: "About", href: "#about", type: "anchor" },
+  { label: "Get Quotation", href: "#quotation", type: "anchor" },
+  { label: "Contact", href: "/contact", type: "route" },
 ];
 
 const productLinks = [
@@ -75,12 +76,19 @@ export default function Footer() {
           <div className="footer__column">
             <h4 className="footer__column-title">Quick Links</h4>
             <ul className="footer__links">
-              {quickLinks.map(({ label, href }) => (
+              {quickLinks.map(({ label, href, type }) => (
                 <li key={label}>
-                  <a href={href} className="footer__link">
-                    <ChevronRight size={14} />
-                    {label}
-                  </a>
+                  {type === "route" ? (
+                    <Link to={href} className="footer__link">
+                      <ChevronRight size={14} />
+                      {label}
+                    </Link>
+                  ) : (
+                    <a href={href} className="footer__link">
+                      <ChevronRight size={14} />
+                      {label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
