@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Droplets } from "lucide-react";
-
+import { Menu, X, Warehouse } from "lucide-react";
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -38,9 +37,9 @@ export default function Navbar({ onQuotationClick }) {
     <nav className={`navbar ${isScrolled ? "navbar--scrolled" : ""}`}>
       <div className="navbar__container container">
         <a href="#home" className="navbar__logo">
-          <Droplets size={28} className="navbar__logo-icon" />
+          <Warehouse size={28} className="navbar__logo-icon" />
           <span className="navbar__logo-text">
-            Aqua<span className="navbar__logo-highlight">Flow</span>
+            A3<span className="navbar__logo-highlight">Distributors</span>
           </span>
         </a>
 

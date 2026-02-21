@@ -1,0 +1,184 @@
+{
+  "categories": [
+    {
+      "id": "water",
+      "name": "Packaged Drinking Water",
+      "description": "Premium branded mineral & packaged drinking water for every need",
+      "icon": "Droplets",
+      "color": "#0066cc",
+      "bgColor": "#e8f4fd",
+      "products": [
+        {
+          "name": "Bisleri",
+          "image": "bisleri-500ml.png",
+          "sizes": ["20L Jar", "5L Bottle", "1L Bottle", "500ml Bottle"],
+          "color": "#0099CC",
+          "tag": "Most Popular"
+        },
+        {
+          "name": "Kinley",
+          "image": "bisleri-500ml.png",
+          "sizes": ["20L Jar", "1L Bottle", "500ml Bottle"],
+          "color": "#003399",
+          "tag": "Coca-Cola Brand"
+        },
+        {
+          "name": "Aquafina",
+          "image": "bisleri-500ml.png",
+          "sizes": ["1L Bottle", "500ml Bottle"],
+          "color": "#0066FF",
+          "tag": "PepsiCo Brand"
+        },
+        {
+          "name": "Rail Neer",
+          "image": "bisleri-500ml.png",
+          "sizes": ["1L Bottle", "500ml Bottle"],
+          "color": "#1A8CFF",
+          "tag": "IRCTC"
+        }
+      ]
+    },
+    {
+      "id": "softdrinks",
+      "name": "Soft Drinks",
+      "description": "Popular carbonated beverages — Coca-Cola, Pepsi & more",
+      "icon": "GlassWater",
+      "color": "#D32F2F",
+      "bgColor": "#fde8e8",
+      "products": [
+        {
+          "name": "Coca-Cola",
+          "image": "bisleri-500ml.png",
+          "sizes": ["2L", "1.25L", "750ml", "300ml", "200ml Glass"],
+          "color": "#D32F2F",
+          "tag": "Top Seller"
+        },
+        {
+          "name": "Pepsi",
+          "image": "bisleri-500ml.png",
+          "sizes": ["2L", "1.25L", "750ml", "300ml", "200ml Glass"],
+          "color": "#1565C0",
+          "tag": "Top Seller"
+        },
+        {
+          "name": "Sprite",
+          "image": "bisleri-500ml.png",
+          "sizes": ["2L", "1.25L", "750ml", "300ml"],
+          "color": "#2E7D32",
+          "tag": null
+        },
+        {
+          "name": "Thums Up",
+          "image": "bisleri-500ml.png",
+          "sizes": ["2L", "1.25L", "750ml", "300ml", "200ml Glass"],
+          "color": "#B71C1C",
+          "tag": "Strong Taste"
+        },
+        {
+          "name": "Fanta",
+          "image": "bisleri-500ml.png",
+          "sizes": ["2L", "1.25L", "750ml", "300ml"],
+          "color": "#E65100",
+          "tag": null
+        },
+        {
+          "name": "Limca",
+          "image": "bisleri-500ml.png",
+          "sizes": ["2L", "1.25L", "750ml", "300ml"],
+          "color": "#00897B",
+          "tag": null
+        },
+        {
+          "name": "7UP",
+          "image": "bisleri-500ml.png",
+          "sizes": ["2L", "1.25L", "750ml", "300ml"],
+          "color": "#388E3C",
+          "tag": null
+        }
+      ]
+    },
+    {
+      "id": "juices",
+      "name": "Juices & Fruit Drinks",
+      "description": "Refreshing fruit juices and mango drinks for all seasons",
+      "icon": "Wine",
+      "color": "#F9A825",
+      "bgColor": "#fff8e1",
+      "products": [
+        {
+          "name": "Maaza",
+          "image": "bisleri-500ml.png",
+          "sizes": ["1.2L", "600ml", "250ml Tetra Pack"],
+          "color": "#F9A825",
+          "tag": "Mango Favourite"
+        },
+        {
+          "name": "Slice",
+          "image": "bisleri-500ml.png",
+          "sizes": ["1.2L", "600ml", "250ml Tetra Pack"],
+          "color": "#FF8F00",
+          "tag": null
+        },
+        {
+          "name": "Frooti",
+          "image": "bisleri-500ml.png",
+          "sizes": ["1.2L", "600ml", "200ml Tetra Pack"],
+          "color": "#8BC34A",
+          "tag": null
+        },
+        {
+          "name": "Real Juice",
+          "image": "bisleri-500ml.png",
+          "sizes": ["1L", "200ml Tetra Pack"],
+          "color": "#E91E63",
+          "tag": "Multiple Flavours"
+        },
+        {
+          "name": "Tropicana",
+          "image": "bisleri-500ml.png",
+          "sizes": ["1L", "200ml Tetra Pack"],
+          "color": "#FF9800",
+          "tag": "PepsiCo Brand"
+        }
+      ]
+    },
+    {
+      "id": "energy",
+      "name": "Energy & Sports Drinks",
+      "description": "High-energy drinks and hydration solutions",
+      "icon": "Zap",
+      "color": "#C62828",
+      "bgColor": "#fce4ec",
+      "products": [
+        {
+          "name": "Sting",
+          "image": "bisleri-500ml.png",
+          "sizes": ["250ml Can"],
+          "color": "#C62828",
+          "tag": "Energy Boost"
+        },
+        {
+          "name": "Red Bull",
+          "image": "bisleri-500ml.png",
+          "sizes": ["250ml Can"],
+          "color": "#D4AF37",
+          "tag": "Premium"
+        },
+        {
+          "name": "Monster",
+          "image": "bisleri-500ml.png",
+          "sizes": ["350ml Can"],
+          "color": "#4CAF50",
+          "tag": null
+        },
+        {
+          "name": "Gatorade",
+          "image": "bisleri-500ml.png",
+          "sizes": ["500ml Bottle"],
+          "color": "#FF6F00",
+          "tag": "Sports Hydration"
+        }
+      ]
+    }
+  ]
+}

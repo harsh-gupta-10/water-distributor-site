@@ -10,73 +10,35 @@ import {
   ShoppingCart,
   ChevronRight,
 } from "lucide-react";
+import productsData from "../data/products.json";
 
-const categories = [
-  {
-    id: "water",
-    name: "Packaged Drinking Water",
-    description: "Premium branded mineral & packaged drinking water for every need",
-    icon: Droplets,
-    color: "#0066cc",
-    bgColor: "#e8f4fd",
-    products: [
-      { name: "Bisleri", sizes: ["20L Jar", "5L Bottle", "1L Bottle", "500ml Bottle"], color: "#0099CC", tag: "Most Popular" },
-      { name: "Kinley", sizes: ["20L Jar", "1L Bottle", "500ml Bottle"], color: "#003399", tag: "Coca-Cola Brand" },
-      { name: "Aquafina", sizes: ["1L Bottle", "500ml Bottle"], color: "#0066FF", tag: "PepsiCo Brand" },
-      { name: "Rail Neer", sizes: ["1L Bottle", "500ml Bottle"], color: "#1A8CFF", tag: "IRCTC" },
-    ],
-  },
-  {
-    id: "softdrinks",
-    name: "Soft Drinks",
-    description: "Popular carbonated beverages — Coca-Cola, Pepsi & more",
-    icon: GlassWater,
-    color: "#D32F2F",
-    bgColor: "#fde8e8",
-    products: [
-      { name: "Coca-Cola", sizes: ["2L", "1.25L", "750ml", "300ml", "200ml Glass"], color: "#D32F2F", tag: "Top Seller" },
-      { name: "Pepsi", sizes: ["2L", "1.25L", "750ml", "300ml", "200ml Glass"], color: "#1565C0", tag: "Top Seller" },
-      { name: "Sprite", sizes: ["2L", "1.25L", "750ml", "300ml"], color: "#2E7D32", tag: null },
-      { name: "Thums Up", sizes: ["2L", "1.25L", "750ml", "300ml", "200ml Glass"], color: "#B71C1C", tag: "Strong Taste" },
-      { name: "Fanta", sizes: ["2L", "1.25L", "750ml", "300ml"], color: "#E65100", tag: null },
-      { name: "Limca", sizes: ["2L", "1.25L", "750ml", "300ml"], color: "#00897B", tag: null },
-      { name: "7UP", sizes: ["2L", "1.25L", "750ml", "300ml"], color: "#388E3C", tag: null },
-    ],
-  },
-  {
-    id: "juices",
-    name: "Juices & Fruit Drinks",
-    description: "Refreshing fruit juices and mango drinks for all seasons",
-    icon: Wine,
-    color: "#F9A825",
-    bgColor: "#fff8e1",
-    products: [
-      { name: "Maaza", sizes: ["1.2L", "600ml", "250ml Tetra Pack"], color: "#F9A825", tag: "Mango Favourite" },
-      { name: "Slice", sizes: ["1.2L", "600ml", "250ml Tetra Pack"], color: "#FF8F00", tag: null },
-      { name: "Frooti", sizes: ["1.2L", "600ml", "200ml Tetra Pack"], color: "#8BC34A", tag: null },
-      { name: "Real Juice", sizes: ["1L", "200ml Tetra Pack"], color: "#E91E63", tag: "Multiple Flavours" },
-      { name: "Tropicana", sizes: ["1L", "200ml Tetra Pack"], color: "#FF9800", tag: "PepsiCo Brand" },
-    ],
-  },
-  {
-    id: "energy",
-    name: "Energy & Sports Drinks",
-    description: "High-energy drinks and hydration solutions",
-    icon: Zap,
-    color: "#C62828",
-    bgColor: "#fce4ec",
-    products: [
-      { name: "Sting", sizes: ["250ml Can"], color: "#C62828", tag: "Energy Boost" },
-      { name: "Red Bull", sizes: ["250ml Can"], color: "#D4AF37", tag: "Premium" },
-      { name: "Monster", sizes: ["350ml Can"], color: "#4CAF50", tag: null },
-      { name: "Gatorade", sizes: ["500ml Bottle"], color: "#FF6F00", tag: "Sports Hydration" },
-    ],
-  },
-];
+// Map icon strings from JSON to actual components
+const iconMap = { Droplets, GlassWater, Wine, Zap };
+
+// Import all bottle images from the bottles folder
+const bottleImages = import.meta.glob("../assets/imgs/bottles/*.png", {
+  eager: true,
+});
+
+function getBottleImage(filename) {
+  const key = Object.keys(bottleImages).find((k) => k.endsWith(`/${filename}`));
+  return key ? bottleImages[key].default : null;
+}
+
+// Build categories with resolved icons and images
+const categories = productsData.categories.map((cat) => ({
+  ...cat,
+  icon: iconMap[cat.icon] || Droplets,
+  products: cat.products.map((p) => ({
+    ...p,
+    imageSrc: getBottleImage(p.image),
+  })),
+}));
 
 function CategoryCard({ category, onClick, delay, animate }) {
   const Icon = category.icon;
   const productCount = category.products.length;
+  const previewImg = category.products[0]?.imageSrc;
 
   return (
     <div
@@ -85,17 +47,28 @@ function CategoryCard({ category, onClick, delay, animate }) {
       onClick={onClick}
     >
       <div
-        className="category-card__icon-wrap"
-        style={{ background: category.bgColor, color: category.color }}
+        className="category-card__img-wrap"
+        style={{ background: category.bgColor }}
       >
-        <Icon size={32} />
+        {previewImg ? (
+          <img
+            src={previewImg}
+            alt={category.name}
+            className="category-card__img"
+          />
+        ) : (
+          <Icon size={48} style={{ color: category.color }} />
+        )}
       </div>
       <div className="category-card__content">
         <h3 className="category-card__name">{category.name}</h3>
         <p className="category-card__desc">{category.description}</p>
         <div className="category-card__footer">
           <span className="category-card__count">{productCount} Products</span>
-          <span className="category-card__cta" style={{ color: category.color }}>
+          <span
+            className="category-card__cta"
+            style={{ color: category.color }}
+          >
             View All <ChevronRight size={16} />
           </span>
         </div>
@@ -111,15 +84,15 @@ function ProductListModal({ category, onClose, onGetPrice }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="product-modal"
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="product-modal" onClick={(e) => e.stopPropagation()}>
         <button className="modal__close" onClick={onClose}>
           <X size={18} />
         </button>
 
-        <div className="product-modal__header" style={{ borderColor: category.color }}>
+        <div
+          className="product-modal__header"
+          style={{ borderColor: category.color }}
+        >
           <div
             className="product-modal__header-icon"
             style={{ background: category.bgColor, color: category.color }}
@@ -137,14 +110,24 @@ function ProductListModal({ category, onClose, onGetPrice }) {
         <div className="product-modal__list">
           {category.products.map((product) => (
             <div key={product.name} className="product-modal__item">
-              <div
-                className="product-modal__item-icon"
-                style={{
-                  background: `linear-gradient(135deg, ${product.color}20, ${product.color}08)`,
-                  color: product.color,
-                }}
-              >
-                <GlassWater size={28} />
+              <div className="product-modal__item-img-wrap">
+                {product.imageSrc ? (
+                  <img
+                    src={product.imageSrc}
+                    alt={product.name}
+                    className="product-modal__item-img"
+                  />
+                ) : (
+                  <div
+                    className="product-modal__item-icon"
+                    style={{
+                      background: `linear-gradient(135deg, ${product.color}20, ${product.color}08)`,
+                      color: product.color,
+                    }}
+                  >
+                    <GlassWater size={28} />
+                  </div>
+                )}
               </div>
               <div className="product-modal__item-info">
                 <div className="product-modal__item-top">
@@ -152,7 +135,10 @@ function ProductListModal({ category, onClose, onGetPrice }) {
                   {product.tag && (
                     <span
                       className="product-modal__item-tag"
-                      style={{ background: `${product.color}15`, color: product.color }}
+                      style={{
+                        background: `${product.color}15`,
+                        color: product.color,
+                      }}
                     >
                       {product.tag}
                     </span>
@@ -175,7 +161,9 @@ function ProductListModal({ category, onClose, onGetPrice }) {
         </div>
 
         <div className="product-modal__footer">
-          <p>Need a product not listed here? Contact us for custom bulk orders.</p>
+          <p>
+            Need a product not listed here? Contact us for custom bulk orders.
+          </p>
           <button className="btn btn-primary" onClick={() => onGetPrice()}>
             Request Bulk Quotation
           </button>

@@ -2,15 +2,13 @@ import {
   Truck,
   Package,
   Users,
-  Zap,
   ChevronRight,
   Phone,
-  Droplets,
   Sparkles,
   ShieldCheck,
 } from "lucide-react";
 import { useInView } from "react-intersection-observer";
-
+import heroBg from "../assets/imgs/hero-bg.webp";
 
 const trustSignals = [
   { icon: Truck, label: "Fast Delivery" },
@@ -23,10 +21,11 @@ export default function Hero({ onQuotationClick }) {
 
   return (
     <section id="home" className="hero" ref={ref}>
-      {/* Subtle tricolor gradient strip at the very top */}
-      <div className="hero__tricolor-strip" />
-
-      <div className="hero__bg-pattern" />
+      <div
+        className="hero__bg-image"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      />
+      <div className="hero__overlay" />
 
       <div
         className={`hero__container container ${inView ? "animate-fadeInUp" : ""}`}
@@ -37,14 +36,13 @@ export default function Hero({ onQuotationClick }) {
             <span>Authorized Distributor</span>
           </div>
           <h1 className="hero__title">
-            Reliable Water &amp; Beverage{" "}
-            <span className="hero__title-highlight">Distribution</span> for Your
-            Business
+            Your Trusted Water &amp; Beverage{" "}
+            <span className="hero__title-highlight">Distribution</span> Partner
           </h1>
           <p className="hero__subtitle">
-            Supplying trusted water &amp; cold drink brands across offices,
-            shops, events, and wholesalers. Competitive pricing with on-time
-            delivery guaranteed.
+            A3Distributors supplies top water &amp; cold drink brands to
+            offices, shops, events, and wholesalers. Competitive pricing with
+            on-time delivery guaranteed.
           </p>
 
           <div className="hero__actions">
@@ -55,7 +53,10 @@ export default function Hero({ onQuotationClick }) {
               <Sparkles size={18} />
               Get Quotation
             </button>
-            <a href="tel:+917304555662" className="btn btn-secondary hero__btn">
+            <a
+              href="tel:+917304555662"
+              className="btn btn-secondary hero__btn hero__btn--outline"
+            >
               <Phone size={18} />
               Call Now
             </a>
@@ -70,37 +71,6 @@ export default function Hero({ onQuotationClick }) {
                 <span>{label}</span>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div className="hero__visual">
-          <div className="hero__visual-card">
-            <div className="hero__visual-bottles">
-              <Droplets
-                size={80}
-                className="hero__bottle-icon hero__bottle-icon--1"
-              />
-              <Droplets
-                size={60}
-                className="hero__bottle-icon hero__bottle-icon--2"
-              />
-              <Droplets
-                size={50}
-                className="hero__bottle-icon hero__bottle-icon--3"
-              />
-            </div>
-            <div className="hero__visual-label">
-              <Zap size={16} />
-              <span>500+ Businesses Served</span>
-            </div>
-          </div>
-          <div className="hero__visual-floating hero__visual-floating--1">
-            <Package size={20} />
-            <span>Same-Day Delivery</span>
-          </div>
-          <div className="hero__visual-floating hero__visual-floating--2">
-            <ShieldCheck size={20} />
-            <span>GST Billing</span>
           </div>
         </div>
       </div>

@@ -1,7 +1,6 @@
 import { useInView } from "react-intersection-observer";
 import { Award, MapPin, Clock, Quote } from "lucide-react";
 
-
 const stats = [
   { number: "10+", label: "Years of Experience" },
   { number: "500+", label: "Businesses Served" },
@@ -13,7 +12,7 @@ const testimonials = [
   {
     name: "Rajesh Kumar",
     business: "Kumar General Store",
-    text: "AquaFlow has been our water and cold drink supplier for 3 years. Always on time, genuine products, and fair pricing. Highly recommended for any retailer.",
+    text: "A3Distributors has been our water and cold drink supplier for 3 years. Always on time, genuine products, and fair pricing. Highly recommended for any retailer.",
   },
   {
     name: "Priya Sharma",

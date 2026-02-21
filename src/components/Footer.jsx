@@ -1,12 +1,11 @@
 import {
-  Droplets,
+  Warehouse,
   Phone,
   Mail,
   MapPin,
   Clock,
   ChevronRight,
 } from "lucide-react";
-
 
 const quickLinks = [
   { label: "Home", href: "#home" },
@@ -48,15 +47,15 @@ export default function Footer() {
           {/* Brand */}
           <div className="footer__brand">
             <a href="#home" className="footer__logo">
-              <Droplets size={24} />
+              <Warehouse size={24} />
               <span>
-                Aqua<strong>Flow</strong>
+                A3<strong>Distributors</strong>
               </span>
             </a>
             <p className="footer__tagline">
-              Your trusted water and beverage distribution partner. Serving
-              businesses with quality products, competitive pricing, and
-              reliable delivery.
+              Your trusted water and beverage distribution partner.
+              A3Distributors serves businesses with quality products,
+              competitive pricing, and reliable delivery.
             </p>
             <div className="footer__contact-item">
               <Phone size={14} />
@@ -64,7 +63,7 @@ export default function Footer() {
             </div>
             <div className="footer__contact-item">
               <Mail size={14} />
-              <a href="mailto:info@aquaflow.in">info@aquaflow.in</a>
+              <a href="mailto:info@a3distributors.in">info@a3distributors.in</a>
             </div>
             <div className="footer__contact-item">
               <MapPin size={14} />
@@ -131,7 +130,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="footer__bottom">
           <p className="footer__copyright">
-            &copy; {new Date().getFullYear()} AquaFlow Distributors. All rights
+            &copy; {new Date().getFullYear()} A3Distributors. All rights
             reserved.
           </p>
           <p className="footer__gst">

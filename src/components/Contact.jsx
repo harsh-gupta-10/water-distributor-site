@@ -1,7 +1,6 @@
 import { useInView } from "react-intersection-observer";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
-
 export default function Contact() {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
 
@@ -37,13 +36,13 @@ export default function Contact() {
               </div>
             </a>
 
-            <a href="mailto:info@aquaflow.in" className="contact__card">
+            <a href="mailto:info@a3distributors.in" className="contact__card">
               <div className="contact__card-icon contact__card-icon--email">
                 <Mail size={24} />
               </div>
               <div>
                 <h3 className="contact__card-title">Email Us</h3>
-                <p className="contact__card-text">info@aquaflow.in</p>
+                <p className="contact__card-text">info@a3distributors.in</p>
                 <span className="contact__card-hint">
                   We reply within 24 hours
                 </span>
