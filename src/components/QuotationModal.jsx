@@ -41,6 +41,8 @@ export default function QuotationModal({ isOpen, onClose }) {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   if (!isOpen) return null;
 
@@ -58,14 +60,35 @@ export default function QuotationModal({ isOpen, onClose }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleWhatsApp = async (e) => {
     e.preventDefault();
-    submitQuotation(formData, "modal");
+    setSaveError("");
+
+    if (!formData.fullName || !formData.phone || !formData.location) {
+      setSaveError("Please fill in Name, Phone and Location.");
+      return;
+    }
+
+    setSaving(true);
+    const result = await submitQuotation(formData, "modal");
+    setSaving(false);
+
+    if (!result.success) {
+      setSaveError("Could not save your request: " + result.error);
+      return;
+    }
+
+    window.open(
+      `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(formData))}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
     setSubmitted(true);
   };
 
   const handleClose = () => {
     setSubmitted(false);
+    setSaveError("");
     setFormData({
       fullName: "",
       businessName: "",
@@ -113,7 +136,7 @@ export default function QuotationModal({ isOpen, onClose }) {
               </p>
             </div>
 
-            <form className="modal__form" onSubmit={handleSubmit}>
+            <form className="modal__form" onSubmit={(e) => e.preventDefault()}>
               <div className="modal__form-grid">
                 <div className="modal__field">
                   <label>
@@ -227,30 +250,20 @@ export default function QuotationModal({ isOpen, onClose }) {
               </div>
 
               <div className="modal__actions">
-                <a
-                  href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(formData))}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                {saveError && (
+                  <p style={{ color: "#dc2626", fontSize: "0.85rem", marginBottom: "8px" }}>
+                    {saveError}
+                  </p>
+                )}
+                <button
+                  type="button"
                   className="btn modal__whatsapp-btn modal__submit"
-                  onClick={(e) => {
-                    if (
-                      !formData.fullName ||
-                      !formData.phone ||
-                      !formData.location
-                    ) {
-                      e.preventDefault();
-                      alert(
-                        "Please fill in Name, Phone and Location before sending via WhatsApp.",
-                      );
-                      return;
-                    }
-                    submitQuotation(formData, "modal");
-                    setSubmitted(true);
-                  }}
+                  onClick={handleWhatsApp}
+                  disabled={saving}
                 >
                   <FaWhatsapp size={16} />
-                  Request Quotation via WhatsApp
-                </a>
+                  {saving ? "Saving..." : "Request Quotation via WhatsApp"}
+                </button>
               </div>
             </form>
           </>

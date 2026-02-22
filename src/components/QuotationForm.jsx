@@ -42,6 +42,8 @@ export default function QuotationForm() {
     message: "",
   });
   const [submitted, setSubmitted] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -57,14 +59,31 @@ export default function QuotationForm() {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleWhatsApp = async (e) => {
     e.preventDefault();
-    const result = await submitQuotation(formData, "form");
-    if (result.success) {
-      setSubmitted(true);
-    } else {
-      alert("Error saving quotation: " + result.error);
+    setSaveError("");
+
+    if (!formData.fullName || !formData.phone || !formData.location) {
+      setSaveError("Please fill in Name, Phone and Location.");
+      return;
     }
+
+    setSaving(true);
+    const result = await submitQuotation(formData, "form");
+    setSaving(false);
+
+    if (!result.success) {
+      setSaveError("Could not save your request: " + result.error);
+      return;
+    }
+
+    // Save succeeded — open WhatsApp then show success
+    window.open(
+      `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(formData))}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+    setSubmitted(true);
   };
 
   if (submitted) {
@@ -111,7 +130,7 @@ export default function QuotationForm() {
         <form
           className={`quotation__form ${inView ? "animate-fadeInUp" : ""}`}
           style={{ opacity: inView ? 1 : 0, animationDelay: "0.2s" }}
-          onSubmit={handleSubmit}
+          onSubmit={(e) => e.preventDefault()}
         >
           <div className="quotation__form-grid">
             <div className="quotation__field">
@@ -238,30 +257,20 @@ export default function QuotationForm() {
           </div>
 
           <div className="quotation__actions">
-            <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(formData))}`}
-              target="_blank"
-              rel="noopener noreferrer"
+            {saveError && (
+              <p style={{ color: "#dc2626", fontSize: "0.9rem", marginBottom: "10px" }}>
+                {saveError}
+              </p>
+            )}
+            <button
+              type="button"
               className="btn quotation__whatsapp-btn quotation__submit"
-              onClick={async (e) => {
-                if (
-                  !formData.fullName ||
-                  !formData.phone ||
-                  !formData.location
-                ) {
-                  e.preventDefault();
-                  alert(
-                    "Please fill in Name, Phone and Location before sending via WhatsApp.",
-                  );
-                  return;
-                }
-                await submitQuotation(formData, "form");
-                setSubmitted(true);
-              }}
+              onClick={handleWhatsApp}
+              disabled={saving}
             >
               <FaWhatsapp size={18} />
-              Request Quotation via WhatsApp
-            </a>
+              {saving ? "Saving..." : "Request Quotation via WhatsApp"}
+            </button>
           </div>
         </form>
       </div>

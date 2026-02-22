@@ -15,6 +15,7 @@ export default function AdminDashboard() {
   const [authLoading, setAuthLoading] = useState(true);
   const [quotations, setQuotations] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
 
   useEffect(() => {
@@ -38,6 +39,7 @@ export default function AdminDashboard() {
 
   async function fetchQuotations() {
     setLoading(true);
+    setFetchError(null);
     const { data, error } = await supabase
       .from("quotations")
       .select("*")
@@ -45,6 +47,7 @@ export default function AdminDashboard() {
 
     if (error) {
       console.error("Failed to fetch quotations:", error);
+      setFetchError(error.message);
     } else {
       setQuotations(data || []);
     }
@@ -173,6 +176,11 @@ export default function AdminDashboard() {
   return (
     <div className="admin">
       <div className="container">
+        {fetchError && (
+          <div className="admin-login__error" style={{ marginBottom: "24px" }}>
+            DB error: {fetchError} — Check your Supabase RLS policies.
+          </div>
+        )}
         {/* Header */}
         <div className="admin__header">
           <div className="admin__header-row">
