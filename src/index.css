@@ -380,6 +380,12 @@ ol {
   color: var(--primary-blue);
 }
 
+.navbar__logo-img {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
+}
+
 .navbar__logo-text {
   font-family: var(--font-heading);
   font-size: 1.4rem;
@@ -1948,6 +1954,12 @@ a.contact__card:hover {
 
 .footer__logo strong {
   color: var(--primary-blue);
+}
+
+.footer__logo-img {
+  height: 32px;
+  width: 32px;
+  object-fit: contain;
 }
 
 .footer__tagline {

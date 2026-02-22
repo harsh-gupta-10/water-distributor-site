@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import {
-  Warehouse,
   Phone,
   Mail,
   MapPin,
@@ -8,6 +7,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import siteConfig from "../data/siteConfig";
+import logoImg from "../assets/imgs/favicon.png";
 
 const quickLinks = [
   { label: "Home", href: "#home", type: "anchor" },
@@ -40,7 +40,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="footer__brand">
             <a href="#home" className="footer__logo">
-              <Warehouse size={24} />
+              <img src={logoImg} alt="A3 Distributors" className="footer__logo-img" />
               <span>
                 {siteConfig.businessName}
                 <strong>{siteConfig.businessNameHighlight}</strong>
