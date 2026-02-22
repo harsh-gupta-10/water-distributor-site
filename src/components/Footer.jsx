@@ -7,6 +7,7 @@ import {
   Clock,
   ChevronRight,
 } from "lucide-react";
+import siteConfig from "../data/siteConfig";
 
 const quickLinks = [
   { label: "Home", href: "#home", type: "anchor" },
@@ -29,15 +30,6 @@ const productLinks = [
   "Maaza",
 ];
 
-const serviceAreas = [
-  "Main Market",
-  "Industrial Zone",
-  "Station Road",
-  "Civil Lines",
-  "University Area",
-  "Ring Road",
-];
-
 export default function Footer() {
   return (
     <footer className="footer">
@@ -50,25 +42,22 @@ export default function Footer() {
             <a href="#home" className="footer__logo">
               <Warehouse size={24} />
               <span>
-                A3<strong>Distributors</strong>
+                {siteConfig.businessName}
+                <strong>{siteConfig.businessNameHighlight}</strong>
               </span>
             </a>
-            <p className="footer__tagline">
-              Your trusted water and beverage distribution partner.
-              A3Distributors serves businesses with quality products,
-              competitive pricing, and reliable delivery.
-            </p>
+            <p className="footer__tagline">{siteConfig.footerDescription}</p>
             <div className="footer__contact-item">
               <Phone size={14} />
-              <a href="tel:+917304555662">+91 73045 55662</a>
+              <a href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a>
             </div>
             <div className="footer__contact-item">
               <Mail size={14} />
-              <a href="mailto:info@a3distributors.in">info@a3distributors.in</a>
+              <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
             </div>
             <div className="footer__contact-item">
               <MapPin size={14} />
-              <span>Industrial Area, City - 110001</span>
+              <span>{siteConfig.addressShort}</span>
             </div>
           </div>
 
@@ -113,7 +102,7 @@ export default function Footer() {
           <div className="footer__column">
             <h4 className="footer__column-title">Service Areas</h4>
             <ul className="footer__links">
-              {serviceAreas.map((area) => (
+              {siteConfig.serviceAreas.map((area) => (
                 <li key={area}>
                   <span className="footer__link footer__link--static">
                     <ChevronRight size={14} />
@@ -127,8 +116,8 @@ export default function Footer() {
               <div className="footer__hours">
                 <Clock size={14} />
                 <div>
-                  <p>Mon - Sat: 7 AM - 9 PM</p>
-                  <p>Sunday: 8 AM - 2 PM</p>
+                  <p>{siteConfig.hours.weekdays}</p>
+                  <p>{siteConfig.hours.sunday}</p>
                 </div>
               </div>
             </div>
@@ -138,12 +127,10 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="footer__bottom">
           <p className="footer__copyright">
-            &copy; {new Date().getFullYear()} A3Distributors. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} {siteConfig.businessName}
+            {siteConfig.businessNameHighlight}. All rights reserved.
           </p>
-          <p className="footer__gst">
-            GST Registered | Professional Billing Available
-          </p>
+          <p className="footer__gst">{siteConfig.gstInfo}</p>
         </div>
       </div>
     </footer>

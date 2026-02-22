@@ -1,6 +1,14 @@
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { Phone, Mail, MapPin, Clock, MessageCircle, ArrowRight } from "lucide-react";
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
+  MessageCircle,
+  ArrowRight,
+} from "lucide-react";
+import siteConfig from "../data/siteConfig";
 
 export default function Contact() {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
@@ -35,13 +43,15 @@ export default function Contact() {
               </p>
 
               <div className="contact-page__cards">
-                <a href="tel:+917304555662" className="contact__card">
+                <a href={`tel:${siteConfig.phone}`} className="contact__card">
                   <div className="contact__card-icon contact__card-icon--phone">
                     <Phone size={24} />
                   </div>
                   <div>
                     <h3 className="contact__card-title">Call Us</h3>
-                    <p className="contact__card-text">+91 73045 55662</p>
+                    <p className="contact__card-text">
+                      {siteConfig.phoneDisplay}
+                    </p>
                     <span className="contact__card-hint">
                       Tap to call directly
                     </span>
@@ -49,7 +59,7 @@ export default function Contact() {
                 </a>
 
                 <a
-                  href="mailto:info@a3distributors.in"
+                  href={`mailto:${siteConfig.email}`}
                   className="contact__card"
                 >
                   <div className="contact__card-icon contact__card-icon--email">
@@ -57,7 +67,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="contact__card-title">Email Us</h3>
-                    <p className="contact__card-text">info@a3distributors.in</p>
+                    <p className="contact__card-text">{siteConfig.email}</p>
                     <span className="contact__card-hint">
                       We reply within 24 hours
                     </span>
@@ -65,7 +75,7 @@ export default function Contact() {
                 </a>
 
                 <a
-                  href="https://wa.me/917304555662"
+                  href={`https://wa.me/${siteConfig.whatsappNumber}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="contact__card"
@@ -75,7 +85,9 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="contact__card-title">WhatsApp</h3>
-                    <p className="contact__card-text">+91 73045 55662</p>
+                    <p className="contact__card-text">
+                      {siteConfig.phoneDisplay}
+                    </p>
                     <span className="contact__card-hint">
                       Quick responses on WhatsApp
                     </span>
@@ -87,13 +99,9 @@ export default function Contact() {
                     <MapPin size={24} />
                   </div>
                   <div>
-                    <h3 className="contact__card-title">
-                      Visit Our Warehouse
-                    </h3>
+                    <h3 className="contact__card-title">Visit Our Warehouse</h3>
                     <p className="contact__card-text">
-                      Plot No. 45, Industrial Area,
-                      <br />
-                      Main Distribution Hub, City - 110001
+                      {siteConfig.addressFull}
                     </p>
                   </div>
                 </div>
@@ -105,9 +113,9 @@ export default function Contact() {
                   <div>
                     <h3 className="contact__card-title">Business Hours</h3>
                     <p className="contact__card-text">
-                      Mon - Sat: 7:00 AM - 9:00 PM
+                      {siteConfig.hours.weekdays}
                       <br />
-                      Sunday: 8:00 AM - 2:00 PM
+                      {siteConfig.hours.sunday}
                     </p>
                   </div>
                 </div>
@@ -130,7 +138,7 @@ export default function Contact() {
                   get in touch with our distribution team.
                 </p>
                 <a
-                  href="https://wa.me/917304555662?text=Hi%2C%20I%20need%20a%20bulk%20order%20quotation"
+                  href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(siteConfig.whatsappMessages.quotation)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-primary"

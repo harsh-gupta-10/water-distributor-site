@@ -9,28 +9,9 @@ import {
   MapPin,
   Package,
   MessageSquare,
-  MessageCircle,
 } from "lucide-react";
-
-
-const productOptions = [
-  "Bisleri 20L",
-  "Bisleri 1L/500ml",
-  "Kinley",
-  "Aquafina",
-  "Rail Neer",
-  "Coca-Cola",
-  "Pepsi",
-  "Sprite",
-  "Thums Up",
-  "Fanta",
-  "Maaza",
-  "Slice",
-  "Sting",
-  "Limca",
-];
-
-const WHATSAPP_NUMBER = "917304555662";
+import { FaWhatsapp } from "react-icons/fa";
+import siteConfig from "../data/siteConfig";
 
 function buildWhatsAppMessage(data) {
   let msg = `Hi, I am *${data.fullName}*`;
@@ -38,7 +19,8 @@ function buildWhatsAppMessage(data) {
   msg += `.`;
   if (data.email) msg += `\nEmail: ${data.email}`;
   if (data.phone) msg += `\nPhone: ${data.phone}`;
-  if (data.products.length > 0) msg += `\n\nProducts I need: ${data.products.join(", ")}`;
+  if (data.products.length > 0)
+    msg += `\n\nProducts I need: ${data.products.join(", ")}`;
   if (data.quantity) msg += `\nQuantity: ${data.quantity}`;
   if (data.location) msg += `\nDelivery Location: ${data.location}`;
   if (data.message) msg += `\n\nAdditional Info: ${data.message}`;
@@ -192,7 +174,7 @@ export default function QuotationForm() {
               <span className="quotation__required">*</span>
             </label>
             <div className="quotation__products">
-              {productOptions.map((product) => (
+              {siteConfig.productOptions.map((product) => (
                 <button
                   key={product}
                   type="button"
@@ -251,24 +233,26 @@ export default function QuotationForm() {
           </div>
 
           <div className="quotation__actions">
-            <button type="submit" className="btn btn-primary quotation__submit">
-              <Send size={18} />
-              Request Quotation
-            </button>
             <a
-              href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildWhatsAppMessage(formData))}`}
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(buildWhatsAppMessage(formData))}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn quotation__whatsapp-btn"
+              className="btn quotation__whatsapp-btn quotation__submit"
               onClick={(e) => {
-                if (!formData.fullName || !formData.phone || !formData.location) {
+                if (
+                  !formData.fullName ||
+                  !formData.phone ||
+                  !formData.location
+                ) {
                   e.preventDefault();
-                  alert("Please fill in Name, Phone and Location before sending via WhatsApp.");
+                  alert(
+                    "Please fill in Name, Phone and Location before sending via WhatsApp.",
+                  );
                 }
               }}
             >
-              <MessageCircle size={18} />
-              Send via WhatsApp
+              <FaWhatsapp size={18} />
+              Request Quotation via WhatsApp
             </a>
           </div>
         </form>

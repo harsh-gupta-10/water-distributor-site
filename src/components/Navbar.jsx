@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Warehouse } from "lucide-react";
+import { Menu, X, Warehouse, Sparkles } from "lucide-react";
+import siteConfig from "../data/siteConfig";
 
 const navLinks = [
   { label: "Home", href: "#home", type: "anchor" },
@@ -11,16 +12,26 @@ const navLinks = [
   { label: "Contact", href: "/contact", type: "route" },
 ];
 
-export default function Navbar({ onQuotationClick }) {
+export default function Navbar({ openModal }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+      const hero = document.getElementById("home");
+      if (hero) {
+        setPastHero(window.scrollY > hero.offsetHeight - 72);
+      } else {
+        setPastHero(true);
+      }
+    };
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (isMobileOpen) {
@@ -41,7 +52,7 @@ export default function Navbar({ onQuotationClick }) {
         <Link to="/" className="navbar__logo">
           <Warehouse size={28} className="navbar__logo-icon" />
           <span className="navbar__logo-text">
-            A3<span className="navbar__logo-highlight">Distributors</span>
+            {siteConfig.businessName}<span className="navbar__logo-highlight">{siteConfig.businessNameHighlight}</span>
           </span>
         </Link>
 
@@ -69,23 +80,23 @@ export default function Navbar({ onQuotationClick }) {
               )}
             </li>
           ))}
+          {/* Mobile CTA inside drawer */}
           <li className="navbar__links-cta-mobile">
             <button
               className="btn btn-primary"
-              onClick={() => {
-                onQuotationClick();
-                handleLinkClick();
-              }}
+              onClick={() => { handleLinkClick(); openModal?.(); }}
             >
+              <Sparkles size={16} />
               Get Quotation
             </button>
           </li>
         </ul>
 
         <button
-          className="btn btn-primary navbar__cta-desktop"
-          onClick={onQuotationClick}
+          className={`btn btn-primary navbar__cta-desktop ${pastHero ? "navbar__cta-desktop--visible" : ""}`}
+          onClick={() => openModal?.()}
         >
+          <Sparkles size={16} />
           Get Quotation
         </button>
 

@@ -35,7 +35,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar onQuotationClick={openModal} />
+      <Navbar openModal={openModal} />
       <Routes>
         <Route path="/" element={<HomePage openModal={openModal} />} />
         <Route path="/contact" element={<Contact />} />

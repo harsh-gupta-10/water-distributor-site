@@ -8,6 +8,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useInView } from "react-intersection-observer";
+import siteConfig from "../data/siteConfig";
 import heroBg from "../assets/imgs/hero-bg.webp";
 
 const trustSignals = [
@@ -39,11 +40,7 @@ export default function Hero({ onQuotationClick }) {
             Your Trusted Water &amp; Beverage{" "}
             <span className="hero__title-highlight">Distribution</span> Partner
           </h1>
-          <p className="hero__subtitle">
-            A3Distributors supplies top water &amp; cold drink brands to
-            offices, shops, events, and wholesalers. Competitive pricing with
-            on-time delivery guaranteed.
-          </p>
+          <p className="hero__subtitle">{siteConfig.heroSubtitle}</p>
 
           <div className="hero__actions">
             <button
@@ -54,7 +51,7 @@ export default function Hero({ onQuotationClick }) {
               Get Quotation
             </button>
             <a
-              href="tel:+917304555662"
+              href={`tel:${siteConfig.phone}`}
               className="btn btn-secondary hero__btn hero__btn--outline"
             >
               <Phone size={18} />
