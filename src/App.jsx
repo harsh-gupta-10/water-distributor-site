@@ -12,6 +12,7 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import WhatsAppButton from "./components/WhatsAppButton";
 import QuotationModal from "./components/QuotationModal";
+import AdminDashboard from "./components/AdminDashboard";
 
 function HomePage({ openModal }) {
   return (
@@ -39,6 +40,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage openModal={openModal} />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
       <Footer />
       <WhatsAppButton />

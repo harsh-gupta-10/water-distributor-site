@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import siteConfig from "../data/siteConfig";
+import { submitQuotation } from "../lib/submitQuotation";
 
 function buildWhatsAppMessage(data) {
   let msg = `Hi, I am *${data.fullName}*`;
@@ -56,10 +57,14 @@ export default function QuotationForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    // In production, this would send to a backend/API
+    const result = await submitQuotation(formData, "form");
+    if (result.success) {
+      setSubmitted(true);
+    } else {
+      alert("Error saving quotation: " + result.error);
+    }
   };
 
   if (submitted) {
@@ -238,7 +243,7 @@ export default function QuotationForm() {
               target="_blank"
               rel="noopener noreferrer"
               className="btn quotation__whatsapp-btn quotation__submit"
-              onClick={(e) => {
+              onClick={async (e) => {
                 if (
                   !formData.fullName ||
                   !formData.phone ||
@@ -248,7 +253,10 @@ export default function QuotationForm() {
                   alert(
                     "Please fill in Name, Phone and Location before sending via WhatsApp.",
                   );
+                  return;
                 }
+                await submitQuotation(formData, "form");
+                setSubmitted(true);
               }}
             >
               <FaWhatsapp size={18} />
