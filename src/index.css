@@ -2048,6 +2048,20 @@ a.contact__card:hover {
   color: var(--gray-500);
 }
 
+.footer__credit {
+  font-size: 0.8rem;
+  color: var(--gray-500);
+}
+
+.footer__credit a {
+  color: var(--primary-blue);
+  text-decoration: none;
+}
+
+.footer__credit a:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 900px) {
   .footer__grid {
     grid-template-columns: 1fr 1fr;
