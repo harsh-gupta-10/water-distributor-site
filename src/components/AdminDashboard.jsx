@@ -7,8 +7,10 @@ import {
   CalendarDays,
   TrendingUp,
   LogOut,
+  FileText,
 } from "lucide-react";
 import AdminLogin from "./AdminLogin";
+import InvoiceModal from "./InvoiceModal";
 
 export default function AdminDashboard() {
   const [session, setSession] = useState(null);
@@ -17,6 +19,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
   const [statusFilter, setStatusFilter] = useState("all");
+  const [invoiceQuotation, setInvoiceQuotation] = useState(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session: s } }) => {
@@ -174,7 +177,8 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="admin">
+    <>
+      <div className="admin">
       <div className="container">
         {fetchError && (
           <div className="admin-login__error" style={{ marginBottom: "24px" }}>
@@ -340,6 +344,7 @@ export default function AdminDashboard() {
                     <th>Location</th>
                     <th>Source</th>
                     <th>Status</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -388,6 +393,15 @@ export default function AdminDashboard() {
                           <option value="completed">Completed</option>
                         </select>
                       </td>
+                      <td>
+                        <button
+                          className="btn btn-small admin__invoice-btn"
+                          onClick={() => setInvoiceQuotation(q)}
+                        >
+                          <FileText size={13} />
+                          Invoice
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -397,5 +411,13 @@ export default function AdminDashboard() {
         </div>
       </div>
     </div>
+
+    {invoiceQuotation && (
+      <InvoiceModal
+        quotation={invoiceQuotation}
+        onClose={() => setInvoiceQuotation(null)}
+      />
+    )}
+    </>
   );
 }
