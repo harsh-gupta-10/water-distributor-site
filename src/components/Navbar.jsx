@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Sparkles } from "lucide-react";
 import siteConfig from "../data/siteConfig";
-import logoImg from "../assets/imgs/favicon.png";
+
+const logoImg = "/imgs/logo-main.png";
 
 const navLinks = [
   { label: "Home", href: "#home", type: "anchor" },
@@ -56,12 +57,6 @@ export default function Navbar({ openModal }) {
             alt="A3 Distributors"
             className="navbar__logo-img"
           />
-          <span className="navbar__logo-text">
-            {siteConfig.businessName}
-            <span className="navbar__logo-highlight">
-              {siteConfig.businessNameHighlight}
-            </span>
-          </span>
         </Link>
 
         <ul

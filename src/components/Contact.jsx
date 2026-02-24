@@ -5,9 +5,9 @@ import {
   Mail,
   MapPin,
   Clock,
-  MessageCircle,
   ArrowRight,
 } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import siteConfig from "../data/siteConfig";
 
 export default function Contact({ inline = false }) {
@@ -83,7 +83,7 @@ export default function Contact({ inline = false }) {
                   className="contact__card"
                 >
                   <div className="contact__card-icon contact__card-icon--whatsapp">
-                    <MessageCircle size={24} />
+                    <FaWhatsapp size={24} />
                   </div>
                   <div>
                     <h3 className="contact__card-title">WhatsApp</h3>
@@ -115,9 +115,7 @@ export default function Contact({ inline = false }) {
                   <div>
                     <h3 className="contact__card-title">Business Hours</h3>
                     <p className="contact__card-text">
-                      {siteConfig.hours.weekdays}
-                      <br />
-                      {siteConfig.hours.sunday}
+                      {siteConfig.hours.allDays}
                     </p>
                   </div>
                 </div>
@@ -125,13 +123,16 @@ export default function Contact({ inline = false }) {
             </div>
 
             <div className="contact-page__map-wrap">
-              <div className="contact__map">
-                <div className="contact__map-placeholder">
-                  <MapPin size={48} className="contact__map-icon" />
-                  <p>Google Maps</p>
-                  <span>Replace this with your Google Maps embed</span>
-                </div>
-              </div>
+                  <iframe
+                    title="A3 Distributors Location"
+                    src={siteConfig.googleMapsEmbed}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0, borderRadius: "12px", minHeight: "500px" }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
 
               <div className="contact-page__cta-box">
                 <h3>Need a Bulk Order?</h3>

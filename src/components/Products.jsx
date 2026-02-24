@@ -190,6 +190,8 @@ export default function Products({ onQuotationClick }) {
           <p className="section-subtitle">
             We stock and distribute India&apos;s most trusted water and beverage
             brands. Quality assured, competitively priced, and always in stock.
+            <br />
+            <strong>Can&apos;t find your preferred brand? No worries — we can source any brand of water or soft drink you need. Just let us know!</strong>
           </p>
         </div>
 

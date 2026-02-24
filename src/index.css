@@ -381,8 +381,8 @@ ol {
 }
 
 .navbar__logo-img {
-  height: 32px;
-  width: 32px;
+  height: 48px;
+  width: auto;
   object-fit: contain;
 }
 
@@ -1830,7 +1830,7 @@ a.contact__card:hover {
   border-radius: var(--radius-lg);
   overflow: hidden;
   border: 1px solid var(--gray-200);
-  min-height: 350px;
+  min-height: 500px;
 }
 
 .contact__map-placeholder {
@@ -1887,10 +1887,10 @@ a.contact__card:hover {
     font-size: 2rem;
   }
   .contact__map {
-    min-height: 280px;
+    min-height: 400px;
   }
   .contact__map-placeholder {
-    min-height: 280px;
+    min-height: 400px;
   }
 }
 
@@ -1957,8 +1957,8 @@ a.contact__card:hover {
 }
 
 .footer__logo-img {
-  height: 32px;
-  width: 32px;
+  height: 48px;
+  width: auto;
   object-fit: contain;
 }
 

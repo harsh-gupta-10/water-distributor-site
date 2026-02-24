@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, ChevronRight } from "lucide-react";
 import siteConfig from "../data/siteConfig";
-import logoImg from "../assets/imgs/favicon.png";
+
+const logoImg = "/imgs/logo-footer.png";
 
 const quickLinks = [
   { label: "Home", href: "#home", type: "anchor" },
@@ -39,10 +40,6 @@ export default function Footer() {
                 alt="A3 Distributors"
                 className="footer__logo-img"
               />
-              <span>
-                {siteConfig.businessName}
-                <strong>{siteConfig.businessNameHighlight}</strong>
-              </span>
             </a>
             <p className="footer__tagline">{siteConfig.footerDescription}</p>
             <div className="footer__contact-item">
@@ -114,8 +111,7 @@ export default function Footer() {
               <div className="footer__hours">
                 <Clock size={14} />
                 <div>
-                  <p>{siteConfig.hours.weekdays}</p>
-                  <p>{siteConfig.hours.sunday}</p>
+                  <p>{siteConfig.hours.allDays}</p>
                 </div>
               </div>
             </div>
