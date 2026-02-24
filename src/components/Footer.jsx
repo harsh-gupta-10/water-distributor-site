@@ -1,11 +1,5 @@
 import { Link } from "react-router-dom";
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  ChevronRight,
-} from "lucide-react";
+import { Phone, Mail, MapPin, Clock, ChevronRight } from "lucide-react";
 import siteConfig from "../data/siteConfig";
 import logoImg from "../assets/imgs/favicon.png";
 
@@ -16,7 +10,7 @@ const quickLinks = [
   { label: "Why Choose Us", href: "#why-us", type: "anchor" },
   { label: "About", href: "#about", type: "anchor" },
   { label: "Get Quotation", href: "#quotation", type: "anchor" },
-  { label: "Contact", href: "/contact", type: "route" },
+  { label: "Contact", href: "#contact", type: "anchor" },
 ];
 
 const productLinks = [
@@ -40,7 +34,11 @@ export default function Footer() {
           {/* Brand */}
           <div className="footer__brand">
             <a href="#home" className="footer__logo">
-              <img src={logoImg} alt="A3 Distributors" className="footer__logo-img" />
+              <img
+                src={logoImg}
+                alt="A3 Distributors"
+                className="footer__logo-img"
+              />
               <span>
                 {siteConfig.businessName}
                 <strong>{siteConfig.businessNameHighlight}</strong>
@@ -133,7 +131,11 @@ export default function Footer() {
           <p className="footer__gst">{siteConfig.gstInfo}</p>
           <p className="footer__credit">
             Website made by{" "}
-            <a href="https://harshugupta.in" target="_blank" rel="noopener noreferrer">
+            <a
+              href="https://harshugupta.in"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Harshugupta.in
             </a>
           </p>

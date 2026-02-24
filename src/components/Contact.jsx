@@ -10,15 +10,17 @@ import {
 } from "lucide-react";
 import siteConfig from "../data/siteConfig";
 
-export default function Contact() {
+export default function Contact({ inline = false }) {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    if (!inline) {
+      window.scrollTo(0, 0);
+    }
+  }, [inline]);
 
   return (
-    <div className="contact-page">
+    <div className="contact-page" id={inline ? "contact" : undefined}>
       <div className="contact-page__hero">
         <div className="container">
           <h1 className="contact-page__title">Get In Touch</h1>

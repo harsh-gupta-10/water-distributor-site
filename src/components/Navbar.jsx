@@ -10,7 +10,7 @@ const navLinks = [
   { label: "Services", href: "#services", type: "anchor" },
   { label: "Why Choose Us", href: "#why-us", type: "anchor" },
   { label: "About", href: "#about", type: "anchor" },
-  { label: "Contact", href: "/contact", type: "route" },
+  { label: "Contact", href: "#contact", type: "anchor" },
 ];
 
 export default function Navbar({ openModal }) {
@@ -51,9 +51,16 @@ export default function Navbar({ openModal }) {
     <nav className={`navbar ${isScrolled ? "navbar--scrolled" : ""}`}>
       <div className="navbar__container container">
         <Link to="/" className="navbar__logo">
-          <img src={logoImg} alt="A3 Distributors" className="navbar__logo-img" />
+          <img
+            src={logoImg}
+            alt="A3 Distributors"
+            className="navbar__logo-img"
+          />
           <span className="navbar__logo-text">
-            {siteConfig.businessName}<span className="navbar__logo-highlight">{siteConfig.businessNameHighlight}</span>
+            {siteConfig.businessName}
+            <span className="navbar__logo-highlight">
+              {siteConfig.businessNameHighlight}
+            </span>
           </span>
         </Link>
 
@@ -85,7 +92,10 @@ export default function Navbar({ openModal }) {
           <li className="navbar__links-cta-mobile">
             <button
               className="btn btn-primary"
-              onClick={() => { handleLinkClick(); openModal?.(); }}
+              onClick={() => {
+                handleLinkClick();
+                openModal?.();
+              }}
             >
               <Sparkles size={16} />
               Get Quotation

@@ -18,6 +18,13 @@ export default function InvoiceModal({ quotation, onClose }) {
     `INV-${new Date().getFullYear()}-${shortId}`,
   );
   const [invoiceDate, setInvoiceDate] = useState(today);
+  const [billToName, setBillToName] = useState(quotation.full_name || "");
+  const [billToBusiness, setBillToBusiness] = useState(
+    quotation.business_name || "",
+  );
+  const [billToPhone, setBillToPhone] = useState(quotation.phone || "");
+  const [billToEmail, setBillToEmail] = useState(quotation.email || "");
+  const [billToAddress, setBillToAddress] = useState(quotation.location || "");
   const [items, setItems] = useState(
     (quotation.products || []).length > 0
       ? (quotation.products || []).map((p) => ({
@@ -28,7 +35,7 @@ export default function InvoiceModal({ quotation, onClose }) {
       : [{ name: "", qty: "", unitPrice: "" }],
   );
   const [gstRate, setGstRate] = useState(18);
-  const [gstType, setGstType] = useState("CGST+SGST");
+  const [gstType, setGstType] = useState("NO_GST");
   const [notes, setNotes] = useState("");
 
   const subtotal = items.reduce((sum, item) => {
@@ -36,7 +43,8 @@ export default function InvoiceModal({ quotation, onClose }) {
       sum + (parseFloat(item.qty) || 0) * (parseFloat(item.unitPrice) || 0)
     );
   }, 0);
-  const gstAmount = (subtotal * gstRate) / 100;
+  const isNoGst = gstType === "NO_GST";
+  const gstAmount = isNoGst ? 0 : (subtotal * gstRate) / 100;
   const grandTotal = subtotal + gstAmount;
 
   function updateItem(index, field, value) {
@@ -92,15 +100,48 @@ export default function InvoiceModal({ quotation, onClose }) {
             <div className="invoice-edit__customer">
               <p className="invoice-edit__section-label">Bill To</p>
               <div className="invoice-edit__customer-info">
-                <span>
-                  <strong>{quotation.full_name}</strong>
-                </span>
-                {quotation.business_name && (
-                  <span>{quotation.business_name}</span>
-                )}
-                {quotation.phone && <span>{quotation.phone}</span>}
-                {quotation.email && <span>{quotation.email}</span>}
-                {quotation.location && <span>{quotation.location}</span>}
+                <div className="invoice-edit__field">
+                  <label>Name</label>
+                  <input
+                    value={billToName}
+                    onChange={(e) => setBillToName(e.target.value)}
+                    placeholder="Customer name"
+                  />
+                </div>
+                <div className="invoice-edit__field">
+                  <label>Business</label>
+                  <input
+                    value={billToBusiness}
+                    onChange={(e) => setBillToBusiness(e.target.value)}
+                    placeholder="Business / company"
+                  />
+                </div>
+                <div className="invoice-edit__field">
+                  <label>Phone</label>
+                  <input
+                    value={billToPhone}
+                    onChange={(e) => setBillToPhone(e.target.value)}
+                    placeholder="Phone number"
+                  />
+                </div>
+                <div className="invoice-edit__field">
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    value={billToEmail}
+                    onChange={(e) => setBillToEmail(e.target.value)}
+                    placeholder="Email"
+                  />
+                </div>
+                <div className="invoice-edit__field">
+                  <label>Billing Address</label>
+                  <textarea
+                    value={billToAddress}
+                    onChange={(e) => setBillToAddress(e.target.value)}
+                    rows={2}
+                    placeholder="Address"
+                  />
+                </div>
               </div>
             </div>
 
@@ -188,14 +229,24 @@ export default function InvoiceModal({ quotation, onClose }) {
                   onChange={(e) => setGstRate(parseFloat(e.target.value) || 0)}
                   min="0"
                   max="100"
+                  disabled={isNoGst}
                 />
               </div>
               <div className="invoice-edit__field">
                 <label>GST Type</label>
                 <select
                   value={gstType}
-                  onChange={(e) => setGstType(e.target.value)}
+                  onChange={(e) => {
+                    const nextType = e.target.value;
+                    setGstType(nextType);
+                    if (nextType === "NO_GST") {
+                      setGstRate(0);
+                    } else if (gstRate === 0) {
+                      setGstRate(18);
+                    }
+                  }}
                 >
+                  <option value="NO_GST">No GST</option>
                   <option value="CGST+SGST">CGST + SGST (Intra-State)</option>
                   <option value="IGST">IGST (Inter-State)</option>
                 </select>
@@ -208,10 +259,12 @@ export default function InvoiceModal({ quotation, onClose }) {
                 <span>Subtotal</span>
                 <span>{fmt(subtotal)}</span>
               </div>
-              <div className="invoice-edit__total-row">
-                <span>GST ({gstRate}%)</span>
-                <span>{fmt(gstAmount)}</span>
-              </div>
+              {!isNoGst && (
+                <div className="invoice-edit__total-row">
+                  <span>GST ({gstRate}%)</span>
+                  <span>{fmt(gstAmount)}</span>
+                </div>
+              )}
               <div className="invoice-edit__total-row invoice-edit__total-row--grand">
                 <span>Grand Total</span>
                 <span>{fmt(grandTotal)}</span>
@@ -301,9 +354,11 @@ export default function InvoiceModal({ quotation, onClose }) {
               <div className="invoice-print__company-detail">
                 {siteConfig.phoneDisplay} &nbsp;|&nbsp; {siteConfig.email}
               </div>
-              <div className="invoice-print__company-gst">
-                {siteConfig.gstInfo}
-              </div>
+              {!isNoGst && (
+                <div className="invoice-print__company-gst">
+                  {siteConfig.gstInfo}
+                </div>
+              )}
             </div>
             <div className="invoice-print__meta">
               <div className="invoice-print__invoice-title">INVOICE</div>
@@ -323,13 +378,11 @@ export default function InvoiceModal({ quotation, onClose }) {
           {/* Bill To */}
           <div className="invoice-print__bill">
             <div className="invoice-print__bill-label">Bill To</div>
-            <div className="invoice-print__bill-name">
-              {quotation.full_name}
-            </div>
-            {quotation.business_name && <div>{quotation.business_name}</div>}
-            {quotation.phone && <div>{quotation.phone}</div>}
-            {quotation.email && <div>{quotation.email}</div>}
-            {quotation.location && <div>{quotation.location}</div>}
+            <div className="invoice-print__bill-name">{billToName}</div>
+            {billToBusiness && <div>{billToBusiness}</div>}
+            {billToPhone && <div>{billToPhone}</div>}
+            {billToEmail && <div>{billToEmail}</div>}
+            {billToAddress && <div>{billToAddress}</div>}
           </div>
 
           {/* Items table */}
@@ -380,35 +433,36 @@ export default function InvoiceModal({ quotation, onClose }) {
                 </td>
                 <td className="invoice-print__tfoot-value">{fmt(subtotal)}</td>
               </tr>
-              {gstType === "CGST+SGST" ? (
-                <>
+              {!isNoGst &&
+                (gstType === "CGST+SGST" ? (
+                  <>
+                    <tr>
+                      <td colSpan={4} className="invoice-print__tfoot-label">
+                        CGST ({gstRate / 2}%)
+                      </td>
+                      <td className="invoice-print__tfoot-value">
+                        {fmt(gstAmount / 2)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={4} className="invoice-print__tfoot-label">
+                        SGST ({gstRate / 2}%)
+                      </td>
+                      <td className="invoice-print__tfoot-value">
+                        {fmt(gstAmount / 2)}
+                      </td>
+                    </tr>
+                  </>
+                ) : (
                   <tr>
                     <td colSpan={4} className="invoice-print__tfoot-label">
-                      CGST ({gstRate / 2}%)
+                      IGST ({gstRate}%)
                     </td>
                     <td className="invoice-print__tfoot-value">
-                      {fmt(gstAmount / 2)}
+                      {fmt(gstAmount)}
                     </td>
                   </tr>
-                  <tr>
-                    <td colSpan={4} className="invoice-print__tfoot-label">
-                      SGST ({gstRate / 2}%)
-                    </td>
-                    <td className="invoice-print__tfoot-value">
-                      {fmt(gstAmount / 2)}
-                    </td>
-                  </tr>
-                </>
-              ) : (
-                <tr>
-                  <td colSpan={4} className="invoice-print__tfoot-label">
-                    IGST ({gstRate}%)
-                  </td>
-                  <td className="invoice-print__tfoot-value">
-                    {fmt(gstAmount)}
-                  </td>
-                </tr>
-              )}
+                ))}
               <tr className="invoice-print__tfoot-grand">
                 <td colSpan={4} className="invoice-print__tfoot-label">
                   Grand Total

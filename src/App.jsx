@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -14,7 +14,15 @@ import WhatsAppButton from "./components/WhatsAppButton";
 import QuotationModal from "./components/QuotationModal";
 import AdminDashboard from "./components/AdminDashboard";
 
-function HomePage({ openModal }) {
+function HomePage({ openModal, scrollToContactOnLoad = false }) {
+  useEffect(() => {
+    if (!scrollToContactOnLoad) return;
+    const contactSection = document.getElementById("contact");
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [scrollToContactOnLoad]);
+
   return (
     <main>
       <Hero onQuotationClick={openModal} />
@@ -24,6 +32,7 @@ function HomePage({ openModal }) {
       <WhyChooseUs />
       <TrustSection />
       <QuotationForm />
+      <Contact inline />
     </main>
   );
 }
@@ -39,7 +48,10 @@ function App() {
       <Navbar openModal={openModal} />
       <Routes>
         <Route path="/" element={<HomePage openModal={openModal} />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route
+          path="/contact"
+          element={<HomePage openModal={openModal} scrollToContactOnLoad />}
+        />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
       <Footer />
