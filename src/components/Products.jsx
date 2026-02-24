@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import productsData from "../data/products.json";
 
+import siteConfig from "../data/siteConfig";
+
 // Map icon strings from JSON to actual components
 const iconMap = { Droplets, GlassWater, Wine, Zap };
 
@@ -149,13 +151,15 @@ function ProductListModal({ category, onClose, onGetPrice }) {
                   <span>Available in: {product.sizes.join(" / ")}</span>
                 </div>
               </div>
-              <button
+              <a
+                href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hey, I am looking for ${product.name}. Please share pricing and availability.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn btn-primary btn-small product-modal__item-btn"
-                onClick={() => onGetPrice()}
               >
                 <ShoppingCart size={14} />
                 Get Price
-              </button>
+              </a>
             </div>
           ))}
         </div>

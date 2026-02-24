@@ -1054,6 +1054,12 @@ ol {
   padding: 24px 32px;
 }
 
+.product-modal__item:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  max-width: 50%;
+  justify-self: center;
+}
+
 .product-modal__item {
   display: flex;
   flex-direction: column;
@@ -1178,6 +1184,9 @@ ol {
     grid-template-columns: 1fr;
     padding: 16px 20px;
     gap: 12px;
+  }
+  .product-modal__item:last-child:nth-child(odd) {
+    max-width: 100%;
   }
   .product-modal__item-img-wrap {
     height: 120px;

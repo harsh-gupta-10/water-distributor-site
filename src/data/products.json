@@ -3,180 +3,229 @@
     {
       "id": "water",
       "name": "Packaged Drinking Water",
-      "description": "Premium branded mineral & packaged drinking water for every need",
+      "description": "Trusted packaged and mineral drinking water for homes, offices, and institutions",
       "icon": "Droplets",
       "color": "#0066cc",
       "bgColor": "#e8f4fd",
       "products": [
         {
-          "name": "Bisleri",
-          "image": "bisleri-500ml.png",
-          "sizes": ["20L Jar", "5L Bottle", "1L Bottle", "500ml Bottle"],
+          "name": "Bisleri Mineral Water",
+          "image": "bisleri.png",
+          "sizes": ["250 ml", "300 ml", "500 ml", "750 ml", "1 L", "1.5 L", "2 L", "5 L", "10 L", "20 L Jar"],
           "color": "#0099CC",
           "tag": "Most Popular"
         },
         {
-          "name": "Kinley",
-          "image": "bisleri-500ml.png",
-          "sizes": ["20L Jar", "1L Bottle", "500ml Bottle"],
-          "color": "#003399",
-          "tag": "Coca-Cola Brand"
+          "name": "Zurica Water",
+          "image": "zurica.png",
+          "sizes": ["200 ml", "500 ml", "1 L", "2 L", "6 L"],
+          "color": "#1E88E5",
+          "tag": "Bulk Supply"
         },
         {
-          "name": "Aquafina",
-          "image": "bisleri-500ml.png",
-          "sizes": ["1L Bottle", "500ml Bottle"],
-          "color": "#0066FF",
-          "tag": "PepsiCo Brand"
+          "name": "Vedica Himalayan Spring Water",
+          "image": "vedica.png",
+          "sizes": ["500 ml", "1 L", "1.5 L", "5 L"],
+          "color": "#4A90E2",
+          "tag": "Premium"
         },
         {
-          "name": "Rail Neer",
-          "image": "bisleri-500ml.png",
-          "sizes": ["1L Bottle", "500ml Bottle"],
-          "color": "#1A8CFF",
-          "tag": "IRCTC"
+          "name": "Bailey Packaged Drinking Water",
+          "image": "bailey.png",
+          "sizes": ["250 ml", "500 ml", "1 L", "2 L", "10 L", "20 L Jar"],
+          "color": "#00A859",
+          "tag": "Parle Agro"
+        },
+        {
+          "name": "Cloud9 Water",
+          "image": "cloud9-water.png",
+          "sizes": ["200 ml", "250 ml", "500 ml", "1 L", "2 L", "5 L", "20 L Jar"],
+          "color": "#1565C0",
+          "tag": null
         }
       ]
     },
     {
       "id": "softdrinks",
       "name": "Soft Drinks",
-      "description": "Popular carbonated beverages — Coca-Cola, Pepsi & more",
+      "description": "Carbonated soft drinks from leading global brands",
       "icon": "GlassWater",
       "color": "#D32F2F",
       "bgColor": "#fde8e8",
       "products": [
         {
-          "name": "Coca-Cola",
-          "image": "bisleri-500ml.png",
-          "sizes": ["2L", "1.25L", "750ml", "300ml", "200ml Glass"],
-          "color": "#D32F2F",
-          "tag": "Top Seller"
-        },
-        {
           "name": "Pepsi",
-          "image": "bisleri-500ml.png",
-          "sizes": ["2L", "1.25L", "750ml", "300ml", "200ml Glass"],
+          "image": "pepsi.png",
+          "sizes": ["250 ml", "330 ml Can", "475 ml", "600 ml", "750 ml", "1.25 L", "1.5 L", "2 L"],
           "color": "#1565C0",
           "tag": "Top Seller"
         },
         {
-          "name": "Sprite",
-          "image": "bisleri-500ml.png",
-          "sizes": ["2L", "1.25L", "750ml", "300ml"],
-          "color": "#2E7D32",
-          "tag": null
+          "name": "Pepsi Black",
+          "image": "pepsi-black.png",
+          "sizes": ["300 ml", "500 ml"],
+          "color": "#000000",
+          "tag": "Zero Sugar"
+        },
+        {
+          "name": "Coca-Cola",
+          "image": "coke.png",
+          "sizes": ["250 ml", "330 ml Can", "600 ml", "750 ml", "1.25 L", "2 L"],
+          "color": "#D32F2F",
+          "tag": "Classic"
+        },
+        {
+          "name": "Coke Zero",
+          "image": "coke-zero.png",
+          "sizes": ["300 ml", "500 ml"],
+          "color": "#212121",
+          "tag": "Zero Sugar"
         },
         {
           "name": "Thums Up",
-          "image": "bisleri-500ml.png",
-          "sizes": ["2L", "1.25L", "750ml", "300ml", "200ml Glass"],
+          "image": "thumsup.png",
+          "sizes": ["300 ml", "500 ml", "750 ml", "1.25 L", "2 L"],
           "color": "#B71C1C",
           "tag": "Strong Taste"
         },
         {
-          "name": "Fanta",
-          "image": "bisleri-500ml.png",
-          "sizes": ["2L", "1.25L", "750ml", "300ml"],
-          "color": "#E65100",
+          "name": "Mirinda",
+          "image": "mirinda.png",
+          "sizes": ["300 ml", "500 ml", "750 ml", "1.25 L", "2 L"],
+          "color": "#EF6C00",
           "tag": null
         },
         {
-          "name": "Limca",
-          "image": "bisleri-500ml.png",
-          "sizes": ["2L", "1.25L", "750ml", "300ml"],
-          "color": "#00897B",
+          "name": "Mountain Dew",
+          "image": "mountain-dew.png",
+          "sizes": ["300 ml", "500 ml", "750 ml", "1.25 L", "2 L"],
+          "color": "#2E7D32",
           "tag": null
         },
         {
           "name": "7UP",
-          "image": "bisleri-500ml.png",
-          "sizes": ["2L", "1.25L", "750ml", "300ml"],
+          "image": "7up.png",
+          "sizes": ["300 ml", "500 ml", "750 ml", "1.25 L", "2 L"],
           "color": "#388E3C",
           "tag": null
+        },
+        {
+          "name": "Campa Cola",
+          "image": "campa.png",
+          "sizes": ["300 ml", "500 ml", "1 L"],
+          "color": "#C62828",
+          "tag": "Indian Brand"
         }
       ]
     },
     {
       "id": "juices",
       "name": "Juices & Fruit Drinks",
-      "description": "Refreshing fruit juices and mango drinks for all seasons",
+      "description": "Fruit-based drinks, mango beverages, and iced teas",
       "icon": "Wine",
       "color": "#F9A825",
       "bgColor": "#fff8e1",
       "products": [
         {
           "name": "Maaza",
-          "image": "bisleri-500ml.png",
-          "sizes": ["1.2L", "600ml", "250ml Tetra Pack"],
+          "image": "maaza.png",
+          "sizes": ["200 ml", "600 ml", "1.2 L"],
           "color": "#F9A825",
           "tag": "Mango Favourite"
         },
         {
           "name": "Slice",
-          "image": "bisleri-500ml.png",
-          "sizes": ["1.2L", "600ml", "250ml Tetra Pack"],
+          "image": "slice.png",
+          "sizes": ["200 ml", "600 ml", "1.2 L"],
           "color": "#FF8F00",
           "tag": null
         },
         {
           "name": "Frooti",
-          "image": "bisleri-500ml.png",
-          "sizes": ["1.2L", "600ml", "200ml Tetra Pack"],
+          "image": "frooti.png",
+          "sizes": ["200 ml", "600 ml", "1.2 L"],
           "color": "#8BC34A",
           "tag": null
         },
         {
+          "name": "Tropicana",
+          "image": "tropicana.png",
+          "sizes": ["200 ml", "1 L"],
+          "color": "#FF9800",
+          "tag": "Premium Juice"
+        },
+        {
           "name": "Real Juice",
-          "image": "bisleri-500ml.png",
-          "sizes": ["1L", "200ml Tetra Pack"],
+          "image": "real.png",
+          "sizes": ["200 ml", "1 L"],
           "color": "#E91E63",
           "tag": "Multiple Flavours"
         },
         {
-          "name": "Tropicana",
-          "image": "bisleri-500ml.png",
-          "sizes": ["1L", "200ml Tetra Pack"],
-          "color": "#FF9800",
-          "tag": "PepsiCo Brand"
+          "name": "Clound9 Fruttu Mango",
+          "image": "fruttu-mango.png",
+          "sizes": ["200 ml", "500 ml"],
+          "color": "#FBC02D",
+          "tag": null
+        },
+        {
+          "name": "Lipton Ice Tea",
+          "image": "lipton.png",
+          "sizes": ["320 ml", "350 ml", "500 ml"],
+          "color": "#A1887F",
+          "tag": "Iced Tea"
+        },
+        {
+          "name": "7UP Nimbooz",
+          "image": "nimbooz.png",
+          "sizes": ["350 ml", "500 ml"],
+          "color": "#AFB42B",
+          "tag": "Lemon Drink"
         }
       ]
     },
     {
       "id": "energy",
       "name": "Energy & Sports Drinks",
-      "description": "High-energy drinks and hydration solutions",
+      "description": "Energy boosters and sports hydration drinks",
       "icon": "Zap",
       "color": "#C62828",
       "bgColor": "#fce4ec",
       "products": [
         {
           "name": "Sting",
-          "image": "bisleri-500ml.png",
-          "sizes": ["250ml Can"],
+          "image": "sting.png",
+          "sizes": ["250 ml"],
           "color": "#C62828",
           "tag": "Energy Boost"
         },
         {
           "name": "Red Bull",
-          "image": "bisleri-500ml.png",
-          "sizes": ["250ml Can"],
+          "image": "redbull.png",
+          "sizes": ["250 ml"],
           "color": "#D4AF37",
           "tag": "Premium"
         },
         {
-          "name": "Monster",
-          "image": "bisleri-500ml.png",
-          "sizes": ["350ml Can"],
-          "color": "#4CAF50",
+          "name": "Gatorade",
+          "image": "gatorade.png",
+          "sizes": ["250 ml", "500 ml"],
+          "color": "#FF6F00",
+          "tag": "Sports Hydration"
+        },
+        {
+          "name": "Cloud9 Energy Drink Classic",
+          "image": "cloud9-energy.png",
+          "sizes": ["250 ml"],
+          "color": "#512DA8",
           "tag": null
         },
         {
-          "name": "Gatorade",
-          "image": "bisleri-500ml.png",
-          "sizes": ["500ml Bottle"],
-          "color": "#FF6F00",
-          "tag": "Sports Hydration"
+          "name": "Cloud9 Energy Drink Berry Mix",
+          "image": "cloud9-berry.png",
+          "sizes": ["250 ml"],
+          "color": "#7B1FA2",
+          "tag": null
         }
       ]
     }
