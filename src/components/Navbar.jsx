@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Sparkles } from "lucide-react";
 import siteConfig from "../data/siteConfig";
 
-const logoImg = "/imgs/logo-main.png";
+const logoImg = "/imgs/logo-footer.png";
 
 const navLinks = [
   { label: "Home", href: "#home", type: "anchor" },
@@ -49,7 +49,7 @@ export default function Navbar({ openModal }) {
   const handleLinkClick = () => setIsMobileOpen(false);
 
   return (
-    <nav className={`navbar ${isScrolled ? "navbar--scrolled" : ""}`}>
+    <nav className={`navbar ${isScrolled ? "navbar--scrolled" : ""} ${isMobileOpen ? "navbar--menu-open" : ""}`}>
       <div className="navbar__container container">
         <Link to="/" className="navbar__logo">
           <img

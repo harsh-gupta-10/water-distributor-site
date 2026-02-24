@@ -1,5 +1,6 @@
 import { useInView } from "react-intersection-observer";
 import { Award, MapPin, Clock, Quote } from "lucide-react";
+import siteConfig from "../data/siteConfig";
 
 const stats = [
   { number: "10+", label: "Years of Experience" },
@@ -75,18 +76,7 @@ export default function TrustSection() {
             <h3>Areas We Serve</h3>
           </div>
           <div className="trust__areas-tags">
-            {[
-              "Main Market Area",
-              "Industrial Zone",
-              "Station Road",
-              "Civil Lines",
-              "University Area",
-              "Nehru Nagar",
-              "Gandhi Chowk",
-              "Bus Stand Area",
-              "Hospital Road",
-              "Ring Road",
-            ].map((area) => (
+            {siteConfig.serviceAreas.map((area) => (
               <span key={area} className="trust__area-tag">
                 {area}
               </span>

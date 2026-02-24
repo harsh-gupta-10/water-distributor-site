@@ -53,12 +53,19 @@ const siteConfig = {
 
   // --- Service Areas ---
   serviceAreas: [
-    "Main Market",
-    "Industrial Zone",
-    "Station Road",
-    "Civil Lines",
-    "University Area",
-    "Ring Road",
+    "Mumbai",
+    "Navi Mumbai",
+    "Thane",
+    "Sion",
+    "BKC",
+    "Chembur",
+    "Mankhurd",
+    "Tilak Nagar",
+    "Deonar",
+    "Govandi",
+    "Kurla",
+    "Vashi Naka",
+    "Panjarapole",
   ],
 
   // --- Product Options (for quotation forms) ---

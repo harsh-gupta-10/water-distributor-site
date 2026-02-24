@@ -97,7 +97,7 @@ export default function Footer() {
           <div className="footer__column">
             <h4 className="footer__column-title">Service Areas</h4>
             <ul className="footer__links">
-              {siteConfig.serviceAreas.map((area) => (
+              {siteConfig.serviceAreas.slice(0, 3).map((area) => (
                 <li key={area}>
                   <span className="footer__link footer__link--static">
                     <ChevronRight size={14} />

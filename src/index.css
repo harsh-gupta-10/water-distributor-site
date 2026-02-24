@@ -362,6 +362,17 @@ ol {
   box-shadow: var(--shadow-md);
 }
 
+.navbar--menu-open {
+  background: #fff !important;
+  backdrop-filter: none !important;
+}
+
+.navbar--menu-open .navbar__container {
+  position: relative;
+  z-index: 1001;
+  background: #fff;
+}
+
 .navbar__container {
   display: flex;
   align-items: center;
@@ -374,6 +385,8 @@ ol {
   align-items: center;
   gap: 8px;
   z-index: 1001;
+  position: relative;
+  background: transparent;
 }
 
 .navbar__logo-icon {
@@ -1904,6 +1917,12 @@ a.contact__card:hover {
   .contact-page__content {
     padding: 40px 0 60px;
   }
+  .contact-page__cta-box {
+    text-align: center;
+  }
+  .contact-page__cta-box .btn {
+    justify-content: center;
+  }
 }
 
 /* ============================================
@@ -2072,6 +2091,18 @@ a.contact__card:hover {
   .footer__grid {
     grid-template-columns: 1fr;
     gap: 32px;
+    text-align: center;
+  }
+  .footer__logo {
+    justify-content: center;
+  }
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .footer__contact-item {
+    justify-content: center;
   }
   .footer__bottom {
     flex-direction: column;
