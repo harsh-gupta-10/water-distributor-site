@@ -162,8 +162,8 @@
           "tag": "Multiple Flavours"
         },
         {
-          "name": "Clound9 Fruttu Mango",
-          "image": "fruttu-mango.png",
+          "name": "Clound9 Fruttu",
+          "image": "fruttu.png",
           "sizes": ["200 ml", "500 ml"],
           "color": "#FBC02D",
           "tag": null
@@ -214,19 +214,13 @@
           "tag": "Sports Hydration"
         },
         {
-          "name": "Cloud9 Energy Drink Classic",
+          "name": "Cloud9 Energy Drinks",
           "image": "cloud9-energy.png",
           "sizes": ["250 ml"],
           "color": "#512DA8",
           "tag": null
         },
-        {
-          "name": "Cloud9 Energy Drink Berry Mix",
-          "image": "cloud9-berry.png",
-          "sizes": ["250 ml"],
-          "color": "#7B1FA2",
-          "tag": null
-        }
+        
       ]
     }
   ]
