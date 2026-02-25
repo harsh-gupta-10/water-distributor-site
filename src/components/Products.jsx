@@ -17,30 +17,26 @@ import siteConfig from "../data/siteConfig";
 // Map icon strings from JSON to actual components
 const iconMap = { Droplets, GlassWater, Wine, Zap };
 
-// Import all bottle images from the bottles folder
-const bottleImages = import.meta.glob("../assets/imgs/bottles/*.png", {
-  eager: true,
-});
-
-function getBottleImage(filename) {
-  const key = Object.keys(bottleImages).find((k) => k.endsWith(`/${filename}`));
-  return key ? bottleImages[key].default : null;
+function getProductImage(filename) {
+  if (!filename) return null;
+  return `/imgs/products/${filename}`;
 }
 
 // Build categories with resolved icons and images
 const categories = productsData.categories.map((cat) => ({
   ...cat,
   icon: iconMap[cat.icon] || Droplets,
+  categoryImage: cat.categoryImage ? `/imgs/products/${cat.categoryImage}` : null,
   products: cat.products.map((p) => ({
     ...p,
-    imageSrc: getBottleImage(p.image),
+    imageSrc: getProductImage(p.image),
   })),
 }));
 
 function CategoryCard({ category, onClick, delay, animate }) {
   const Icon = category.icon;
   const productCount = category.products.length;
-  const previewImg = category.products[0]?.imageSrc;
+  const previewImg = category.categoryImage || category.products[0]?.imageSrc;
 
   return (
     <div

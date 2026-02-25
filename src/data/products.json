@@ -5,12 +5,14 @@
       "name": "Packaged Drinking Water",
       "description": "Trusted packaged and mineral drinking water for homes, offices, and institutions",
       "icon": "Droplets",
+      "categoryImage": "C-package-drinking-water.webp",
+      
       "color": "#0066cc",
       "bgColor": "#e8f4fd",
       "products": [
         {
           "name": "Bisleri Mineral Water",
-          "image": "bisleri.png",
+          "image": "bisleri.webp",
           "sizes": ["250 ml", "300 ml", "500 ml", "750 ml", "1 L", "1.5 L", "2 L", "5 L", "10 L", "20 L Jar"],
           "color": "#0099CC",
           "tag": "Most Popular"
