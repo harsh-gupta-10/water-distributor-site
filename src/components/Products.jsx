@@ -38,11 +38,21 @@ function CategoryCard({ category, onClick, delay, animate }) {
   const productCount = category.products.length;
   const previewImg = category.categoryImage || category.products[0]?.imageSrc;
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      if (e.key === " ") e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <div
       className={`category-card ${animate ? "animate-fadeInUp" : ""}`}
       style={{ opacity: animate ? 1 : 0, animationDelay: `${delay}s` }}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
     >
       <div
         className="category-card__img-wrap"

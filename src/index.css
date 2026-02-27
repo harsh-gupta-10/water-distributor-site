@@ -818,6 +818,11 @@ ol {
   border-color: transparent;
 }
 
+.category-card:focus-visible {
+  outline: 2px solid var(--primary-blue);
+  outline-offset: 4px;
+}
+
 .category-card__img-wrap {
   flex-shrink: 0;
   width: 220px;
