@@ -56,6 +56,9 @@ export default function Navbar({ openModal }) {
             src={logoImg}
             alt="A3 Distributors"
             className="navbar__logo-img"
+            width={320}
+            height={84}
+            fetchPriority="high"
           />
         </Link>
 

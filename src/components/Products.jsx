@@ -63,6 +63,8 @@ function CategoryCard({ category, onClick, delay, animate }) {
             src={previewImg}
             alt={category.name}
             className="category-card__img"
+            width={208}
+            height={158}
           />
         ) : (
           <Icon size={48} style={{ color: category.color }} />
@@ -124,6 +126,9 @@ function ProductListModal({ category, onClose, onGetPrice }) {
                     src={product.imageSrc}
                     alt={product.name}
                     className="product-modal__item-img"
+                    width={80}
+                    height={80}
+                    loading="lazy"
                   />
                 ) : (
                   <div

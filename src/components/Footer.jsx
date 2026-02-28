@@ -39,6 +39,8 @@ export default function Footer() {
                 src={logoImg}
                 alt="A3 Distributors"
                 className="footer__logo-img"
+                width={200}
+                height={52}
               />
             </a>
             <p className="footer__tagline">{siteConfig.footerDescription}</p>
