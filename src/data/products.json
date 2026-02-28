@@ -19,28 +19,28 @@
         },
         {
           "name": "Zurica Water",
-          "image": "zurica.png",
+          "image": "Zurica-Water.webp",
           "sizes": ["200 ml", "500 ml", "1 L", "2 L", "6 L"],
           "color": "#1E88E5",
           "tag": "Bulk Supply"
         },
         {
           "name": "Vedica Himalayan Spring Water",
-          "image": "vedica.png",
+          "image": "Vedica-Himalayan-Spring-Water.webp",
           "sizes": ["500 ml", "1 L", "1.5 L", "5 L"],
           "color": "#4A90E2",
           "tag": "Premium"
         },
         {
           "name": "Bailey Packaged Drinking Water",
-          "image": "bailey.png",
+          "image": "Bailey-Packaged-Drinking-Water.webp",
           "sizes": ["250 ml", "500 ml", "1 L", "2 L", "10 L", "20 L Jar"],
           "color": "#00A859",
           "tag": "Parle Agro"
         },
         {
           "name": "Cloud9 Water",
-          "image": "cloud9-water.png",
+          "image": "Cloud9-Water.webp",
           "sizes": ["200 ml", "250 ml", "500 ml", "1 L", "2 L", "5 L", "20 L Jar"],
           "color": "#1565C0",
           "tag": null
@@ -52,68 +52,62 @@
       "name": "Soft Drinks",
       "description": "Carbonated soft drinks from leading global brands",
       "icon": "GlassWater",
+      "categoryImage": "C-Softdrink.webp",
       "color": "#D32F2F",
       "bgColor": "#fde8e8",
       "products": [
         {
           "name": "Pepsi",
-          "image": "pepsi.png",
+          "image": "Pepsi-Softdrink.webp",
           "sizes": ["250 ml", "330 ml Can", "475 ml", "600 ml", "750 ml", "1.25 L", "1.5 L", "2 L"],
           "color": "#1565C0",
           "tag": "Top Seller"
         },
         {
-          "name": "Pepsi Black",
-          "image": "pepsi-black.png",
-          "sizes": ["300 ml", "500 ml"],
-          "color": "#000000",
-          "tag": "Zero Sugar"
-        },
-        {
           "name": "Coca-Cola",
-          "image": "coke.png",
+          "image": "Coca-cola-softdrink.webp",
           "sizes": ["250 ml", "330 ml Can", "600 ml", "750 ml", "1.25 L", "2 L"],
           "color": "#D32F2F",
           "tag": "Classic"
         },
         {
-          "name": "Coke Zero",
-          "image": "coke-zero.png",
-          "sizes": ["300 ml", "500 ml"],
-          "color": "#212121",
-          "tag": "Zero Sugar"
-        },
-        {
           "name": "Thums Up",
-          "image": "thumsup.png",
+          "image": "Thumps-up-Softdrink.webp",
           "sizes": ["300 ml", "500 ml", "750 ml", "1.25 L", "2 L"],
           "color": "#B71C1C",
           "tag": "Strong Taste"
         },
         {
           "name": "Mirinda",
-          "image": "mirinda.png",
+          "image": "Mirinda-Softdrink.webp",
           "sizes": ["300 ml", "500 ml", "750 ml", "1.25 L", "2 L"],
           "color": "#EF6C00",
           "tag": null
         },
         {
+          "name": "Fanta",
+          "image": "Fanta-Softdrink.webp",
+          "sizes": ["300 ml", "500 ml", "750 ml", "1.25 L", "2 L"],
+          "color": "#FF6C00",
+          "tag": null
+        },
+        {
           "name": "Mountain Dew",
-          "image": "mountain-dew.png",
+          "image": "Mountain-Dew-Softdrink.webp",
           "sizes": ["300 ml", "500 ml", "750 ml", "1.25 L", "2 L"],
           "color": "#2E7D32",
           "tag": null
         },
         {
           "name": "7UP",
-          "image": "7up.png",
+          "image": "7UP-Softdrink.webp",
           "sizes": ["300 ml", "500 ml", "750 ml", "1.25 L", "2 L"],
           "color": "#388E3C",
           "tag": null
         },
         {
-          "name": "Campa Cola",
-          "image": "campa.png",
+          "name": "Campa",
+          "image": "Campa-Softdrink.webp",
           "sizes": ["300 ml", "500 ml", "1 L"],
           "color": "#C62828",
           "tag": "Indian Brand"
@@ -191,33 +185,34 @@
       "name": "Energy & Sports Drinks",
       "description": "Energy boosters and sports hydration drinks",
       "icon": "Zap",
+      "categoryImage": "C-Energydrink.webp",
       "color": "#C62828",
       "bgColor": "#fce4ec",
       "products": [
         {
           "name": "Sting",
-          "image": "sting.png",
+          "image": "sting-Energydrink.webp",
           "sizes": ["250 ml"],
           "color": "#C62828",
           "tag": "Energy Boost"
         },
         {
           "name": "Red Bull",
-          "image": "redbull.png",
+          "image": "Red-Bull-Energydrink.webp",
           "sizes": ["250 ml"],
           "color": "#D4AF37",
           "tag": "Premium"
         },
         {
           "name": "Gatorade",
-          "image": "gatorade.png",
+          "image": "Gatorade-Energydrink.webp",
           "sizes": ["250 ml", "500 ml"],
           "color": "#FF6F00",
           "tag": "Sports Hydration"
         },
         {
           "name": "Cloud9 Energy Drinks",
-          "image": "cloud9-energy.png",
+          "image": "Cloud9-Energydrink.webp",
           "sizes": ["250 ml"],
           "color": "#512DA8",
           "tag": null
