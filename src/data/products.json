@@ -53,8 +53,8 @@
       "description": "Carbonated soft drinks from leading global brands",
       "icon": "GlassWater",
       "categoryImage": "C-Softdrink.webp",
-      "color": "#D32F2F",
-      "bgColor": "#fde8e8",
+      "color": "#2E7D32",
+      "bgColor": "#e8f5e9",
       "products": [
         {
           "name": "Pepsi",
@@ -119,6 +119,7 @@
       "name": "Juices & Fruit Drinks",
       "description": "Fruit-based drinks, mango beverages, and iced teas",
       "icon": "Wine",
+      "categoryImage": "C-Fruitdrink.webp",
       "color": "#F9A825",
       "bgColor": "#fff8e1",
       "products": [
