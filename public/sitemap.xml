@@ -9,32 +9,5 @@
     <priority>1.0</priority>
     <mobile:mobile/>
   </url>
-  <url>
-    <loc>https://a3distributors.com/#products</loc>
-    <lastmod>2026-03-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <mobile:mobile/>
-  </url>
-  <url>
-    <loc>https://a3distributors.com/#services</loc>
-    <lastmod>2026-03-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-  </url>
-  <url>
-    <loc>https://a3distributors.com/#about</loc>
-    <lastmod>2026-03-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <mobile:mobile/>
-  </url>
-  <url>
-    <loc>https://a3distributors.com/#contact</loc>
-    <lastmod>2026-03-02</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <mobile:mobile/>
-  </url>
 </urlset>
+
