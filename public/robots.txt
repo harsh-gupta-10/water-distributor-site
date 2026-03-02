@@ -1,0 +1,25 @@
+# Robots.txt for A3Distributors
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: *.js$
+Disallow: *.css$
+Disallow: *?*sort=
+Disallow: *?*page=*&sort=
+Crawl-delay: 1
+
+# Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://a3distributors.com/sitemap.xml

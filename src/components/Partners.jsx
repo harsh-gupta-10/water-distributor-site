@@ -2,7 +2,7 @@ import { useInView } from "react-intersection-observer";
 
 const partners = [
   { name: "Bisleri", color: "#0099CC" },
-  { name: "Kinley", color: "#003399" },
+  { name: "Zurica", color: "#1E88E5" },
   { name: "Aquafina", color: "#0066FF" },
   { name: "Coca-Cola", color: "#D32F2F" },
   { name: "Pepsi", color: "#1565C0" },
@@ -56,10 +56,11 @@ export default function Partners() {
           className={`partners__grid ${inView ? "animate-fadeInUp" : ""}`}
           style={{ opacity: inView ? 1 : 0, animationDelay: "0.2s" }}
         >
-          {partners.map((partner) => {
+          {partners.map((partner, index) => {
             const logo = getLogoImage(partner.name);
+            const animationClass = index % 2 === 0 ? "partners__card--ltr" : "partners__card--rtl";
             return (
-              <div key={partner.name} className="partners__card">
+              <div key={partner.name} className={`partners__card ${animationClass}`}>
                 {logo ? (
                   <img
                     src={logo}

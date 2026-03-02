@@ -77,9 +77,17 @@ export default function TrustSection() {
           </div>
           <div className="trust__areas-tags">
             {siteConfig.serviceAreas.map((area) => (
-              <span key={area} className="trust__area-tag">
+              <button
+                key={area}
+                className="trust__area-tag"
+                onClick={() => {
+                  const message = `Hi! I'm interested in your services in ${area}. Please share more details about availability and pricing.`;
+                  const whatsappURL = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(message)}`;
+                  window.open(whatsappURL, '_blank');
+                }}
+              >
                 {area}
-              </span>
+              </button>
             ))}
           </div>
         </div>

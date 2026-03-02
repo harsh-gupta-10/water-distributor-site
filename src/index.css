@@ -920,9 +920,27 @@ ol {
    PARTNERS / AUTHORIZED BRANDS SECTION
    ============================================ */
 
+@keyframes marqueeLeft {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+}
+
+@keyframes marqueeRight {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-20px);
+  }
+}
+
 .partners {
   padding: var(--section-padding);
-  background: var(--white);
+  background: #E3F2FD;
 }
 
 .partners__grid {
@@ -941,6 +959,22 @@ ol {
   border: 1px solid var(--gray-100);
   transition: all var(--transition-base);
   min-height: 90px;
+}
+
+/* Top row (items 1-6) - move left to right */
+.partners__card:nth-child(-n+6) {
+  animation: marqueeLeft 3s ease-in-out infinite;
+}
+
+/* Bottom row (items 7-12) - move right to left */
+.partners__card:nth-child(n+7) {
+  animation: marqueeRight 3s ease-in-out infinite;
+}
+
+.partners__card--ltr {
+}
+
+.partners__card--rtl {
 }
 
 .partners__card:hover {
@@ -1069,6 +1103,7 @@ ol {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   gap: 0;
   padding: 0;
   border-radius: var(--radius-md);
@@ -1364,7 +1399,7 @@ ol {
 
 .trust {
   padding: var(--section-padding);
-  background: var(--white);
+  background: #E3F2FD;
   position: relative;
 }
 
@@ -1387,7 +1422,7 @@ ol {
 .trust__stat {
   text-align: center;
   padding: 24px 16px;
-  background: var(--primary-blue-light);
+  background: var(--white);
   border-radius: var(--radius-md);
 }
 
@@ -1417,6 +1452,7 @@ ol {
 .trust__areas-header {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   margin-bottom: 16px;
   color: var(--primary-blue);
@@ -1429,29 +1465,37 @@ ol {
 .trust__areas-tags {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
 }
 
 .trust__area-tag {
   padding: 6px 16px;
-  background: var(--white);
-  border: 1px solid var(--gray-200);
+  background: var(--primary-blue-light);
+  border: 1px solid var(--primary-blue);
   border-radius: 50px;
   font-size: 0.8rem;
-  color: var(--gray-600);
+  color: var(--primary-blue);
   font-weight: 500;
   transition: all var(--transition-fast);
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .trust__area-tag:hover {
   border-color: var(--primary-blue);
   color: var(--primary-blue);
-  background: var(--primary-blue-light);
+  background: var(--white);
+}
+
+.trust__area-tag:active {
+  transform: scale(0.98);
 }
 
 .trust__testimonials-title {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   font-size: 1.15rem;
   font-weight: 600;
@@ -1851,6 +1895,55 @@ a.contact__card:hover {
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.contact-page__map-container {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  min-height: 500px;
+}
+
+.contact-page__map-button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  box-shadow: var(--shadow-md);
+}
+
+.contact-page__map-button:hover {
+  background: #0d47a1;
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 600px) {
+  .contact-page__map-button {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+    gap: 6px;
+  }
+  
+  .contact-page__map-button svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .contact__map {

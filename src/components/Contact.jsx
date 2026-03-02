@@ -123,16 +123,28 @@ export default function Contact({ inline = false }) {
             </div>
 
             <div className="contact-page__map-wrap">
-                  <iframe
-                    title="A3 Distributors Location"
-                    src={siteConfig.googleMapsEmbed}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0, borderRadius: "12px", minHeight: "500px" }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
+                  <div className="contact-page__map-container">
+                    <a
+                      href={siteConfig.googleMapsLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-page__map-button"
+                    >
+                      <MapPin size={20} />
+                      Open on Maps
+                    </a>
+                    <iframe
+                      title="A3 Distributors Location"
+                      src={siteConfig.googleMapsEmbed}
+                      width="100%"
+                      height="100%"
+                      className="contact-page__map-iframe"
+                      style={{ border: 0, borderRadius: "12px", minHeight: "500px" }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
 
               <div className="contact-page__cta-box">
                 <h3>Need a Bulk Order?</h3>
