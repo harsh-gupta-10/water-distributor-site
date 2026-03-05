@@ -18,33 +18,33 @@ const reasons = [
   },
   {
     icon: BadgeDollarSign,
-    title: "Competitive Wholesale Pricing",
+    title: "Best-in-Market Wholesale Pricing",
     description:
-      "Best-in-market wholesale rates for bulk and regular supply orders.",
+      "Up to 20% cheaper than competitors with transparent pricing and no hidden fees. Volume discounts starting at just 50 units.",
   },
   {
     icon: Truck,
     title: "On-Time Delivery",
     description:
-      "Punctual delivery schedules you can rely on, every single time.",
+      "Punctual delivery schedules you can rely on, every single time. Same-day delivery available for urgent orders.",
   },
   {
     icon: MapPin,
-    title: "Local Area Coverage",
+    title: "500+ Product SKUs Available",
     description:
-      "Wide distribution network covering your city and surrounding areas.",
+      "One-stop wholesale solution covering all major water & beverage brands - from Bisleri to Coca-Cola, Pepsi to energy drinks.",
   },
   {
     icon: HeadphonesIcon,
     title: "Dedicated Support",
     description:
-      "Responsive customer service team available to assist with all your needs.",
+      "Responsive customer service team available to assist with all your needs. Personal account manager for bulk clients.",
   },
   {
     icon: FileText,
     title: "GST Billing Available",
     description:
-      "Proper GST-compliant invoicing for all orders. Professional and transparent.",
+      "Proper GST-compliant invoicing for all orders. Professional and transparent. Flexible payment terms for verified businesses.",
   },
 ];
 

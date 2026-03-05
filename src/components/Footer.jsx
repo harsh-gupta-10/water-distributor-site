@@ -5,13 +5,13 @@ import siteConfig from "../data/siteConfig";
 const logoImg = "/imgs/logo-footer.png";
 
 const quickLinks = [
-  { label: "Home", href: "#home", type: "anchor" },
-  { label: "Products", href: "#products", type: "anchor" },
-  { label: "Services", href: "#services", type: "anchor" },
-  { label: "Why Choose Us", href: "#why-us", type: "anchor" },
-  { label: "About", href: "#about", type: "anchor" },
-  { label: "Get Quotation", href: "#quotation", type: "anchor" },
-  { label: "Contact", href: "#contact", type: "anchor" },
+  { label: "Home", href: "/", type: "route" },
+  { label: "Products", href: "/#products", type: "route" },
+  { label: "Services", href: "/#services", type: "route" },
+  { label: "Why Choose Us", href: "/#why-us", type: "route" },
+  { label: "Wholesale Distributor", href: "/wholesale-distributor", type: "route" },
+  { label: "Compare", href: "/compare", type: "route" },
+  { label: "Contact", href: "/contact", type: "route" },
 ];
 
 const productLinks = [
@@ -34,7 +34,7 @@ export default function Footer() {
         <div className="footer__grid">
           {/* Brand */}
           <div className="footer__brand">
-            <a href="#home" className="footer__logo">
+            <Link to="/" className="footer__logo">
               <img
                 src={logoImg}
                 alt="A3 Distributors"
@@ -42,7 +42,7 @@ export default function Footer() {
                 width={200}
                 height={52}
               />
-            </a>
+            </Link>
             <p className="footer__tagline">{siteConfig.footerDescription}</p>
             <div className="footer__contact-item">
               <Phone size={14} />
@@ -64,17 +64,10 @@ export default function Footer() {
             <ul className="footer__links">
               {quickLinks.map(({ label, href, type }) => (
                 <li key={label}>
-                  {type === "route" ? (
-                    <Link to={href} className="footer__link">
-                      <ChevronRight size={14} />
-                      {label}
-                    </Link>
-                  ) : (
-                    <a href={href} className="footer__link">
-                      <ChevronRight size={14} />
-                      {label}
-                    </a>
-                  )}
+                  <Link to={href} className="footer__link">
+                    <ChevronRight size={14} />
+                    {label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -86,10 +79,10 @@ export default function Footer() {
             <ul className="footer__links">
               {productLinks.map((name) => (
                 <li key={name}>
-                  <a href="#products" className="footer__link">
+                  <Link to="/#products" className="footer__link">
                     <ChevronRight size={14} />
                     {name}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
