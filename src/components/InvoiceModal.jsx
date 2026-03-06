@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { X, Plus, Trash2, Eye, Printer, ArrowLeft } from "lucide-react";
 import siteConfig from "../data/siteConfig";
 
@@ -38,11 +38,13 @@ export default function InvoiceModal({ quotation, onClose }) {
   const [gstType, setGstType] = useState("NO_GST");
   const [notes, setNotes] = useState("");
 
-  const subtotal = items.reduce((sum, item) => {
-    return (
-      sum + (parseFloat(item.qty) || 0) * (parseFloat(item.unitPrice) || 0)
-    );
-  }, 0);
+  const subtotal = useMemo(() => {
+    return items.reduce((sum, item) => {
+      return (
+        sum + (parseFloat(item.qty) || 0) * (parseFloat(item.unitPrice) || 0)
+      );
+    }, 0);
+  }, [items]);
   const isNoGst = gstType === "NO_GST";
   const gstAmount = isNoGst ? 0 : (subtotal * gstRate) / 100;
   const grandTotal = subtotal + gstAmount;
