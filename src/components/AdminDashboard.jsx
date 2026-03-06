@@ -46,11 +46,12 @@ export default function AdminDashboard() {
     const { data, error } = await supabase
       .from("quotations")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(100);
 
     if (error) {
-      console.error("Failed to fetch quotations:", error);
-      setFetchError(error.message);
+      console.error("Failed to fetch quotations");
+      setFetchError("An error occurred while fetching quotations. Please try again later.");
     } else {
       setQuotations(data || []);
     }
@@ -182,7 +183,7 @@ export default function AdminDashboard() {
       <div className="container">
         {fetchError && (
           <div className="admin-login__error" style={{ marginBottom: "24px" }}>
-            DB error: {fetchError} — Check your Supabase RLS policies.
+            {fetchError}
           </div>
         )}
         {/* Header */}

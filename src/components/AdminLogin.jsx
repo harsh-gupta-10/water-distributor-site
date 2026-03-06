@@ -19,7 +19,7 @@ export default function AdminLogin({ onLogin }) {
     });
 
     if (authError) {
-      setError(authError.message);
+      setError("Invalid credentials or authentication error. Please try again.");
       setLoading(false);
       return;
     }

@@ -15,13 +15,13 @@ export async function submitQuotation(formData, source = "website") {
     });
 
     if (error) {
-      console.error("Supabase insert error:", error);
-      return { success: false, error: error.message };
+      console.error("Supabase insert error");
+      return { success: false, error: "Failed to submit quotation. Please try again later." };
     }
 
     return { success: true };
   } catch (err) {
-    console.error("Quotation submission failed:", err);
-    return { success: false, error: err.message };
+    console.error("Quotation submission failed");
+    return { success: false, error: "An unexpected error occurred. Please try again later." };
   }
 }
