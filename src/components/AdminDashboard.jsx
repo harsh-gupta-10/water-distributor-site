@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { supabase } from "../lib/supabase";
 import {
   RefreshCw,
@@ -37,7 +37,27 @@ export default function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-    if (session) fetchQuotations();
+    let active = true;
+    if (session) {
+      const load = async () => {
+        setLoading(true);
+        setFetchError(null);
+        const { data, error } = await supabase
+          .from("quotations")
+          .select("*")
+          .order("created_at", { ascending: false });
+        if (!active) return;
+        if (error) {
+          console.error("Failed to fetch quotations:", error);
+          setFetchError(error.message);
+        } else {
+          setQuotations(data || []);
+        }
+        setLoading(false);
+      };
+      load();
+    }
+    return () => { active = false; };
   }, [session]);
 
   async function fetchQuotations() {
@@ -71,42 +91,66 @@ export default function AdminDashboard() {
   }
 
   // --- Derived analytics ---
-  const totalCount = quotations.length;
-
-  const thisMonthCount = quotations.filter((q) => {
-    const d = new Date(q.created_at);
+  const {
+    totalCount,
+    thisMonthCount,
+    newCount,
+    sortedProducts,
+    maxProductCount,
+    sortedMonths,
+    maxMonthlyCount,
+  } = useMemo(() => {
     const now = new Date();
-    return (
-      d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear()
-    );
-  }).length;
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
 
-  const newCount = quotations.filter((q) => q.status === "new").length;
+    let thisMonthCount = 0;
+    let newCount = 0;
+    const productCounts = {};
+    const monthlyData = {};
 
-  // Product frequency
-  const productCounts = {};
-  quotations.forEach((q) => {
-    (q.products || []).forEach((p) => {
-      productCounts[p] = (productCounts[p] || 0) + 1;
-    });
-  });
-  const sortedProducts = Object.entries(productCounts).sort(
-    (a, b) => b[1] - a[1],
-  );
-  const maxProductCount = sortedProducts.length > 0 ? sortedProducts[0][1] : 1;
+    for (let i = 0; i < quotations.length; i++) {
+      const q = quotations[i];
 
-  // Monthly submissions (last 6 months)
-  const monthlyData = {};
-  quotations.forEach((q) => {
-    const d = new Date(q.created_at);
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    monthlyData[key] = (monthlyData[key] || 0) + 1;
-  });
-  const sortedMonths = Object.entries(monthlyData)
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .slice(-6);
-  const maxMonthlyCount =
-    sortedMonths.length > 0 ? Math.max(...sortedMonths.map((m) => m[1])) : 1;
+      if (q.status === "new") newCount++;
+
+      const d = new Date(q.created_at);
+      const year = d.getFullYear();
+      const month = d.getMonth();
+
+      if (month === currentMonth && year === currentYear) {
+        thisMonthCount++;
+      }
+
+      if (q.products) {
+        for (let j = 0; j < q.products.length; j++) {
+          const p = q.products[j];
+          productCounts[p] = (productCounts[p] || 0) + 1;
+        }
+      }
+
+      const key = `${year}-${String(month + 1).padStart(2, "0")}`;
+      monthlyData[key] = (monthlyData[key] || 0) + 1;
+    }
+
+    const sortedProducts = Object.entries(productCounts).sort((a, b) => b[1] - a[1]);
+    const maxProductCount = sortedProducts.length > 0 ? sortedProducts[0][1] : 1;
+
+    const sortedMonths = Object.entries(monthlyData)
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .slice(-6);
+    const maxMonthlyCount = sortedMonths.length > 0 ? Math.max(...sortedMonths.map((m) => m[1])) : 1;
+
+    return {
+      totalCount: quotations.length,
+      thisMonthCount,
+      newCount,
+      sortedProducts,
+      maxProductCount,
+      sortedMonths,
+      maxMonthlyCount,
+    };
+  }, [quotations]);
 
   // Filtered list
   const filteredQuotations =
