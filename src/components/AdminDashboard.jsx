@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { supabase } from "../lib/supabase";
 import {
   RefreshCw,
@@ -96,17 +96,20 @@ export default function AdminDashboard() {
   const maxProductCount = sortedProducts.length > 0 ? sortedProducts[0][1] : 1;
 
   // Monthly submissions (last 6 months)
-  const monthlyData = {};
-  quotations.forEach((q) => {
-    const d = new Date(q.created_at);
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    monthlyData[key] = (monthlyData[key] || 0) + 1;
-  });
-  const sortedMonths = Object.entries(monthlyData)
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .slice(-6);
-  const maxMonthlyCount =
-    sortedMonths.length > 0 ? Math.max(...sortedMonths.map((m) => m[1])) : 1;
+  const { sortedMonths, maxMonthlyCount } = useMemo(() => {
+    const monthlyData = {};
+    quotations.forEach((q) => {
+      const d = new Date(q.created_at);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      monthlyData[key] = (monthlyData[key] || 0) + 1;
+    });
+    const sorted = Object.entries(monthlyData)
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .slice(-6);
+    const max =
+      sorted.length > 0 ? Math.max(...sorted.map((m) => m[1])) : 1;
+    return { sortedMonths: sorted, maxMonthlyCount: max };
+  }, [quotations]);
 
   // Filtered list
   const filteredQuotations =
