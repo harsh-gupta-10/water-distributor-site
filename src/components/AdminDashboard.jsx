@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { supabase } from "../lib/supabase";
 import {
   RefreshCw,
@@ -46,11 +46,12 @@ export default function AdminDashboard() {
     const { data, error } = await supabase
       .from("quotations")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      .limit(100);
 
     if (error) {
-      console.error("Failed to fetch quotations:", error);
-      setFetchError(error.message);
+      console.error("Failed to fetch quotations");
+      setFetchError("An error occurred while fetching quotations. Please try again later.");
     } else {
       setQuotations(data || []);
     }
@@ -96,17 +97,20 @@ export default function AdminDashboard() {
   const maxProductCount = sortedProducts.length > 0 ? sortedProducts[0][1] : 1;
 
   // Monthly submissions (last 6 months)
-  const monthlyData = {};
-  quotations.forEach((q) => {
-    const d = new Date(q.created_at);
-    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
-    monthlyData[key] = (monthlyData[key] || 0) + 1;
-  });
-  const sortedMonths = Object.entries(monthlyData)
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .slice(-6);
-  const maxMonthlyCount =
-    sortedMonths.length > 0 ? Math.max(...sortedMonths.map((m) => m[1])) : 1;
+  const { sortedMonths, maxMonthlyCount } = useMemo(() => {
+    const monthlyData = {};
+    quotations.forEach((q) => {
+      const d = new Date(q.created_at);
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      monthlyData[key] = (monthlyData[key] || 0) + 1;
+    });
+    const sorted = Object.entries(monthlyData)
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .slice(-6);
+    const max =
+      sorted.length > 0 ? Math.max(...sorted.map((m) => m[1])) : 1;
+    return { sortedMonths: sorted, maxMonthlyCount: max };
+  }, [quotations]);
 
   // Filtered list
   const filteredQuotations =
@@ -182,7 +186,7 @@ export default function AdminDashboard() {
       <div className="container">
         {fetchError && (
           <div className="admin-login__error" style={{ marginBottom: "24px" }}>
-            DB error: {fetchError} — Check your Supabase RLS policies.
+            {fetchError}
           </div>
         )}
         {/* Header */}
