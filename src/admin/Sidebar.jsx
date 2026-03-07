@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import {
     LayoutDashboard, FileText, Users, Package, Receipt,
-    CreditCard, BarChart3, Settings, LogOut, ChevronLeft, ChevronRight, Droplets
+    CreditCard, BarChart3, Settings, LogOut, ChevronLeft, ChevronRight, Droplets, ShoppingCart
 } from 'lucide-react';
 
 const navItems = [
@@ -10,6 +10,7 @@ const navItems = [
         group: 'Main', items: [
             { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
             { to: '/admin/quotations', icon: FileText, label: 'Quotations' },
+            { to: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
             { to: '/admin/customers', icon: Users, label: 'Customers' },
             { to: '/admin/products', icon: Package, label: 'Products' },
         ]
@@ -38,10 +39,8 @@ export default function Sidebar({ collapsed, onToggle }) {
     return (
         <aside className={`sidebar ${collapsed ? 'sidebar--collapsed' : ''}`}>
             <div className="sidebar__brand">
-                <div className="sidebar__brand-icon">
-                    <Droplets size={20} />
-                </div>
-                <span className="sidebar__brand-text">A3 CRM</span>
+                <img src="/imgs/logo-footer.png" alt="ZURICA" style={{ height: 60, width: 'auto' }} />
+
             </div>
 
             <nav className="sidebar__nav">

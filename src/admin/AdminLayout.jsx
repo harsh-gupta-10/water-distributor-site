@@ -10,6 +10,7 @@ import './admin.css';
 const pageTitles = {
     '/admin': 'Dashboard',
     '/admin/quotations': 'Quotations',
+    '/admin/orders': 'Orders',
     '/admin/customers': 'Customers',
     '/admin/products': 'Products',
     '/admin/invoices': 'Invoices',

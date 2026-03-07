@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import {
   Droplets,
@@ -13,6 +13,7 @@ import {
 import productsData from "../data/products.json";
 
 import siteConfig from "../data/siteConfig";
+import { supabase } from "../lib/supabase";
 
 // Map icon strings from JSON to actual components
 const iconMap = { Droplets, GlassWater, Wine, Zap };
@@ -159,8 +160,18 @@ function ProductListModal({ category, onClose, onGetPrice }) {
                 </div>
                 <div className="product-modal__item-sizes">
                   <Tag size={13} />
-                  <span>Available in: {product.sizes.join(" / ")}</span>
+                  <span>{product.description || (product.sizes ? `Available in: ${product.sizes.join(" / ")}` : '')}</span>
                 </div>
+                {siteConfig.showProductPrice && product.price != null && (
+                  <div className="product-modal__item-sizes" style={{ marginTop: 4 }}>
+                    <span style={{ fontWeight: 600, color: '#374151' }}>Price:</span> ₹{product.price}
+                  </div>
+                )}
+                {siteConfig.showProductStock && product.stock != null && (
+                  <div className="product-modal__item-sizes" style={{ marginTop: 4 }}>
+                    <span style={{ fontWeight: 600, color: '#374151' }}>Stock:</span> {product.stock > 0 ? `${product.stock} units` : <span style={{ color: '#ef4444' }}>Out of stock</span>}
+                  </div>
+                )}
               </div>
               <a
                 href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hey, I am looking for ${product.name}. Please share pricing and availability.`)}`}
@@ -191,6 +202,48 @@ function ProductListModal({ category, onClose, onGetPrice }) {
 export default function Products({ onQuotationClick }) {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [displayCategories, setDisplayCategories] = useState(categories);
+
+  useEffect(() => {
+    async function loadDbProducts() {
+      try {
+        const { data, error } = await supabase.from('products').select('*').eq('status', 'active').order('position', { ascending: true }).order('created_at', { ascending: false });
+        if (error) throw error;
+        if (data && data.length > 0) {
+          const catMap = {};
+          data.forEach(p => {
+            if (!catMap[p.category]) catMap[p.category] = [];
+            catMap[p.category].push({
+              name: p.name,
+              imageSrc: p.image_path,
+              description: p.description,
+              price: p.price,
+              stock: p.stock,
+              color: catMap[p.category]?.length ? catMap[p.category][0].color : undefined // Will resolve below
+            });
+          });
+
+          // Merge DB products over JSON categories
+          const newCats = categories.map(cat => {
+            const dbProducts = catMap[cat.name];
+            if (dbProducts && dbProducts.length > 0) {
+              // Map DB products, carrying over category color
+              return {
+                ...cat,
+                products: dbProducts.map(dbp => ({ ...dbp, color: cat.products[0]?.color || cat.color }))
+              };
+            }
+            return cat;
+          });
+
+          setDisplayCategories(newCats);
+        }
+      } catch (err) {
+        console.error("Failed to load products from DB, using JSON fallback", err);
+      }
+    }
+    loadDbProducts();
+  }, []);
 
   return (
     <section id="products" className="products" ref={ref}>
@@ -211,7 +264,7 @@ export default function Products({ onQuotationClick }) {
         </div>
 
         <div className="category-grid">
-          {categories.map((cat, i) => (
+          {displayCategories.map((cat, i) => (
             <CategoryCard
               key={cat.id}
               category={cat}

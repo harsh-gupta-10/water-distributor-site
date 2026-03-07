@@ -68,6 +68,10 @@ const siteConfig = {
     "Panjarapole",
   ],
 
+  // --- Product Display ---
+  showProductPrice: false, // Set to true to display prices on the frontend
+  showProductStock: false, // Set to true to display stock levels on the frontend
+
   // --- Product Options (for quotation forms) ---
   productOptions: [
     "Bisleri 20L",

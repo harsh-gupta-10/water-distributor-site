@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
-import { RefreshCw, Search, FileText } from 'lucide-react';
+import { RefreshCw, Search, FileText, ShoppingCart } from 'lucide-react';
 import ExportButtons from '../components/ExportButtons';
 
 export default function QuotationsPage() {
@@ -10,6 +11,7 @@ export default function QuotationsPage() {
     const [searchTerm, setSearchTerm] = useState('');
     const [page, setPage] = useState(1);
     const perPage = 15;
+    const navigate = useNavigate();
 
     useEffect(() => { fetchQuotations(); }, []);
 
@@ -24,6 +26,41 @@ export default function QuotationsPage() {
         const { error } = await supabase.from('quotations').update({ status: newStatus }).eq('id', id);
         if (!error) {
             setQuotations(prev => prev.map(q => q.id === id ? { ...q, status: newStatus } : q));
+        }
+    }
+
+    async function moveToOrder(q) {
+        if (!q.phone) { alert('This quotation has no phone number'); return; }
+        try {
+            // 1. Find or create customer by unique phone number
+            let customerId = q.customer_id;
+            if (!customerId) {
+                // Check if customer already exists with this phone
+                const { data: existing } = await supabase
+                    .from('customers').select('id').eq('phone', q.phone).maybeSingle();
+
+                if (existing) {
+                    customerId = existing.id;
+                } else {
+                    // Create new customer from quotation data
+                    const { data: newCust, error: insertErr } = await supabase
+                        .from('customers').insert({
+                            name: q.full_name || 'Unknown',
+                            business_name: q.business_name || null,
+                            email: q.email || null,
+                            phone: q.phone,
+                            location: q.location || null,
+                        }).select('id').single();
+                    if (insertErr) throw insertErr;
+                    customerId = newCust.id;
+                }
+                // 2. Link quotation to this customer
+                await supabase.from('quotations').update({ customer_id: customerId }).eq('id', q.id);
+            }
+            // 3. Navigate to create order with customer + products pre-filled
+            navigate(`/admin/orders/new?quotation=${q.id}&customer=${customerId}&products=${encodeURIComponent((q.products || []).join(','))}`);
+        } catch (err) {
+            alert('Error: ' + err.message);
         }
     }
 
@@ -100,11 +137,12 @@ export default function QuotationsPage() {
                                     <th>Location</th>
                                     <th>Source</th>
                                     <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {paginated.length === 0 ? (
-                                    <tr><td colSpan={8} style={{ textAlign: 'center', padding: 40, color: '#9ca3af' }}>No quotations found</td></tr>
+                                    <tr><td colSpan={9} style={{ textAlign: 'center', padding: 40, color: '#9ca3af' }}>No quotations found</td></tr>
                                 ) : paginated.map(q => (
                                     <tr key={q.id}>
                                         <td style={{ whiteSpace: 'nowrap', fontSize: '0.8rem' }}>{formatDate(q.created_at)}</td>
@@ -134,6 +172,16 @@ export default function QuotationsPage() {
                                                 <option value="contacted">Contacted</option>
                                                 <option value="completed">Completed</option>
                                             </select>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className="btn-admin btn-admin--primary btn-admin--sm"
+                                                title="Move to Order"
+                                                onClick={() => moveToOrder(q)}
+                                                style={{ whiteSpace: 'nowrap', fontSize: '0.72rem', padding: '4px 8px' }}
+                                            >
+                                                <ShoppingCart size={13} /> Order
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}

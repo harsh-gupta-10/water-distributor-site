@@ -10,11 +10,9 @@ export default function DashboardPage() {
     const [monthlyQuotations, setMonthlyQuotations] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => { fetchAll(); }, []);
-
     async function fetchAll() {
         setLoading(true);
-        const [custRes, invRes, payRes, quotRes, prodRes, invItemsRes] = await Promise.all([
+        const [custRes, invRes, , quotRes, prodRes, invItemsRes] = await Promise.all([
             supabase.from('customers').select('id', { count: 'exact', head: true }),
             supabase.from('invoices').select('*'),
             supabase.from('payments').select('amount'),
@@ -31,7 +29,7 @@ export default function DashboardPage() {
         setStats({
             customers: custRes.count || 0,
             invoices: invoices.length,
-            revenue: totalRevenue,
+            revenue: totalPaid,
             pending: pendingPayments,
             quotations: (quotRes.data || []).length,
             products: prodRes.count || 0,
@@ -82,6 +80,8 @@ export default function DashboardPage() {
 
         setLoading(false);
     }
+
+    useEffect(() => { fetchAll(); }, []);
 
     function fmt(n) { return `₹${Number(n).toLocaleString('en-IN', { minimumFractionDigits: 0 })}`; }
     function fmtMonth(key) {
