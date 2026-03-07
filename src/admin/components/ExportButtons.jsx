@@ -1,7 +1,7 @@
 import { Download } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
-export default function ExportButtons({ data, filename = 'export', columns }) {
+export default function ExportButtons({ data, filename = 'export', columns, includeJson = false }) {
     function exportCSV() {
         if (!data || data.length === 0) return;
         const headers = columns.map(c => c.label);
@@ -27,6 +27,21 @@ export default function ExportButtons({ data, filename = 'export', columns }) {
         XLSX.writeFile(wb, `${filename}.xlsx`);
     }
 
+    function exportJSON() {
+        if (!data || data.length === 0) return;
+        const normalized = data.map(row => {
+            const item = {};
+            columns.forEach(c => {
+                const val = c.accessor(row);
+                item[c.label] = val === undefined ? null : val;
+            });
+            return item;
+        });
+        const json = JSON.stringify(normalized, null, 2);
+        const blob = new Blob([json], { type: 'application/json;charset=utf-8;' });
+        downloadBlob(blob, `${filename}.json`);
+    }
+
     function downloadBlob(blob, name) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -44,6 +59,11 @@ export default function ExportButtons({ data, filename = 'export', columns }) {
             <button className="btn-admin btn-admin--secondary btn-admin--sm" onClick={exportExcel}>
                 <Download size={14} /> Excel
             </button>
+            {includeJson && (
+                <button className="btn-admin btn-admin--secondary btn-admin--sm" onClick={exportJSON}>
+                    <Download size={14} /> JSON
+                </button>
+            )}
         </div>
     );
 }

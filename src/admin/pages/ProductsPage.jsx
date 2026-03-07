@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Plus, Search, Edit2, Trash2, GripVertical } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, GripVertical, Upload } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import * as XLSX from 'xlsx';
 import Modal from '../components/Modal';
+import ExportButtons from '../components/ExportButtons';
 import { useToast } from '../components/Toast';
 
 export default function ProductsPage() {
@@ -15,9 +17,11 @@ export default function ProductsPage() {
     const [modalOpen, setModalOpen] = useState(false);
     const [editing, setEditing] = useState(null);
     const [deleteId, setDeleteId] = useState(null);
+    const [importing, setImporting] = useState(false);
     const [form, setForm] = useState({ name: '', image_path: '', category: '', sku: '', price: '', stock: '', description: '', status: 'active' });
     const perPage = 15;
     const toast = useToast();
+    const fileInputRef = useRef(null);
 
     useEffect(() => { fetchProducts(); }, []);
 
@@ -65,6 +69,119 @@ export default function ProductsPage() {
         if (error) { toast(error.message, 'error'); } else { toast('Product deleted'); }
         setDeleteId(null);
         fetchProducts();
+    }
+
+    function parseNumber(value, fallback = 0) {
+        if (value === null || value === undefined || value === '') return fallback;
+        const parsed = Number(String(value).replace(/,/g, ''));
+        return Number.isFinite(parsed) ? parsed : fallback;
+    }
+
+    function parseIntegerOrNull(value) {
+        if (value === null || value === undefined || value === '') return null;
+        const parsed = parseInt(String(value), 10);
+        return Number.isFinite(parsed) ? parsed : null;
+    }
+
+    function findValue(row, keys) {
+        const entries = Object.entries(row || {});
+        const normalized = entries.map(([k, v]) => [String(k).trim().toLowerCase(), v]);
+        for (const key of keys) {
+            const hit = normalized.find(([k]) => k === key.toLowerCase());
+            if (hit) return hit[1];
+        }
+        return undefined;
+    }
+
+    function normalizeProductRow(row) {
+        const name = findValue(row, ['name', 'product', 'product name']);
+        if (!name || String(name).trim() === '') return null;
+
+        return {
+            name: String(name).trim(),
+            category: String(findValue(row, ['category']) || '').trim(),
+            sku: String(findValue(row, ['sku']) || '').trim(),
+            price: parseNumber(findValue(row, ['price', 'mrp', 'rate']), 0),
+            stock: parseIntegerOrNull(findValue(row, ['stock', 'quantity', 'qty'])),
+            status: String(findValue(row, ['status']) || 'active').trim().toLowerCase() === 'inactive' ? 'inactive' : 'active',
+            image_path: String(findValue(row, ['image path', 'image_path', 'image', 'image url']) || '').trim(),
+            description: String(findValue(row, ['description', 'desc']) || '').trim(),
+        };
+    }
+
+    async function parseImportFile(file) {
+        const lower = file.name.toLowerCase();
+
+        if (lower.endsWith('.json')) {
+            const text = await file.text();
+            const parsed = JSON.parse(text);
+            const rows = Array.isArray(parsed) ? parsed : (Array.isArray(parsed?.data) ? parsed.data : []);
+            if (!Array.isArray(rows)) throw new Error('Invalid JSON format. Expected an array of products.');
+            return rows;
+        }
+
+        if (lower.endsWith('.csv')) {
+            const buffer = await file.arrayBuffer();
+            const wb = XLSX.read(buffer, { type: 'array' });
+            const ws = wb.Sheets[wb.SheetNames[0]];
+            return XLSX.utils.sheet_to_json(ws, { defval: '' });
+        }
+
+        throw new Error('Unsupported file type. Please use JSON or CSV.');
+    }
+
+    async function handleImportFileChange(event) {
+        const file = event.target.files?.[0];
+        event.target.value = '';
+        if (!file) return;
+
+        try {
+            setImporting(true);
+            const rows = await parseImportFile(file);
+            if (!rows.length) {
+                toast('Selected file has no rows to import', 'error');
+                return;
+            }
+
+            const normalized = rows.map(normalizeProductRow).filter(Boolean);
+            const skipped = rows.length - normalized.length;
+
+            if (!normalized.length) {
+                toast('No valid products found. Ensure each row has a product name.', 'error');
+                return;
+            }
+
+            // Replace mode: clear current catalog before importing file rows.
+            const { error: deleteError } = await supabase
+                .from('products')
+                .delete()
+                .not('id', 'is', null);
+            if (deleteError) throw deleteError;
+
+            const withPosition = normalized.map((item, idx) => ({
+                ...item,
+                position: idx,
+            }));
+
+            const chunkSize = 200;
+            for (let i = 0; i < withPosition.length; i += chunkSize) {
+                const chunk = withPosition.slice(i, i + chunkSize);
+                const { error } = await supabase.from('products').insert(chunk);
+                if (error) throw error;
+            }
+
+            if (skipped > 0) {
+                toast(`Replaced product list with ${withPosition.length} imported rows. Skipped ${skipped} invalid rows.`, 'info');
+            } else {
+                toast(`Replaced product list with ${withPosition.length} imported rows`);
+            }
+
+            fetchProducts();
+        } catch (error) {
+            toast(error.message || 'Import failed', 'error');
+        } finally {
+            setImporting(false);
+        }
     }
 
     async function handleDragEnd(result) {
@@ -131,6 +248,17 @@ export default function ProductsPage() {
     const paginated = filtered.slice((page - 1) * perPage, page * perPage);
     const fmt = n => `₹${Number(n).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`;
 
+    const exportCols = [
+        { label: 'Name', accessor: p => p.name },
+        { label: 'Category', accessor: p => p.category || '' },
+        { label: 'SKU', accessor: p => p.sku || '' },
+        { label: 'Price', accessor: p => p.price },
+        { label: 'Stock', accessor: p => p.stock },
+        { label: 'Status', accessor: p => p.status },
+        { label: 'Image Path', accessor: p => p.image_path || '' },
+        { label: 'Description', accessor: p => p.description || '' },
+    ];
+
     if (loading) return <div style={{ textAlign: 'center', padding: '80px 0', color: '#9ca3af' }}>Loading...</div>;
 
     return (
@@ -141,6 +269,17 @@ export default function ProductsPage() {
                     <p>{products.length} total products</p>
                 </div>
                 <div className="page-header__actions">
+                    <ExportButtons data={filtered} filename="products" columns={exportCols} includeJson />
+                    <button className="btn-admin btn-admin--secondary" onClick={() => fileInputRef.current?.click()} disabled={importing}>
+                        <Upload size={16} /> {importing ? 'Importing...' : 'Import'}
+                    </button>
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".json,.csv,application/json,text/csv"
+                        style={{ display: 'none' }}
+                        onChange={handleImportFileChange}
+                    />
                     <button className="btn-admin btn-admin--primary" onClick={openAdd}>
                         <Plus size={16} /> Add Product
                     </button>

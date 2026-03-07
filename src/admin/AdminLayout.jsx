@@ -13,6 +13,7 @@ const pageTitles = {
     '/admin/orders': 'Orders',
     '/admin/customers': 'Customers',
     '/admin/products': 'Products',
+    '/admin/product-images': 'Product Images',
     '/admin/invoices': 'Invoices',
     '/admin/analytics': 'Analytics',
     '/admin/settings': 'Settings',

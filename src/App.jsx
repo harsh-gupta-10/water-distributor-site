@@ -26,6 +26,7 @@ import QuotationsPage from "./admin/pages/QuotationsPage";
 import CustomersPage from "./admin/pages/CustomersPage";
 import CustomerProfile from "./admin/pages/CustomerProfile";
 import ProductsPage from "./admin/pages/ProductsPage";
+import ProductImagesPage from "./admin/pages/ProductImagesPage";
 import InvoicesPage from "./admin/pages/InvoicesPage";
 import InvoiceForm from "./admin/pages/InvoiceForm";
 import InvoiceView from "./admin/pages/InvoiceView";
@@ -100,6 +101,7 @@ function App() {
           <Route path="customers" element={<CustomersPage />} />
           <Route path="customers/:id" element={<CustomerProfile />} />
           <Route path="products" element={<ProductsPage />} />
+          <Route path="product-images" element={<ProductImagesPage />} />
           <Route path="invoices" element={<InvoicesPage />} />
           <Route path="invoices/new" element={<InvoiceForm />} />
           <Route path="invoices/:id" element={<InvoiceView />} />
