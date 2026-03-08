@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin, Clock, ChevronRight } from "lucide-react";
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 
 const logoImg = "/imgs/logo-footer.png";
 
@@ -26,6 +26,8 @@ const productLinks = [
 ];
 
 export default function Footer() {
+  const siteConfig = useSettingsSync();
+  
   return (
     <footer className="footer">
       <div className="footer__tricolor" />

@@ -8,7 +8,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useInView } from "react-intersection-observer";
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 import heroBg from "../assets/imgs/hero-bg.webp";
 
 const trustSignals = [
@@ -19,6 +19,7 @@ const trustSignals = [
 
 export default function Hero({ onQuotationClick }) {
   const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const siteConfig = useSettingsSync();
 
   return (
     <section id="home" className="hero" ref={ref}>

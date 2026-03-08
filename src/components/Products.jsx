@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import productsData from "../data/products.json";
 
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 import { supabase } from "../lib/supabase";
 
 // Map icon strings from JSON to actual components
@@ -99,8 +99,8 @@ function CategoryCard({ category, onClick, delay, animate }) {
   );
 }
 
-function ProductListModal({ category, onClose, onGetPrice }) {
-  if (!category) return null;
+function ProductListModal({ category, onClose, onGetPrice, settings }) {
+  if (!category || !settings) return null;
 
   const Icon = category.icon;
 
@@ -173,19 +173,19 @@ function ProductListModal({ category, onClose, onGetPrice }) {
                   <Tag size={13} />
                   <span>{product.description || (product.sizes ? `Available in: ${product.sizes.join(" / ")}` : '')}</span>
                 </div>
-                {siteConfig.showProductPrice && product.price != null && (
+                {settings.showProductPrice && product.price != null && (
                   <div className="product-modal__item-sizes" style={{ marginTop: 4 }}>
                     <span style={{ fontWeight: 600, color: '#374151' }}>Price:</span> ₹{product.price}
                   </div>
                 )}
-                {siteConfig.showProductStock && product.stock != null && (
+                {settings.showProductStock && product.stock != null && (
                   <div className="product-modal__item-sizes" style={{ marginTop: 4 }}>
                     <span style={{ fontWeight: 600, color: '#374151' }}>Stock:</span> {product.stock > 0 ? `${product.stock} units` : <span style={{ color: '#ef4444' }}>Out of stock</span>}
                   </div>
                 )}
               </div>
               <a
-                href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hey, I am looking for ${product.name}. Please share pricing and availability.`)}`}
+                href={`https://wa.me/${settings.whatsappNumber}?text=${encodeURIComponent(`Hey, I am looking for ${product.name}. Please share pricing and availability.`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary btn-small product-modal__item-btn"
@@ -212,6 +212,7 @@ function ProductListModal({ category, onClose, onGetPrice }) {
 
 export default function Products({ onQuotationClick }) {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
+  const settings = useSettingsSync();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [displayCategories, setDisplayCategories] = useState(categories);
 
@@ -290,6 +291,7 @@ export default function Products({ onQuotationClick }) {
       {selectedCategory && (
         <ProductListModal
           category={selectedCategory}
+          settings={settings}
           onClose={() => setSelectedCategory(null)}
           onGetPrice={() => {
             setSelectedCategory(null);

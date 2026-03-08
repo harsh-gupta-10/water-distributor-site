@@ -1,7 +1,7 @@
 import { useInView } from "react-intersection-observer";
 import { Check, X, ArrowRight, Phone } from "lucide-react";
 import SEO from "./SEO";
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 
 const comparisonData = [
   {
@@ -78,6 +78,7 @@ export default function ComparisonPage() {
   const { ref: heroRef, inView: heroInView } = useInView({ threshold: 0.1, triggerOnce: true });
   const { ref: tableRef, inView: tableInView } = useInView({ threshold: 0.05, triggerOnce: true });
   const { ref: ctaRef, inView: ctaInView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const siteConfig = useSettingsSync();
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent(

@@ -1,6 +1,6 @@
 import { useInView } from "react-intersection-observer";
 import { Award, MapPin, Clock, Quote } from "lucide-react";
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 
 const stats = [
   { number: "10+", label: "Years of Experience" },
@@ -29,6 +29,7 @@ const testimonials = [
 
 export default function TrustSection() {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
+  const siteConfig = useSettingsSync();
 
   return (
     <section id="about" className="trust" ref={ref}>

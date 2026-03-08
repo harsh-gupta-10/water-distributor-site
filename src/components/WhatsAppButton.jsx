@@ -1,7 +1,8 @@
 import { FaWhatsapp } from "react-icons/fa";
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 
 export default function WhatsAppButton() {
+  const siteConfig = useSettingsSync();
   const message = encodeURIComponent(siteConfig.whatsappMessages.general);
   const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${message}`;
 

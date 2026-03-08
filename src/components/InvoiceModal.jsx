@@ -1,12 +1,13 @@
 import { useState, useMemo } from "react";
 import { X, Plus, Trash2, Eye, Printer, ArrowLeft } from "lucide-react";
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 
 function fmt(n) {
   return `₹${Number(n).toFixed(2)}`;
 }
 
 export default function InvoiceModal({ quotation, onClose }) {
+  const siteConfig = useSettingsSync();
   const today = new Date().toISOString().slice(0, 10);
   const shortId = String(quotation.id || "")
     .replace(/-/g, "")
@@ -15,7 +16,7 @@ export default function InvoiceModal({ quotation, onClose }) {
 
   const [view, setView] = useState("edit");
   const [invoiceNo, setInvoiceNo] = useState(
-    `INV-${new Date().getFullYear()}-${shortId}`,
+    `${siteConfig.invoicePrefix}-${new Date().getFullYear()}-${shortId}`,
   );
   const [invoiceDate, setInvoiceDate] = useState(today);
   const [billToName, setBillToName] = useState(quotation.full_name || "");
@@ -34,9 +35,9 @@ export default function InvoiceModal({ quotation, onClose }) {
         }))
       : [{ name: "", qty: "", unitPrice: "" }],
   );
-  const [gstRate, setGstRate] = useState(18);
+  const [gstRate, setGstRate] = useState(siteConfig.defaultTaxRate || 18);
   const [gstType, setGstType] = useState("NO_GST");
-  const [notes, setNotes] = useState("");
+  const [notes, setNotes] = useState(siteConfig.invoiceNotes || "");
 
   const subtotal = useMemo(() => {
     return items.reduce((sum, item) => {

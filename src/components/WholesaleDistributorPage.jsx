@@ -13,7 +13,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import SEO from "./SEO";
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 
 const keyFeatures = [
   {
@@ -140,6 +140,7 @@ export default function WholesaleDistributorPage() {
   const { ref: pricingRef, inView: pricingInView } = useInView({ threshold: 0.05, triggerOnce: true });
   const { ref: whyRef, inView: whyInView } = useInView({ threshold: 0.05, triggerOnce: true });
   const { ref: ctaRef, inView: ctaInView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const siteConfig = useSettingsSync();
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent(siteConfig.whatsappMessages.general);

@@ -359,7 +359,8 @@ export default function ProductsPage() {
                                                             <td>
                                                                 <div className="data-table__actions">
                                                                     <button className="data-table__action-btn" title="Edit" onClick={() => openEdit(p)}><Edit2 size={15} /></button>
-                                                                    <button className="data-table__action-btn data-table__action-btn--danger" title="Delete" onClick={() => setDeleteId(p.id)}><Trash2 size={15} /></button>
+                                                                    {/* Delete button disabled for now */}
+                                                                    {/* <button className="data-table__action-btn data-table__action-btn--danger" title="Delete" onClick={() => setDeleteId(p.id)}><Trash2 size={15} /></button> */}
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -413,15 +414,6 @@ export default function ProductsPage() {
                 </div>
             </Modal>
 
-            {/* Delete Confirm */}
-            <Modal isOpen={!!deleteId} onClose={() => setDeleteId(null)} title="Delete Product" footer={
-                <>
-                    <button className="btn-admin btn-admin--secondary" onClick={() => setDeleteId(null)}>Cancel</button>
-                    <button className="btn-admin btn-admin--danger" onClick={deleteProduct}>Delete</button>
-                </>
-            }>
-                <p className="confirm-text">Are you sure you want to delete this product?</p>
-            </Modal>
         </>
     );
 }

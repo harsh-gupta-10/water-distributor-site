@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Sparkles } from "lucide-react";
-import siteConfig from "../data/siteConfig";
 
 const logoImg = "/imgs/logo-footer.png";
 

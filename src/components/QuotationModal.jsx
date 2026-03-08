@@ -11,7 +11,7 @@ import {
   MessageSquare,
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 import { submitQuotation } from "../lib/submitQuotation";
 
 function buildWhatsAppMessage(data) {
@@ -30,6 +30,7 @@ function buildWhatsAppMessage(data) {
 }
 
 export default function QuotationModal({ isOpen, onClose }) {
+  const siteConfig = useSettingsSync();
   const [formData, setFormData] = useState({
     fullName: "",
     businessName: "",

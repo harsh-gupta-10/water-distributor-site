@@ -8,10 +8,11 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
-import siteConfig from "../data/siteConfig";
+import { useSettingsSync } from "../hooks/useSettings";
 
 export default function Contact({ inline = false }) {
   const { ref, inView } = useInView({ threshold: 0.05, triggerOnce: true });
+  const siteConfig = useSettingsSync();
 
   useEffect(() => {
     if (!inline) {
