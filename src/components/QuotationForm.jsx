@@ -170,7 +170,7 @@ export default function QuotationForm() {
                 type="tel"
                 name="phone"
                 className="quotation__input"
-                placeholder="+91 73045 55662"
+                placeholder="+91 70394 14924"
                 value={formData.phone}
                 onChange={handleChange}
                 required

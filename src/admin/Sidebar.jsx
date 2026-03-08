@@ -29,7 +29,7 @@ const navItems = [
     },
 ];
 
-export default function Sidebar({ collapsed, onToggle }) {
+export default function Sidebar({ collapsed, onToggle, mobileOpen = false, onNavigate }) {
     const navigate = useNavigate();
 
     async function handleLogout() {
@@ -38,7 +38,7 @@ export default function Sidebar({ collapsed, onToggle }) {
     }
 
     return (
-        <aside className={`sidebar ${collapsed ? 'sidebar--collapsed' : ''}`}>
+        <aside className={`sidebar ${collapsed ? 'sidebar--collapsed' : ''} ${mobileOpen ? 'sidebar--mobile-open' : ''}`}>
             <div className="sidebar__brand">
                 <img src="/imgs/logo-footer.png" alt="ZURICA" style={{ height: 60, width: 'auto' }} />
 
@@ -53,6 +53,7 @@ export default function Sidebar({ collapsed, onToggle }) {
                                 key={item.to}
                                 to={item.to}
                                 end={item.end}
+                                onClick={onNavigate}
                                 className={({ isActive }) =>
                                     `sidebar__link ${isActive ? 'sidebar__link--active' : ''}`
                                 }

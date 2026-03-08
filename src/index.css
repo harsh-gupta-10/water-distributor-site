@@ -2327,11 +2327,14 @@ a.contact__card:hover {
   width: 36px;
   height: 36px;
   border-radius: var(--radius-full);
+  border: none;
   background: var(--gray-100);
   color: var(--gray-600);
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 4;
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 

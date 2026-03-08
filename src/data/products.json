@@ -125,56 +125,56 @@
       "products": [
         {
           "name": "Maaza",
-          "image": "maaza.png",
+          "image": "maaza-Fruitdrink.webp",
           "sizes": ["200 ml", "600 ml", "1.2 L"],
           "color": "#F9A825",
           "tag": "Mango Favourite"
         },
         {
           "name": "Slice",
-          "image": "slice.png",
+          "image": "Slice-Fruitdrink.webp",
           "sizes": ["200 ml", "600 ml", "1.2 L"],
           "color": "#FF8F00",
           "tag": null
         },
         {
           "name": "Frooti",
-          "image": "frooti.png",
+          "image": "Frooti-Fruitdrink.webp",
           "sizes": ["200 ml", "600 ml", "1.2 L"],
           "color": "#8BC34A",
           "tag": null
         },
         {
           "name": "Tropicana",
-          "image": "tropicana.png",
+          "image": "Tropicana-Fruitdrink.webp",
           "sizes": ["200 ml", "1 L"],
           "color": "#FF9800",
           "tag": "Premium Juice"
         },
         {
           "name": "Real Juice",
-          "image": "real.png",
+          "image": "Real-Fruitdrink.webp",
           "sizes": ["200 ml", "1 L"],
           "color": "#E91E63",
           "tag": "Multiple Flavours"
         },
         {
           "name": "Clound9 Fruttu",
-          "image": "fruttu.png",
+          "image": "Cloud9-Fruitdrink.webp",
           "sizes": ["200 ml", "500 ml"],
           "color": "#FBC02D",
           "tag": null
         },
         {
           "name": "Lipton Ice Tea",
-          "image": "lipton.png",
+          "image": "Lipton-Fruitdrink.webp",
           "sizes": ["320 ml", "350 ml", "500 ml"],
           "color": "#A1887F",
           "tag": "Iced Tea"
         },
         {
           "name": "7UP Nimbooz",
-          "image": "nimbooz.png",
+          "image": "Nimbooz7up-Fruitdrink.webp",
           "sizes": ["350 ml", "500 ml"],
           "color": "#AFB42B",
           "tag": "Lemon Drink"

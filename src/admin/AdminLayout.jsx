@@ -70,18 +70,10 @@ export default function AdminLayout() {
 
                 <Sidebar
                     collapsed={collapsed}
+                    mobileOpen={mobileOpen}
+                    onNavigate={() => setMobileOpen(false)}
                     onToggle={() => setCollapsed(!collapsed)}
                 />
-
-                {/* Make sidebar visible on mobile */}
-                {mobileOpen && (
-                    <aside
-                        className="sidebar sidebar--mobile-open"
-                        style={{ transform: 'translateX(0)' }}
-                    >
-                        <Sidebar collapsed={false} onToggle={() => setMobileOpen(false)} />
-                    </aside>
-                )}
 
                 <div className="admin-shell__main">
                     <TopHeader title={currentTitle} onMobileToggle={() => setMobileOpen(!mobileOpen)} />

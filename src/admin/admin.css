@@ -1228,6 +1228,22 @@
     display: none;
   }
 
+  .top-header {
+    padding: 0 14px;
+  }
+
+  .top-header__right {
+    gap: 6px;
+  }
+
+  .top-header__user {
+    padding: 4px 8px;
+  }
+
+  .top-header__user-name {
+    display: none;
+  }
+
   .admin-shell__content {
     padding: 16px;
   }
@@ -1244,6 +1260,16 @@
 
 @media (max-width: 480px) {
   .stats-grid { grid-template-columns: 1fr; }
+
+  .top-header__title {
+    font-size: 1rem;
+  }
+
+  .top-header__avatar {
+    width: 28px;
+    height: 28px;
+    font-size: 0.68rem;
+  }
 }
 
 /* ---------- Mobile sidebar link text always visible ---------- */

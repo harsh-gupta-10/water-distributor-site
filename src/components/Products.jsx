@@ -20,7 +20,18 @@ const iconMap = { Droplets, GlassWater, Wine, Zap };
 
 function getProductImage(filename) {
   if (!filename) return null;
-  return `/imgs/products/${filename}`;
+  const legacyImageMap = {
+    "maaza.png": "maaza-Fruitdrink.webp",
+    "slice.png": "Slice-Fruitdrink.webp",
+    "frooti.png": "Frooti-Fruitdrink.webp",
+    "tropicana.png": "Tropicana-Fruitdrink.webp",
+    "real.png": "Real-Fruitdrink.webp",
+    "fruttu.png": "Cloud9-Fruitdrink.webp",
+    "lipton.png": "Lipton-Fruitdrink.webp",
+    "nimbooz.png": "Nimbooz7up-Fruitdrink.webp",
+  };
+  const resolved = legacyImageMap[filename] || filename;
+  return `/imgs/products/${resolved}`;
 }
 
 // Build categories with resolved icons and images
