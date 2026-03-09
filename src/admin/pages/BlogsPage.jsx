@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Plus, Edit2, Eye, Search } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Plus, Edit2, Eye, Search, Upload, FileUp } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { saveBlogsToCache } from '../../lib/blogFallback';
 import { useToast } from '../components/Toast';
@@ -7,6 +7,8 @@ import Modal from '../components/Modal';
 
 export default function BlogsPage() {
     const toast = useToast();
+    const fallbackFileInputRef = useRef(null);
+    const singleBlogFileInputRef = useRef(null);
     const [blogs, setBlogs] = useState([]);
     const [filteredBlogs, setFilteredBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -142,6 +144,155 @@ export default function BlogsPage() {
         }
     }
 
+    function handleImportFallbackFile() {
+        fallbackFileInputRef.current?.click();
+    }
+
+    async function processFallbackFileImport(event) {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        try {
+            const text = await file.text();
+            
+            // Extract JSON from the JS module format
+            let blogsData = [];
+            
+            // Try to parse as JSON array directly
+            try {
+                blogsData = JSON.parse(text);
+            } catch {
+                // Try to extract from JS module format
+                const match = text.match(/const\s+blogsFallback\s*=\s*(\[[\s\S]*?\]);/);
+                if (match) {
+                    blogsData = JSON.parse(match[1]);
+                } else {
+                    throw new Error('Invalid fallback file format');
+                }
+            }
+
+            if (!Array.isArray(blogsData)) {
+                throw new Error('File must contain an array of blogs');
+            }
+
+            // Import all blogs to database
+            let successCount = 0;
+            let errorCount = 0;
+
+            for (const blog of blogsData) {
+                try {
+                    // Remove id to let database generate new one
+                    const { id, ...blogWithoutId } = blog;
+                    
+                    // Check if blog with this slug already exists
+                    const { data: existing } = await supabase
+                        .from('blogs')
+                        .select('id')
+                        .eq('slug', blog.slug)
+                        .single();
+
+                    if (existing) {
+                        // Update existing
+                        const { error } = await supabase
+                            .from('blogs')
+                            .update({
+                                ...blogWithoutId,
+                                updated_at: new Date().toISOString(),
+                            })
+                            .eq('id', existing.id);
+                        
+                        if (error) throw error;
+                        successCount++;
+                    } else {
+                        // Insert new
+                        const { error } = await supabase
+                            .from('blogs')
+                            .insert([{
+                                ...blogWithoutId,
+                                created_at: blog.created_at || new Date().toISOString(),
+                                updated_at: new Date().toISOString(),
+                            }]);
+                        
+                        if (error) throw error;
+                        successCount++;
+                    }
+                } catch (err) {
+                    console.error('Error importing blog:', blog.title, err);
+                    errorCount++;
+                }
+            }
+
+            await fetchBlogs();
+            toast(`Import complete: ${successCount} blogs imported${errorCount > 0 ? `, ${errorCount} failed` : ''}`, 'success');
+        } catch (error) {
+            toast('Failed to import fallback file: ' + error.message, 'error');
+        }
+
+        // Reset file input
+        event.target.value = '';
+    }
+
+    function handleImportSingleBlog() {
+        singleBlogFileInputRef.current?.click();
+    }
+
+    async function processSingleBlogImport(event) {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        try {
+            const text = await file.text();
+            const blogData = JSON.parse(text);
+
+            // Validate required fields
+            if (!blogData.title || !blogData.slug || !blogData.content) {
+                throw new Error('Blog must have title, slug, and content');
+            }
+
+            // Check if blog with this slug already exists
+            const { data: existing } = await supabase
+                .from('blogs')
+                .select('id')
+                .eq('slug', blogData.slug)
+                .single();
+
+            const { id, ...blogWithoutId } = blogData;
+
+            if (existing) {
+                // Update existing
+                const { error } = await supabase
+                    .from('blogs')
+                    .update({
+                        ...blogWithoutId,
+                        updated_at: new Date().toISOString(),
+                    })
+                    .eq('id', existing.id);
+                
+                if (error) throw error;
+                toast(`Blog "${blogData.title}" updated successfully`, 'success');
+            } else {
+                // Insert new
+                const { error } = await supabase
+                    .from('blogs')
+                    .insert([{
+                        ...blogWithoutId,
+                        created_at: blogData.created_at || new Date().toISOString(),
+                        updated_at: new Date().toISOString(),
+                    }]);
+                
+                if (error) throw error;
+                toast(`Blog "${blogData.title}" imported successfully`, 'success');
+            }
+
+            await fetchBlogs();
+        } catch (error) {
+            toast('Failed to import blog: ' + error.message, 'error');
+        }
+
+        // Reset file input
+        event.target.value = '';
+    }
+
     function openNew() {
         resetForm();
         setEditingId(null);
@@ -193,12 +344,34 @@ export default function BlogsPage() {
 
     return (
         <>
+            {/* Hidden file inputs */}
+            <input
+                ref={fallbackFileInputRef}
+                type="file"
+                accept=".js,.json"
+                style={{ display: 'none' }}
+                onChange={processFallbackFileImport}
+            />
+            <input
+                ref={singleBlogFileInputRef}
+                type="file"
+                accept=".json"
+                style={{ display: 'none' }}
+                onChange={processSingleBlogImport}
+            />
+
             <div className="page-header">
                 <div className="page-header__info">
                     <h1>Blog Posts</h1>
                     <p>{blogs.length} total blog posts</p>
                 </div>
                 <div className="page-header__actions">
+                    <button className="btn-admin btn-admin--secondary" onClick={handleImportFallbackFile} title="Import multiple blogs from fallback file">
+                        <Upload size={16} /> Import Fallback
+                    </button>
+                    <button className="btn-admin btn-admin--secondary" onClick={handleImportSingleBlog} title="Import a single blog from JSON">
+                        <FileUp size={16} /> Import Blog JSON
+                    </button>
                     <button className="btn-admin btn-admin--secondary" onClick={exportFallbackFile}>
                         Export Fallback File
                     </button>
