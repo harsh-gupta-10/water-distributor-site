@@ -5,9 +5,11 @@ import { supabase } from '../lib/supabase';
 import { useSettings } from '../hooks/useSettings';
 import { getBlogsWithFallback } from '../lib/blogFallback';
 import SEO from './SEO';
+import BlogAdUnit from './BlogAdUnit';
 import '../styles/blogPost.css';
 
 const FALLBACK_BLOG_IMAGE = '/imgs/logo-footer.png';
+const BLOG_DETAIL_AD_SLOT = '1234567890';
 
 function resolveImageUrl(url) {
   if (!url) return FALLBACK_BLOG_IMAGE;
@@ -275,7 +277,7 @@ export default function BlogPost() {
 
       {/* AdSense Ad Container */}
       <div className="blog-post-ads">
-        <span>Ad Space (Google AdSense Ready)</span>
+        <BlogAdUnit slot={BLOG_DETAIL_AD_SLOT} className="blog-ads-unit" />
       </div>
     </>
   );

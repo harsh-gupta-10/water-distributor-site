@@ -158,6 +158,18 @@
   margin-bottom: 24px;
 }
 
+.blog-ads-container {
+  margin: 4px auto 18px;
+  padding: 14px;
+  border: 1px dashed #c7d2e1;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.blog-ads-unit {
+  min-height: 90px;
+}
+
 .blog-featured-card {
   background: var(--blog-surface);
   border: 1px solid #e7ecf2;

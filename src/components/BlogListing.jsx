@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useSettings } from '../hooks/useSettings';
 import { getBlogsWithFallback } from '../lib/blogFallback';
 import SEO from './SEO';
+import BlogAdUnit from './BlogAdUnit';
 import '../styles/blogListing.css';
 
 const FALLBACK_BLOG_IMAGE = '/imgs/logo-footer.png';
@@ -32,10 +33,11 @@ const BLOG_CATEGORIES = [
   { value: 'case-study', label: 'Case Studies' }
 ];
 
+const BLOG_LISTING_AD_SLOT = '1234567890';
+
 export default function BlogListing() {
   const { settings } = useSettings();
   const brandName = settings.businessName?.trim() || 'A3 Distributor';
-  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [allBlogs, setAllBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -164,6 +166,9 @@ export default function BlogListing() {
           </div>
         ) : (
           <>
+            <div className="blog-ads-container container">
+              <BlogAdUnit slot={BLOG_LISTING_AD_SLOT} className="blog-ads-unit" />
+            </div>
             {featuredPost && (
               <section className="blog-featured container">
                 <article className="blog-featured-card">
