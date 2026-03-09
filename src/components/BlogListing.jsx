@@ -5,7 +5,6 @@ import { supabase } from '../lib/supabase';
 import { useSettings } from '../hooks/useSettings';
 import { getBlogsWithFallback } from '../lib/blogFallback';
 import SEO from './SEO';
-import BlogAdUnit from './BlogAdUnit';
 import '../styles/blogListing.css';
 
 const FALLBACK_BLOG_IMAGE = '/imgs/logo-footer.png';
@@ -32,8 +31,6 @@ const BLOG_CATEGORIES = [
   { value: 'industry', label: 'Industry News' },
   { value: 'case-study', label: 'Case Studies' }
 ];
-
-const BLOG_LISTING_AD_SLOT = '8586466096';
 
 export default function BlogListing() {
   const { settings } = useSettings();
@@ -166,11 +163,6 @@ export default function BlogListing() {
           </div>
         ) : (
           <>
-            <BlogAdUnit 
-              slot={BLOG_LISTING_AD_SLOT} 
-              containerClassName="blog-ads-container container"
-              insClassName="blog-ads-unit"
-            />
             {featuredPost && (
               <section className="blog-featured container">
                 <article className="blog-featured-card">

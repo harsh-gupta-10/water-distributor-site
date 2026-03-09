@@ -274,7 +274,20 @@ export default function BlogPost() {
           </section>
         )}
       </div>
-
+      {/* Conversion CTA Section */}
+      <div className="blog-conversion-cta">
+        <div className="blog-conversion-content">
+          <h3>Need Bulk Water or Soft Drink Supply?</h3>
+          <ul className="conversion-benefits">
+            <li>✔ Fast delivery</li>
+            <li>✔ Competitive wholesale prices</li>
+            <li>✔ Reliable distributor network</li>
+          </ul>
+          <Link to="/#quotation" className="conversion-cta-btn">
+            Request a quotation today →
+          </Link>
+        </div>
+      </div>
       {/* AdSense Ad Container */}
       <BlogAdUnit 
         slot={BLOG_DETAIL_AD_SLOT} 
