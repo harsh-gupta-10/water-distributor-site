@@ -33,7 +33,7 @@ const BLOG_CATEGORIES = [
   { value: 'case-study', label: 'Case Studies' }
 ];
 
-const BLOG_LISTING_AD_SLOT = '1234567890';
+const BLOG_LISTING_AD_SLOT = '8586466096';
 
 export default function BlogListing() {
   const { settings } = useSettings();
@@ -166,9 +166,11 @@ export default function BlogListing() {
           </div>
         ) : (
           <>
-            <div className="blog-ads-container container">
-              <BlogAdUnit slot={BLOG_LISTING_AD_SLOT} className="blog-ads-unit" />
-            </div>
+            <BlogAdUnit 
+              slot={BLOG_LISTING_AD_SLOT} 
+              containerClassName="blog-ads-container container"
+              insClassName="blog-ads-unit"
+            />
             {featuredPost && (
               <section className="blog-featured container">
                 <article className="blog-featured-card">

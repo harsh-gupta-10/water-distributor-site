@@ -2,7 +2,8 @@
 .blog-post-container {
   max-width: 900px;
   margin: 0 auto;
-  padding: 48px 20px;
+  padding: 48px 20px 48px 20px;
+  padding-top: 118px;
   min-height: 100vh;
   background: #fff;
 }
@@ -401,6 +402,7 @@
 @media (max-width: 768px) {
   .blog-post-container {
     padding: 20px 16px;
+    padding-top: 104px;
   }
 
   .blog-post-title {
@@ -440,6 +442,7 @@
 @media (max-width: 480px) {
   .blog-post-container {
     padding: 16px 12px;
+    padding-top: 104px;
   }
 
   .back-button {

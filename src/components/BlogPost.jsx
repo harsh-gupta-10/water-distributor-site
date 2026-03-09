@@ -9,7 +9,7 @@ import BlogAdUnit from './BlogAdUnit';
 import '../styles/blogPost.css';
 
 const FALLBACK_BLOG_IMAGE = '/imgs/logo-footer.png';
-const BLOG_DETAIL_AD_SLOT = '1234567890';
+const BLOG_DETAIL_AD_SLOT = '2573632378';
 
 function resolveImageUrl(url) {
   if (!url) return FALLBACK_BLOG_IMAGE;
@@ -276,9 +276,11 @@ export default function BlogPost() {
       </div>
 
       {/* AdSense Ad Container */}
-      <div className="blog-post-ads">
-        <BlogAdUnit slot={BLOG_DETAIL_AD_SLOT} className="blog-ads-unit" />
-      </div>
+      <BlogAdUnit 
+        slot={BLOG_DETAIL_AD_SLOT} 
+        containerClassName="blog-post-ads"
+        insClassName="blog-ads-unit"
+      />
     </>
   );
 }

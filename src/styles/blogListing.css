@@ -430,7 +430,37 @@
     flex-direction: column;
   }
 
+  .blog-search-input {
+    width: 100%;
+  }
+
   .blog-search-btn {
+    width: 100%;
     min-height: 42px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-search-form {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .blog-search-input {
+    width: 100%;
+    padding: 10px 14px 10px 36px;
+    font-size: 14px;
+  }
+
+  .blog-search-btn {
+    width: 100%;
+    min-height: 38px;
+    font-size: 14px;
+  }
+
+  .blog-search-icon {
+    left: 10px;
+    width: 16px;
+    height: 16px;
   }
 }
