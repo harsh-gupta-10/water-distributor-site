@@ -18,6 +18,8 @@ import WholesaleDistributorPage from "./components/WholesaleDistributorPage";
 import NotFoundPage from "./components/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
 import SEO from "./components/SEO";
+import BlogListing from "./components/BlogListing";
+import BlogPost from "./components/BlogPost";
 
 // Admin Module
 import AdminLayout from "./admin/AdminLayout";
@@ -32,6 +34,7 @@ import InvoiceForm from "./admin/pages/InvoiceForm";
 import InvoiceView from "./admin/pages/InvoiceView";
 import AnalyticsPage from "./admin/pages/AnalyticsPage";
 import SettingsPage from "./admin/pages/SettingsPage";
+import BlogsPage from "./admin/pages/BlogsPage";
 import OrdersPage from "./admin/pages/OrdersPage";
 import OrderForm from "./admin/pages/OrderForm";
 import OrderView from "./admin/pages/OrderView";
@@ -107,6 +110,7 @@ function App() {
           <Route path="invoices/:id" element={<InvoiceView />} />
           <Route path="invoices/:id/edit" element={<InvoiceForm />} />
           <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="blogs" element={<BlogsPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
 
@@ -129,6 +133,16 @@ function App() {
         <Route path="/wholesale-distributor" element={
           <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
             <WholesaleDistributorPage />
+          </PublicLayout>
+        } />
+        <Route path="/blog" element={
+          <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+            <BlogListing />
+          </PublicLayout>
+        } />
+        <Route path="/blog/:slug" element={
+          <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+            <BlogPost />
           </PublicLayout>
         } />
         <Route path="*" element={

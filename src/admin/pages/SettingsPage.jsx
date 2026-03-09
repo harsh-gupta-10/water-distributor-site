@@ -32,6 +32,9 @@ export default function SettingsPage() {
         showProductPrice: siteConfig.showProductPrice,
         showProductStock: siteConfig.showProductStock,
         
+        // Blog Settings
+        showBlog: siteConfig.showBlog,
+        
         // Invoice Defaults
         defaultTaxRate: 18,
         invoicePrefix: 'INV',
@@ -410,6 +413,31 @@ export default function SettingsPage() {
                             </label>
                             <small style={{ color: '#6b7280', fontSize: '0.8rem' }}>
                                 Display current stock availability to customers
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Content Settings */}
+            <div className="card" style={{ marginBottom: 20 }}>
+                <div className="card__header">
+                    <h3 className="card__title">Content Settings</h3>
+                </div>
+                <div className="card__body">
+                    <div className="form-grid" style={{ gap: 16 }}>
+                        <div className="form-field">
+                            <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                <input 
+                                    type="checkbox"
+                                    checked={settings.showBlog}
+                                    onChange={e => updateSetting('showBlog', e.target.checked)}
+                                    style={{ width: 'auto', margin: 0 }}
+                                />
+                                Enable Blog Section
+                            </label>
+                            <small style={{ color: '#6b7280', fontSize: '0.8rem' }}>
+                                Display blog posts on the public website. Disable to hide the blog section.
                             </small>
                         </div>
                     </div>

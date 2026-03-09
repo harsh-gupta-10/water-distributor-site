@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Sparkles } from "lucide-react";
+import { useSettings } from "../hooks/useSettings";
 
 const logoImg = "/imgs/logo-footer.png";
 
@@ -10,6 +11,7 @@ const navLinks = [
   { label: "Services", href: "#services", type: "anchor" },
   { label: "Why Choose Us", href: "#why-us", type: "anchor" },
   { label: "About", href: "#about", type: "anchor" },
+  { label: "Blog", href: "/blog", type: "route" },
   { label: "Contact", href: "#contact", type: "anchor" },
 ];
 
@@ -18,6 +20,7 @@ export default function Navbar({ openModal }) {
   const [pastHero, setPastHero] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const location = useLocation();
+  const { settings } = useSettings();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,6 +50,20 @@ export default function Navbar({ openModal }) {
 
   const handleLinkClick = () => setIsMobileOpen(false);
 
+  const isAnchorActive = (href) => {
+    if (location.pathname !== "/") return false;
+    if (href === "#home") return location.hash === "" || location.hash === "#home";
+    return location.hash === href;
+  };
+
+  // Filter nav links based on settings
+  const visibleNavLinks = navLinks.filter(link => {
+    if (link.label === "Blog") {
+      return settings.showBlog !== false;
+    }
+    return true;
+  });
+
   return (
     <nav className={`navbar ${isScrolled ? "navbar--scrolled" : ""} ${isMobileOpen ? "navbar--menu-open" : ""}`}>
       <div className="navbar__container container">
@@ -64,7 +81,7 @@ export default function Navbar({ openModal }) {
         <ul
           className={`navbar__links ${isMobileOpen ? "navbar__links--open" : ""}`}
         >
-          {navLinks.map((link) => (
+          {visibleNavLinks.map((link) => (
             <li key={link.href}>
               {link.type === "route" ? (
                 <Link
@@ -75,13 +92,13 @@ export default function Navbar({ openModal }) {
                   {link.label}
                 </Link>
               ) : (
-                <a
-                  href={location.pathname === "/" ? link.href : `/${link.href}`}
-                  className="navbar__link"
+                <Link
+                  to={{ pathname: "/", hash: link.href }}
+                  className={`navbar__link ${isAnchorActive(link.href) ? "navbar__link--active" : ""}`}
                   onClick={handleLinkClick}
                 >
                   {link.label}
-                </a>
+                </Link>
               )}
             </li>
           ))}
