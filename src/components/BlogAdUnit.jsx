@@ -28,19 +28,17 @@ export default function BlogAdUnit({
     ensureAdSenseScript();
     if (typeof window === 'undefined') return;
 
-    // Set ready after a small delay to ensure script is loaded
-    const timer = setTimeout(() => {
-      try {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
-        setIsReady(true);
-      } catch {
-        // Ignore errors from fast route transitions
-        setIsReady(true);
-      }
-    }, 50);
-
-    return () => clearTimeout(timer);
+    setIsReady(true);
   }, []);
+
+  useEffect(() => {
+    if (!isReady) return;
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch {
+      // Ignore errors from fast route transitions or multiple pushes
+    }
+  }, [isReady]);
 
   // Don't render anything until ads are ready
   if (!isReady) {

@@ -137,6 +137,7 @@ export default function BlogPost() {
         title={blog.title}
         description={blog.meta_description || blog.excerpt}
         keywords={blog.meta_keywords || blog.tags || `${settings.businessName}, blog`}
+        image={blog.featured_image ? resolveImageUrl(blog.featured_image) : undefined}
       />
 
       <div className="blog-post-container">
@@ -204,6 +205,12 @@ export default function BlogPost() {
             </div>
           )}
 
+          <BlogAdUnit
+            slot={BLOG_DETAIL_AD_SLOT}
+            containerClassName="blog-post-ads"
+            insClassName="blog-ads-unit"
+          />
+
           {/* Content */}
           <div className="blog-post-content">
             <div
@@ -238,6 +245,12 @@ export default function BlogPost() {
             </div>
           </div>
         </article>
+
+        <BlogAdUnit
+          slot={BLOG_DETAIL_AD_SLOT}
+          containerClassName="blog-post-ads"
+          insClassName="blog-ads-unit"
+        />
 
         {/* Related Posts */}
         {relatedBlogs.length > 0 && (
