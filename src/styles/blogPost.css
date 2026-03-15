@@ -428,26 +428,14 @@
 .blog-post-ads {
   margin: 12px auto 50px;
   max-width: 900px;
-  min-height: 190px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: repeating-linear-gradient(
-    -45deg,
-    #f8fafc,
-    #f8fafc 12px,
-    #f1f5f9 12px,
-    #f1f5f9 24px
-  );
-  border: 1px dashed #b8c2d1;
   border-radius: 12px;
-  color: #475569;
-  font-weight: 600;
 }
 
 .blog-post-ads .blog-ads-unit {
   width: 100%;
-  min-height: 160px;
 }
 
 .blog-loading,
