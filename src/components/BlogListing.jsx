@@ -1,13 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Search } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useSettings } from '../hooks/useSettings';
 import { getBlogsWithFallback } from '../lib/blogFallback';
 import SEO from './SEO';
+import BlogAdUnit from './BlogAdUnit';
 import '../styles/blogListing.css';
 
 const FALLBACK_BLOG_IMAGE = '/imgs/logo-footer.png';
+const BLOG_LISTING_AD_SLOT = '2573632378'; // Re-using the known slot id, can be updated later.
 
 function resolveImageUrl(url) {
   if (!url) return FALLBACK_BLOG_IMAGE;
@@ -17,10 +20,6 @@ function resolveImageUrl(url) {
     return value;
   }
   return `/${value.replace(/^\/+/, '')}`;
-}
-
-function hasImage(url) {
-  return Boolean(url && String(url).trim());
 }
 
 const BLOG_CATEGORIES = [
@@ -126,10 +125,6 @@ export default function BlogListing() {
         title={pageTitle}
         description={pageDescription}
         keywords={`${brandName}, blog, water distribution, products, industry insights`}
-        canonicalUrl={canonicalUrl}
-        noindex={hasFilters}
-        ogType="website"
-        image="/imgs/og-image.jpg"
       />
 
       <div className="blog-listing-container">
@@ -173,7 +168,7 @@ export default function BlogListing() {
               <section className="blog-featured container">
                 <article className="blog-featured-card">
                   <Link to={`/blog/${featuredPost.slug}`} className="blog-featured-link">
-                    {hasImage(featuredPost.featured_image) ? (
+                    {featuredPost.featured_image ? (
                       <div className="blog-featured-media">
                         <img
                           src={resolveImageUrl(featuredPost.featured_image)}
@@ -209,9 +204,19 @@ export default function BlogListing() {
               </section>
             )}
 
+            {/* AdUnit between featured post and regular posts */}
+            <div className="container">
+              <BlogAdUnit
+                slot={BLOG_LISTING_AD_SLOT}
+                containerClassName="blog-ads-container"
+                insClassName="blog-ads-unit"
+              />
+            </div>
+
             <div className="blog-grid container">
-              {displayedBlogs.map(blog => (
-                <article key={blog.id} className="blog-card">
+              {displayedBlogs.map((blog, idx) => (
+                <React.Fragment key={blog.id}>
+                <article className="blog-card">
                   <Link to={`/blog/${blog.slug}`} className="blog-card-link">
                     {blog.featured_image && (
                       <div className="blog-image">
@@ -243,7 +248,27 @@ export default function BlogListing() {
                     </div>
                   </Link>
                 </article>
+                {/* Insert an ad after the 4th post in the grid, if there are more than 4 posts */}
+                {idx === 3 && displayedBlogs.length > 4 && (
+                  <div className="blog-grid-ad-container" style={{ gridColumn: '1 / -1' }}>
+                    <BlogAdUnit
+                      slot={BLOG_LISTING_AD_SLOT}
+                      containerClassName="blog-ads-container"
+                      insClassName="blog-ads-unit"
+                    />
+                  </div>
+                )}
+                </React.Fragment>
               ))}
+            </div>
+
+            {/* Bottom Ad Unit */}
+            <div className="container">
+              <BlogAdUnit
+                slot={BLOG_LISTING_AD_SLOT}
+                containerClassName="blog-ads-container"
+                insClassName="blog-ads-unit"
+              />
             </div>
 
             {/* Pagination */}

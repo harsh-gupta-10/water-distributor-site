@@ -18,6 +18,22 @@ export default function SEO({
     // Update title
     if (title) {
       document.title = `${title} | A3Distributors`;
+
+      let ogTitle = document.querySelector('meta[property="og:title"]');
+      if (!ogTitle) {
+        ogTitle = document.createElement('meta');
+        ogTitle.setAttribute('property', 'og:title');
+        document.head.appendChild(ogTitle);
+      }
+      ogTitle.setAttribute('content', `${title} | A3Distributors`);
+
+      let twitterTitle = document.querySelector('meta[name="twitter:title"]');
+      if (!twitterTitle) {
+        twitterTitle = document.createElement('meta');
+        twitterTitle.setAttribute('name', 'twitter:title');
+        document.head.appendChild(twitterTitle);
+      }
+      twitterTitle.setAttribute('content', `${title} | A3Distributors`);
     }
 
     // Update meta description
@@ -26,6 +42,22 @@ export default function SEO({
       if (metaDescription) {
         metaDescription.setAttribute('content', description);
       }
+
+      let ogDescription = document.querySelector('meta[property="og:description"]');
+      if (!ogDescription) {
+        ogDescription = document.createElement('meta');
+        ogDescription.setAttribute('property', 'og:description');
+        document.head.appendChild(ogDescription);
+      }
+      ogDescription.setAttribute('content', description);
+
+      let twitterDescription = document.querySelector('meta[name="twitter:description"]');
+      if (!twitterDescription) {
+        twitterDescription = document.createElement('meta');
+        twitterDescription.setAttribute('name', 'twitter:description');
+        document.head.appendChild(twitterDescription);
+      }
+      twitterDescription.setAttribute('content', description);
     }
 
     // Update meta keywords
@@ -34,49 +66,6 @@ export default function SEO({
       if (metaKeywords) {
         metaKeywords.setAttribute('content', keywords);
       }
-    }
-
-    // Update robots
-    const robots = document.querySelector('meta[name="robots"]');
-    if (robots) {
-      robots.setAttribute(
-        'content',
-        noindex
-          ? 'noindex, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
-          : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
-      );
-    }
-
-    // Update Open Graph tags
-    const ogTypeTag = document.querySelector('meta[property="og:type"]');
-    if (ogTypeTag) ogTypeTag.setAttribute('content', ogType);
-
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle && title) ogTitle.setAttribute('content', `${title} | A3Distributors`);
-
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription && description) ogDescription.setAttribute('content', description);
-
-    const ogImage = document.querySelector('meta[property="og:image"]');
-    if (ogImage) ogImage.setAttribute('content', resolvedImage);
-
-    const ogUrl = document.querySelector('meta[property="og:url"]');
-    if (ogUrl) ogUrl.setAttribute('content', resolvedCanonical);
-
-    // Update Twitter card tags
-    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
-    if (twitterTitle && title) twitterTitle.setAttribute('content', `${title} | A3Distributors`);
-
-    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
-    if (twitterDescription && description) twitterDescription.setAttribute('content', description);
-
-    const twitterImage = document.querySelector('meta[name="twitter:image"]');
-    if (twitterImage) twitterImage.setAttribute('content', resolvedImage);
-
-    // Update canonical
-    const canonical = document.querySelector('link[rel="canonical"]');
-    if (canonical) {
-      canonical.setAttribute('href', resolvedCanonical);
     }
 
     // Remove any existing structured data scripts to prevent duplicates
@@ -117,8 +106,17 @@ export default function SEO({
       // Cleanup on unmount
       const scripts = document.querySelectorAll('script[type="application/ld+json"][data-schema]');
       scripts.forEach(script => script.remove());
+
+      // Cleanup dynamically added meta tags for OG/Twitter
+      const dynamicMetaTags = document.querySelectorAll(
+        'meta[property="og:title"], meta[name="twitter:title"], ' +
+        'meta[property="og:description"], meta[name="twitter:description"], ' +
+        'meta[property="og:image"], meta[name="twitter:image"], ' +
+        'meta[name="twitter:card"]'
+      );
+      dynamicMetaTags.forEach(tag => tag.remove());
     };
-  }, [title, description, keywords, image, includeFAQ, canonicalUrl, ogType, noindex]);
+  }, [title, description, keywords, includeFAQ]);
 
   return null;
 }
