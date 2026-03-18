@@ -70,7 +70,7 @@ export default function Navbar({ openModal }) {
         <Link to="/" className="navbar__logo">
           <img
             src={logoImg}
-            alt="A3 Distributors"
+            alt="A3Distributor"
             className="navbar__logo-img"
             width={320}
             height={84}

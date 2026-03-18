@@ -135,7 +135,7 @@ export default function Contact({ inline = false }) {
                       Open on Maps
                     </a>
                     <iframe
-                      title="A3 Distributors Location"
+                      title="A3Distributor Location"
                       src={siteConfig.googleMapsEmbed}
                       width="100%"
                       height="100%"

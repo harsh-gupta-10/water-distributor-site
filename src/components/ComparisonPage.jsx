@@ -82,7 +82,7 @@ export default function ComparisonPage() {
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
-      "Hi, I'd like to learn more about A3 Distributor's services after comparing with other local distributors."
+      "Hi, I'd like to learn more about A3Distributor's services after comparing with other local distributors."
     );
     window.open(`https://wa.me/${siteConfig.whatsappNumber}?text=${message}`, "_blank");
   };
@@ -94,8 +94,8 @@ export default function ComparisonPage() {
   return (
     <>
       <SEO 
-        title="A3 Distributor vs Other Local Distributors - Comparison"
-        description="Compare A3 Distributor with other local wholesale distributors. See why we offer better pricing, faster delivery, wider product selection, and superior customer support for water and beverage distribution."
+        title="A3Distributor vs Other Local Distributors - Comparison"
+        description="Compare A3Distributor with other local wholesale distributors. See why we offer better pricing, faster delivery, wider product selection, and superior customer support for water and beverage distribution."
         keywords="A3 comparison, wholesale distributor comparison, best local distributor, beverage wholesale India, water distributor Mumbai comparison, distributor vs distributor"
       />
       
@@ -106,11 +106,11 @@ export default function ComparisonPage() {
             <div className={`comparison-hero__content ${heroInView ? "animate-fadeInUp" : ""}`}>
               <span className="section-label">Smart Sourcing Comparison</span>
               <h1 className="comparison-hero__title">
-                A3 Distributor vs Other Local Distributors
+                A3Distributor vs Other Local Distributors
               </h1>
               <div className="mandala-divider" />
               <p className="comparison-hero__subtitle">
-                Why thousands of Indian businesses choose A3 Distributor over other local suppliers 
+                Why thousands of Indian businesses choose A3Distributor over other local suppliers 
                 for reliable, cost-effective wholesale water & beverage distribution.
               </p>
             </div>
@@ -134,7 +134,7 @@ export default function ComparisonPage() {
                   <tr>
                     <th className="comparison-table__header">Feature</th>
                     <th className="comparison-table__header comparison-table__header--a3">
-                      A3 Distributor
+                      A3Distributor
                       <span className="comparison-table__badge">Recommended</span>
                     </th>
                     <th className="comparison-table__header">Other Local Distributors</th>
@@ -156,7 +156,7 @@ export default function ComparisonPage() {
                   <div className="comparison-mobile-card__row comparison-mobile-card__row--a3">
                     <div className="comparison-mobile-card__label">
                       <Check size={16} />
-                      <strong>A3 Distributor</strong>
+                      <strong>A3Distributor</strong>
                     </div>
                     <p>{item.a3}</p>
                   </div>
@@ -179,7 +179,7 @@ export default function ComparisonPage() {
             <div className={`comparison-cta__content ${ctaInView ? "animate-fadeInUp" : ""}`}>
               <h2>Ready to Experience Better Wholesale?</h2>
               <p>
-                Join hundreds of satisfied businesses already saving time and money with A3 Distributor. 
+                Join hundreds of satisfied businesses already saving time and money with A3Distributor. 
                 No long-term commitments. No hidden fees. Just honest, reliable service.
               </p>
               <div className="comparison-cta__buttons">

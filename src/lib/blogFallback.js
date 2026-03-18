@@ -22,7 +22,7 @@ function normalizeBlog(raw, index = 0) {
     excerpt: String(raw?.excerpt || '').trim(),
     content: String(raw?.content || '').trim(),
     featured_image: raw?.featured_image || '',
-    author: String(raw?.author || 'A3 Distributor').trim(),
+    author: String(raw?.author || 'A3Distributor').trim(),
     category: String(raw?.category || 'business').trim(),
     tags: String(raw?.tags || '').trim(),
     status: String(raw?.status || 'published').trim(),

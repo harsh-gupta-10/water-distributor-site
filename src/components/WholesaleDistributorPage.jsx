@@ -155,7 +155,7 @@ export default function WholesaleDistributorPage() {
     <>
       <SEO 
         title="Best Wholesale Water & Beverage Distributor in Mumbai"
-        description="A3 Distributor is Mumbai's leading wholesale water and beverage supplier. Best prices, 500+ products, same-day delivery. Serving small businesses to large enterprises. GST billing, flexible payment terms."
+        description="A3Distributor is Mumbai's leading wholesale water and beverage supplier. Best prices, 500+ products, same-day delivery. Serving small businesses to large enterprises. GST billing, flexible payment terms."
         keywords="best wholesale distributor, wholesale water distributor, beverage distributor Mumbai, bulk water supply, wholesale drinks supplier, water distributor near me, beverage wholesale India, drink distributor, soft drink wholesale"
       />
       
@@ -208,7 +208,7 @@ export default function WholesaleDistributorPage() {
           <div className="container">
             <div className={`section-header ${featuresInView ? "animate-fadeInUp" : ""}`}>
               <span className="section-label">Core Features</span>
-              <h2 className="section-title">Why Businesses Choose A3 Distributor</h2>
+              <h2 className="section-title">Why Businesses Choose A3Distributor</h2>
               <div className="mandala-divider" />
             </div>
 
@@ -279,7 +279,7 @@ export default function WholesaleDistributorPage() {
             <div className={`wholesale-cta__content ${ctaInView ? "animate-fadeInUp" : ""}`}>
               <h2>Ready to Start Saving on Wholesale Orders?</h2>
               <p>
-                Join hundreds of successful businesses already partnering with A3 Distributor. 
+                Join hundreds of successful businesses already partnering with A3Distributor. 
                 Get your customized quote in under 5 minutes. No commitments, no pressure.
               </p>
               <div className="wholesale-cta__buttons">

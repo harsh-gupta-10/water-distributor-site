@@ -39,7 +39,7 @@ export default function Footer() {
             <Link to="/" className="footer__logo">
               <img
                 src={logoImg}
-                alt="A3 Distributors"
+                alt="A3Distributor"
                 className="footer__logo-img"
                 width={200}
                 height={52}

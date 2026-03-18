@@ -5,11 +5,28 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /private/
-Disallow: *.js$
-Disallow: *.css$
 Disallow: *?*sort=
 Disallow: *?*page=*&sort=
 Crawl-delay: 1
+
+# AI and answer engine bots
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
 
 # Google
 User-agent: Googlebot
@@ -23,3 +40,6 @@ Crawl-delay: 1
 
 # Sitemap
 Sitemap: https://a3distributors.com/sitemap.xml
+
+# LLM guide
+# https://a3distributors.com/llms.txt

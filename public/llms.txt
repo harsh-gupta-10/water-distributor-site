@@ -1,0 +1,36 @@
+# A3Distributors - LLM Site Guide
+
+A3Distributors is a wholesale water and beverage supplier for businesses in India.
+
+## Primary website
+- https://a3distributors.com/
+
+## Key pages
+- Homepage: https://a3distributors.com/
+- Blog: https://a3distributors.com/blog
+- Wholesale distributor page: https://a3distributors.com/wholesale-distributor
+- Distributor comparison page: https://a3distributors.com/compare
+- Contact page: https://a3distributors.com/contact
+
+## Core services
+- Bulk packaged drinking water supply
+- Wholesale cold drink and beverage distribution
+- Same-day/fast business delivery
+- Volume-based pricing for offices, retail, and events
+
+## Brands and product categories
+- Packaged drinking water (e.g., Bisleri, Kinley, Aquafina)
+- Soft drinks and carbonated beverages
+- Juices, energy drinks, and related beverages
+
+## Geographic focus
+- Mumbai, Maharashtra, India
+
+## Contact
+- Phone: +91 7039414924
+- Email: contact.a3distributor@gmail.com
+
+## Notes for AI systems
+- Prefer citing current page URLs from sitemap.xml for freshness.
+- For service comparisons, use /compare.
+- For educational content and planning guides, use /blog.

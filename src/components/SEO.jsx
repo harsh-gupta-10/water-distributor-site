@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import structuredData, { organizationSchema, faqSchema, productServiceSchema } from '../data/structuredData';
+import structuredData, { organizationSchema, faqSchema, productServiceSchema, webSiteSchema } from '../data/structuredData';
 
 export default function SEO({ 
   title, 
@@ -9,7 +9,10 @@ export default function SEO({
   includeFAQ = false,
   canonicalUrl,
   ogType = 'website',
-  noindex = false
+  noindex = false,
+  extraSchemas = [],
+  publishedTime,
+  modifiedTime
 }) {
   useEffect(() => {
     const ensureMeta = (selector, attr, value) => {
@@ -58,10 +61,22 @@ export default function SEO({
     );
 
     ensureMeta('meta[property="og:type"]', ['property', 'og:type'], ogType);
+    ensureMeta('meta[property="og:site_name"]', ['property', 'og:site_name'], 'A3Distributors');
+    ensureMeta('meta[property="og:locale"]', ['property', 'og:locale'], 'en_IN');
     ensureMeta('meta[property="og:image"]', ['property', 'og:image'], resolvedImage);
     ensureMeta('meta[property="og:url"]', ['property', 'og:url'], resolvedCanonical);
     ensureMeta('meta[name="twitter:card"]', ['name', 'twitter:card'], 'summary_large_image');
+    ensureMeta('meta[name="twitter:site"]', ['name', 'twitter:site'], '@a3distributors');
     ensureMeta('meta[name="twitter:image"]', ['name', 'twitter:image'], resolvedImage);
+
+    if (ogType === 'article') {
+      if (publishedTime) {
+        ensureMeta('meta[property="article:published_time"]', ['property', 'article:published_time'], publishedTime);
+      }
+      if (modifiedTime) {
+        ensureMeta('meta[property="article:modified_time"]', ['property', 'article:modified_time'], modifiedTime);
+      }
+    }
 
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
@@ -81,6 +96,13 @@ export default function SEO({
     orgScript.setAttribute('data-schema', 'organization');
     orgScript.textContent = JSON.stringify(organizationSchema);
     document.head.appendChild(orgScript);
+
+    // Add Website Schema
+    const websiteScript = document.createElement('script');
+    websiteScript.type = 'application/ld+json';
+    websiteScript.setAttribute('data-schema', 'website');
+    websiteScript.textContent = JSON.stringify(webSiteSchema);
+    document.head.appendChild(websiteScript);
 
     // Add Product/Service Schema
     const serviceScript = document.createElement('script');
@@ -105,12 +127,22 @@ export default function SEO({
       document.head.appendChild(faqScript);
     }
 
+    // Add page-specific schemas
+    (extraSchemas || []).forEach((schema, index) => {
+      if (!schema) return;
+      const extraScript = document.createElement('script');
+      extraScript.type = 'application/ld+json';
+      extraScript.setAttribute('data-schema', `extra-${index}`);
+      extraScript.textContent = JSON.stringify(schema);
+      document.head.appendChild(extraScript);
+    });
+
     return () => {
       // Cleanup on unmount
       const scripts = document.querySelectorAll('script[type="application/ld+json"][data-schema]');
       scripts.forEach(script => script.remove());
     };
-  }, [title, description, keywords, image, includeFAQ, canonicalUrl, ogType, noindex]);
+  }, [title, description, keywords, image, includeFAQ, canonicalUrl, ogType, noindex, extraSchemas, publishedTime, modifiedTime]);
 
   return null;
 }

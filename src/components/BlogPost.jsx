@@ -96,8 +96,16 @@ export default function BlogPost() {
       },
       publisher: {
         '@type': 'Organization',
-        name: settings.businessName
-      }
+        '@id': 'https://a3distributors.com/#organization',
+        name: settings.businessName,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${window.location.origin}/imgs/logos/logo.png`
+        }
+      },
+      inLanguage: 'en-IN',
+      articleSection: blog.category,
+      keywords: blog.meta_keywords || blog.tags || undefined
     };
 
     const existingBlogSchemas = document.querySelectorAll('script[type="application/ld+json"][data-schema="blog"]');
@@ -144,6 +152,8 @@ export default function BlogPost() {
         image={seoImage}
         canonicalUrl={canonicalUrl}
         ogType="article"
+        publishedTime={blog.published_at}
+        modifiedTime={blog.updated_at}
       />
 
       <div className="blog-post-container">

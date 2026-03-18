@@ -30,7 +30,7 @@ const BLOG_CATEGORIES = [
 
 export default function BlogListing() {
   const { settings } = useSettings();
-  const brandName = settings.businessName?.trim() || 'A3 Distributor';
+  const brandName = settings.businessName?.trim() || 'A3Distributor';
   const [searchParams, setSearchParams] = useSearchParams();
   const [allBlogs, setAllBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,6 +70,9 @@ export default function BlogListing() {
 
   const featuredPost = filteredBlogs[0] || null;
   const regularPosts = featuredPost ? filteredBlogs.slice(1) : [];
+  const twoCardRowMode = filteredBlogs.length === 2;
+  const pairedPost = twoCardRowMode ? (regularPosts[0] || null) : null;
+  const gridPosts = twoCardRowMode ? regularPosts.slice(1) : regularPosts;
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -99,10 +102,10 @@ export default function BlogListing() {
     setSearchParams(next);
   };
 
-  const totalPages = Math.ceil(regularPosts.length / postsPerPage);
+  const totalPages = Math.ceil(gridPosts.length / postsPerPage);
   const startIdx = (currentPage - 1) * postsPerPage;
   const endIdx = startIdx + postsPerPage;
-  const displayedBlogs = regularPosts.slice(startIdx, endIdx);
+  const displayedBlogs = gridPosts.slice(startIdx, endIdx);
 
   useEffect(() => {
     setCurrentPage(1);
@@ -116,6 +119,69 @@ export default function BlogListing() {
   const hasFilters = Boolean(searchQuery.trim() || (selectedCategory && selectedCategory !== 'all'));
   const canonicalUrl = `${window.location.origin}/blog`;
 
+  const blogCollectionSchema = useMemo(() => {
+    if (hasFilters) return null;
+
+    const items = filteredBlogs.slice(0, 20).map((blog, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      url: `${window.location.origin}/blog/${blog.slug}`,
+      name: blog.title,
+    }));
+
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'CollectionPage',
+      name: `${brandName} Blog`,
+      url: canonicalUrl,
+      description: pageDescription,
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: items,
+      },
+    };
+  }, [hasFilters, filteredBlogs, brandName, canonicalUrl, pageDescription]);
+
+  function renderBlogCard(blog, { featured = false } = {}) {
+    return (
+      <article className={`blog-card${featured ? ' blog-card--featured' : ''}`} key={blog.id}>
+        <Link to={`/blog/${blog.slug}`} className="blog-card-link">
+          {blog.featured_image ? (
+            <div className="blog-image">
+              <img
+                src={resolveImageUrl(blog.featured_image)}
+                alt={blog.title}
+                onError={(e) => {
+                  if (e.currentTarget.src !== window.location.origin + FALLBACK_BLOG_IMAGE) {
+                    e.currentTarget.src = FALLBACK_BLOG_IMAGE;
+                  }
+                }}
+              />
+              <span className="blog-category-badge">{blog.category}</span>
+            </div>
+          ) : (
+            <div className="blog-image blog-image--placeholder" aria-hidden="true" />
+          )}
+          <div className="blog-content">
+            {featured && <span className="blog-featured-badge">Featured</span>}
+            <h2 className="blog-title">{blog.title}</h2>
+            <p className="blog-excerpt">{blog.excerpt}</p>
+            <div className="blog-meta">
+              <span className="blog-author">By {blog.author || brandName}</span>
+              <span className="blog-date">
+                {new Date(blog.published_at || blog.created_at).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                })}
+              </span>
+            </div>
+          </div>
+        </Link>
+      </article>
+    );
+  }
+
   return (
     <>
       <SEO
@@ -126,146 +192,104 @@ export default function BlogListing() {
         noindex={hasFilters}
         ogType="website"
         image="/imgs/og-image.jpg"
+        extraSchemas={blogCollectionSchema ? [blogCollectionSchema] : []}
       />
 
       <div className="blog-listing-container">
-        <div className="blog-controls container">
-          <form onSubmit={handleSearch} className="blog-search-form">
-            <Search size={18} className="blog-search-icon" />
-            <input
-              type="text"
-              placeholder="Search blog posts..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="blog-search-input"
-            />
-            <button type="submit" className="blog-search-btn">Search</button>
-          </form>
+        <div className="blog-shell">
+          <div className="blog-controls">
+            <form onSubmit={handleSearch} className="blog-search-form">
+              <Search size={18} className="blog-search-icon" />
+              <input
+                type="text"
+                placeholder="Search blog posts..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="blog-search-input"
+              />
+              <button type="submit" className="blog-search-btn">Search</button>
+            </form>
 
-          <div className="blog-categories">
-            {BLOG_CATEGORIES.map(category => (
-              <button
-                key={category.value}
-                type="button"
-                className={`category-btn ${selectedCategory === category.value ? 'active' : ''}`}
-                onClick={() => handleCategoryChange(category.value)}
-              >
-                {category.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {loading ? (
-          <div className="blog-loading">Loading blog posts...</div>
-        ) : filteredBlogs.length === 0 ? (
-          <div className="blog-empty">
-            <h3>No matching posts found</h3>
-            <p>Try another keyword or browse a different category.</p>
-          </div>
-        ) : (
-          <>
-            {featuredPost && (
-              <section className="blog-featured container">
-                <article className="blog-featured-card">
-                  <Link to={`/blog/${featuredPost.slug}`} className="blog-featured-link">
-                    {featuredPost.featured_image ? (
-                      <div className="blog-featured-media">
-                        <img
-                          src={resolveImageUrl(featuredPost.featured_image)}
-                          alt={featuredPost.title}
-                          onError={(e) => {
-                            e.currentTarget.closest('.blog-featured-media')?.classList.add('blog-featured-media--placeholder');
-                            e.currentTarget.style.display = 'none';
-                          }}
-                        />
-                      </div>
-                    ) : (
-                      <div className="blog-featured-media blog-featured-media--placeholder" aria-hidden="true">
-                        <div className="blog-featured-placeholder-text">Top Story</div>
-                      </div>
-                    )}
-                    <div className="blog-featured-body">
-                      <span className="blog-featured-label">Featured Story</span>
-                      <h2>{featuredPost.title}</h2>
-                      <p>{featuredPost.excerpt}</p>
-                      <div className="blog-meta">
-                        <span className="blog-author">By {featuredPost.author || brandName}</span>
-                        <span className="blog-date">
-                          {new Date(featuredPost.published_at || featuredPost.created_at).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </article>
-              </section>
-            )}
-
-            <div className="blog-grid container">
-              {displayedBlogs.map((blog) => (
-                <article className="blog-card">
-                  <Link to={`/blog/${blog.slug}`} className="blog-card-link">
-                    {blog.featured_image && (
-                      <div className="blog-image">
-                        <img
-                          src={resolveImageUrl(blog.featured_image)}
-                          alt={blog.title}
-                          onError={(e) => {
-                            if (e.currentTarget.src !== window.location.origin + FALLBACK_BLOG_IMAGE) {
-                              e.currentTarget.src = FALLBACK_BLOG_IMAGE;
-                            }
-                          }}
-                        />
-                        <span className="blog-category-badge">{blog.category}</span>
-                      </div>
-                    )}
-                    <div className="blog-content">
-                      <h2 className="blog-title">{blog.title}</h2>
-                      <p className="blog-excerpt">{blog.excerpt}</p>
-                      <div className="blog-meta">
-                        <span className="blog-author">By {blog.author || brandName}</span>
-                        <span className="blog-date">
-                          {new Date(blog.published_at || blog.created_at).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                </article>
+            <div className="blog-categories">
+              {BLOG_CATEGORIES.map(category => (
+                <button
+                  key={category.value}
+                  type="button"
+                  className={`category-btn ${selectedCategory === category.value ? 'active' : ''}`}
+                  onClick={() => handleCategoryChange(category.value)}
+                >
+                  {category.label}
+                </button>
               ))}
             </div>
+          </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <div className="blog-pagination">
-                <button
-                  onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                  disabled={currentPage === 1}
-                  className="pagination-btn"
-                >
-                  ← Previous
-                </button>
-                <div className="pagination-info">
-                  Page {currentPage} of {totalPages}
-                </div>
-                <button
-                  onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                  disabled={currentPage === totalPages}
-                  className="pagination-btn"
-                >
-                  Next →
-                </button>
+          {loading ? (
+            <div className="blog-loading">Loading blog posts...</div>
+          ) : filteredBlogs.length === 0 ? (
+            <div className="blog-empty">
+              <h3>No matching posts found</h3>
+              <p>Try another keyword or browse a different category.</p>
+            </div>
+          ) : (
+            <>
+              {featuredPost && (
+                <section className={`blog-featured-wrap ${twoCardRowMode ? 'blog-featured-wrap--paired' : 'blog-featured-wrap--full'}`}>
+                  {renderBlogCard(featuredPost, { featured: true })}
+                  {pairedPost && renderBlogCard(pairedPost)}
+                </section>
+              )}
+
+              <div className="blog-grid">
+                {displayedBlogs.map((blog) => renderBlogCard(blog))}
               </div>
-            )}
-          </>
-        )}
+
+              <section className="blog-suggestions" aria-label="Suggested next steps">
+                <h2 className="blog-suggestions__title">Suggested Next Steps</h2>
+                <div className="blog-suggestions__grid">
+                  <Link to="/wholesale-distributor" className="blog-suggestion-card">
+                    <h3>Need Bulk Water Supply?</h3>
+                    <p>See wholesale plans, delivery coverage, and business pricing options.</p>
+                    <span>Explore wholesale →</span>
+                  </Link>
+                  <Link to="/compare" className="blog-suggestion-card">
+                    <h3>Compare Distributors</h3>
+                    <p>Check side-by-side comparison to choose the best partner for your business.</p>
+                    <span>View comparison →</span>
+                  </Link>
+                  <Link to="/#quotation" className="blog-suggestion-card">
+                    <h3>Get a Quick Quotation</h3>
+                    <p>Tell us your requirement and get a customized quote for your team.</p>
+                    <span>Request quote →</span>
+                  </Link>
+                </div>
+              </section>
+
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="blog-pagination">
+                  <button
+                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                    className="pagination-btn"
+                  >
+                    ← Previous
+                  </button>
+                  <div className="pagination-info">
+                    Page {currentPage} of {totalPages}
+                  </div>
+                  <button
+                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                    disabled={currentPage === totalPages}
+                    className="pagination-btn"
+                  >
+                    Next →
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </>
   );
