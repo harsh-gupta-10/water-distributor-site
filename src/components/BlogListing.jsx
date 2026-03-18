@@ -117,6 +117,8 @@ export default function BlogListing() {
     : `Blog - ${brandName}`;
 
   const pageDescription = `Explore the ${brandName} blog for insights on water distribution, products, industry news, and business tips.`;
+  const hasFilters = Boolean(searchQuery.trim() || (selectedCategory && selectedCategory !== 'all'));
+  const canonicalUrl = `${window.location.origin}/blog`;
 
   return (
     <>
@@ -124,6 +126,10 @@ export default function BlogListing() {
         title={pageTitle}
         description={pageDescription}
         keywords={`${brandName}, blog, water distribution, products, industry insights`}
+        canonicalUrl={canonicalUrl}
+        noindex={hasFilters}
+        ogType="website"
+        image="/imgs/og-image.jpg"
       />
 
       <div className="blog-listing-container">

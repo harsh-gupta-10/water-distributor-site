@@ -5,13 +5,26 @@ import { saveBlogsToCache } from '../../lib/blogFallback';
 import { useToast } from '../components/Toast';
 import Modal from '../components/Modal';
 
+const BLOG_IMAGE_BUCKET = import.meta.env.VITE_SUPABASE_MEDIA_BUCKET || import.meta.env.VITE_SUPABASE_BLOG_BUCKET || 'media';
+const MAX_BLOG_IMAGE_SIZE_BYTES = 50 * 1024 * 1024;
+
+function normalizeFileName(name) {
+    return name
+        .toLowerCase()
+        .replace(/[^a-z0-9.-]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+}
+
 export default function BlogsPage() {
     const toast = useToast();
     const fallbackFileInputRef = useRef(null);
     const singleBlogFileInputRef = useRef(null);
+    const featuredImageFileInputRef = useRef(null);
     const [blogs, setBlogs] = useState([]);
     const [filteredBlogs, setFilteredBlogs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [uploadingImage, setUploadingImage] = useState(false);
     const [search, setSearch] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [editingId, setEditingId] = useState(null);
@@ -236,6 +249,62 @@ export default function BlogsPage() {
         singleBlogFileInputRef.current?.click();
     }
 
+    function handleFeaturedImageUploadClick() {
+        featuredImageFileInputRef.current?.click();
+    }
+
+    async function processFeaturedImageUpload(event) {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const lowerName = file.name.toLowerCase();
+        const isWebp = file.type === 'image/webp' && lowerName.endsWith('.webp');
+        if (!isWebp) {
+            toast('Only .webp images are allowed', 'error');
+            event.target.value = '';
+            return;
+        }
+
+        if (file.size > MAX_BLOG_IMAGE_SIZE_BYTES) {
+            toast('Image too large. Maximum allowed size is 50MB.', 'error');
+            event.target.value = '';
+            return;
+        }
+
+        setUploadingImage(true);
+        try {
+            const fileExt = (file.name.split('.').pop() || 'jpg').toLowerCase();
+            const baseName = normalizeFileName(file.name.replace(/\.[^.]+$/, '')) || 'blog-image';
+            const slugPart = form.slug ? normalizeFileName(form.slug) : 'unslugged';
+            const filePath = `blogs/${slugPart}-${Date.now()}-${baseName}.${fileExt}`;
+
+            const { error: uploadError } = await supabase.storage
+                .from(BLOG_IMAGE_BUCKET)
+                .upload(filePath, file, {
+                    cacheControl: '31536000',
+                    upsert: false,
+                });
+
+            if (uploadError) throw uploadError;
+
+            const { data: publicData } = supabase.storage
+                .from(BLOG_IMAGE_BUCKET)
+                .getPublicUrl(filePath);
+
+            if (!publicData?.publicUrl) {
+                throw new Error('Upload succeeded but public URL could not be generated.');
+            }
+
+            setForm((prev) => ({ ...prev, featured_image: publicData.publicUrl }));
+            toast('Featured image uploaded successfully', 'success');
+        } catch (error) {
+            toast('Image upload failed: ' + error.message, 'error');
+        } finally {
+            setUploadingImage(false);
+            event.target.value = '';
+        }
+    }
+
     async function processSingleBlogImport(event) {
         const file = event.target.files?.[0];
         if (!file) return;
@@ -358,6 +427,13 @@ export default function BlogsPage() {
                 accept=".json"
                 style={{ display: 'none' }}
                 onChange={processSingleBlogImport}
+            />
+            <input
+                ref={featuredImageFileInputRef}
+                type="file"
+                accept="image/webp,.webp"
+                style={{ display: 'none' }}
+                onChange={processFeaturedImageUpload}
             />
 
             <div className="page-header">
@@ -495,6 +571,27 @@ export default function BlogsPage() {
                                 onChange={e => setForm({ ...form, featured_image: e.target.value })}
                                 placeholder="/imgs/blog/post.webp"
                             />
+                            <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
+                                <button
+                                    type="button"
+                                    className="btn-admin btn-admin--secondary"
+                                    onClick={handleFeaturedImageUploadClick}
+                                    disabled={uploadingImage}
+                                >
+                                    {uploadingImage ? 'Uploading...' : 'Upload to Supabase'}
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn-admin btn-admin--secondary"
+                                    onClick={() => setForm({ ...form, featured_image: '' })}
+                                    disabled={!form.featured_image || uploadingImage}
+                                >
+                                    Clear
+                                </button>
+                            </div>
+                            <small style={{ color: '#6b7280', marginTop: 6, display: 'block' }}>
+                                Upload limit: 50MB. Bucket: {BLOG_IMAGE_BUCKET}
+                            </small>
                         </div>
                         <div className="form-field">
                             <label>Category</label>
@@ -555,7 +652,9 @@ export default function BlogsPage() {
                             placeholder="Search engine description (max 160 chars)"
                             rows={2}
                         />
-                        <small style={{ color: '#6b7280', marginTop: 4, display: 'block' }}>Characters: {form.meta_description.length}/160</small>
+                        <small style={{ color: '#6b7280', marginTop: 4, display: 'block' }}>
+                            Characters: {form.meta_description.length}/160{form.meta_description.length > 160 ? ' (too long)' : ''}
+                        </small>
                     </div>
 
                     <div className="form-field form-field--full">

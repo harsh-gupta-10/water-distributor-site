@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import {
     LayoutDashboard, FileText, Users, Package, Receipt,
-    CreditCard, BarChart3, Settings, LogOut, ChevronLeft, ChevronRight, Droplets, ShoppingCart, Image, BookOpen
+    CreditCard, BarChart3, Settings, LogOut, ChevronLeft, ChevronRight, Droplets, ShoppingCart, Image, BookOpen, Upload
 } from 'lucide-react';
 
 const navItems = [
@@ -24,6 +24,7 @@ const navItems = [
     {
         group: 'Content', items: [
             { to: '/admin/blogs', icon: BookOpen, label: 'Blogs' },
+            { to: '/admin/uploads', icon: Upload, label: 'Uploads' },
         ]
     },
     {

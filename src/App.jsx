@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -18,26 +18,28 @@ import WholesaleDistributorPage from "./components/WholesaleDistributorPage";
 import NotFoundPage from "./components/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
 import SEO from "./components/SEO";
-import BlogListing from "./components/BlogListing";
-import BlogPost from "./components/BlogPost";
+
+const BlogListing = lazy(() => import("./components/BlogListing"));
+const BlogPost = lazy(() => import("./components/BlogPost"));
 
 // Admin Module
-import AdminLayout from "./admin/AdminLayout";
-import DashboardPage from "./admin/pages/DashboardPage";
-import QuotationsPage from "./admin/pages/QuotationsPage";
-import CustomersPage from "./admin/pages/CustomersPage";
-import CustomerProfile from "./admin/pages/CustomerProfile";
-import ProductsPage from "./admin/pages/ProductsPage";
-import ProductImagesPage from "./admin/pages/ProductImagesPage";
-import InvoicesPage from "./admin/pages/InvoicesPage";
-import InvoiceForm from "./admin/pages/InvoiceForm";
-import InvoiceView from "./admin/pages/InvoiceView";
-import AnalyticsPage from "./admin/pages/AnalyticsPage";
-import SettingsPage from "./admin/pages/SettingsPage";
-import BlogsPage from "./admin/pages/BlogsPage";
-import OrdersPage from "./admin/pages/OrdersPage";
-import OrderForm from "./admin/pages/OrderForm";
-import OrderView from "./admin/pages/OrderView";
+const AdminLayout = lazy(() => import("./admin/AdminLayout"));
+const DashboardPage = lazy(() => import("./admin/pages/DashboardPage"));
+const QuotationsPage = lazy(() => import("./admin/pages/QuotationsPage"));
+const CustomersPage = lazy(() => import("./admin/pages/CustomersPage"));
+const CustomerProfile = lazy(() => import("./admin/pages/CustomerProfile"));
+const ProductsPage = lazy(() => import("./admin/pages/ProductsPage"));
+const ProductImagesPage = lazy(() => import("./admin/pages/ProductImagesPage"));
+const InvoicesPage = lazy(() => import("./admin/pages/InvoicesPage"));
+const InvoiceForm = lazy(() => import("./admin/pages/InvoiceForm"));
+const InvoiceView = lazy(() => import("./admin/pages/InvoiceView"));
+const AnalyticsPage = lazy(() => import("./admin/pages/AnalyticsPage"));
+const SettingsPage = lazy(() => import("./admin/pages/SettingsPage"));
+const BlogsPage = lazy(() => import("./admin/pages/BlogsPage"));
+const UploadsPage = lazy(() => import("./admin/pages/UploadsPage"));
+const OrdersPage = lazy(() => import("./admin/pages/OrdersPage"));
+const OrderForm = lazy(() => import("./admin/pages/OrderForm"));
+const OrderView = lazy(() => import("./admin/pages/OrderView"));
 
 function HomePage({ openModal, scrollToContactOnLoad = false }) {
   useEffect(() => {
@@ -83,6 +85,10 @@ function PublicLayout({ children, openModal, isModalOpen, closeModal }) {
   );
 }
 
+function RouteLoader() {
+  return <div style={{ padding: "24px", textAlign: "center" }}>Loading...</div>;
+}
+
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -92,65 +98,68 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <Routes>
-        {/* ─── Admin Routes (no Navbar/Footer) ─── */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="quotations" element={<QuotationsPage />} />
-          <Route path="orders" element={<OrdersPage />} />
-          <Route path="orders/new" element={<OrderForm />} />
-          <Route path="orders/:id" element={<OrderView />} />
-          <Route path="orders/:id/edit" element={<OrderForm />} />
-          <Route path="customers" element={<CustomersPage />} />
-          <Route path="customers/:id" element={<CustomerProfile />} />
-          <Route path="products" element={<ProductsPage />} />
-          <Route path="product-images" element={<ProductImagesPage />} />
-          <Route path="invoices" element={<InvoicesPage />} />
-          <Route path="invoices/new" element={<InvoiceForm />} />
-          <Route path="invoices/:id" element={<InvoiceView />} />
-          <Route path="invoices/:id/edit" element={<InvoiceForm />} />
-          <Route path="analytics" element={<AnalyticsPage />} />
-          <Route path="blogs" element={<BlogsPage />} />
-          <Route path="settings" element={<SettingsPage />} />
-        </Route>
+      <Suspense fallback={<RouteLoader />}>
+        <Routes>
+          {/* ─── Admin Routes (no Navbar/Footer) ─── */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="quotations" element={<QuotationsPage />} />
+            <Route path="orders" element={<OrdersPage />} />
+            <Route path="orders/new" element={<OrderForm />} />
+            <Route path="orders/:id" element={<OrderView />} />
+            <Route path="orders/:id/edit" element={<OrderForm />} />
+            <Route path="customers" element={<CustomersPage />} />
+            <Route path="customers/:id" element={<CustomerProfile />} />
+            <Route path="products" element={<ProductsPage />} />
+            <Route path="product-images" element={<ProductImagesPage />} />
+            <Route path="invoices" element={<InvoicesPage />} />
+            <Route path="invoices/new" element={<InvoiceForm />} />
+            <Route path="invoices/:id" element={<InvoiceView />} />
+            <Route path="invoices/:id/edit" element={<InvoiceForm />} />
+            <Route path="analytics" element={<AnalyticsPage />} />
+            <Route path="blogs" element={<BlogsPage />} />
+            <Route path="uploads" element={<UploadsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
 
-        {/* ─── Public Routes ─── */}
-        <Route path="/" element={
-          <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-            <HomePage openModal={openModal} />
-          </PublicLayout>
-        } />
-        <Route path="/contact" element={
-          <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-            <HomePage openModal={openModal} scrollToContactOnLoad />
-          </PublicLayout>
-        } />
-        <Route path="/compare" element={
-          <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-            <ComparisonPage />
-          </PublicLayout>
-        } />
-        <Route path="/wholesale-distributor" element={
-          <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-            <WholesaleDistributorPage />
-          </PublicLayout>
-        } />
-        <Route path="/blog" element={
-          <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-            <BlogListing />
-          </PublicLayout>
-        } />
-        <Route path="/blog/:slug" element={
-          <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-            <BlogPost />
-          </PublicLayout>
-        } />
-        <Route path="*" element={
-          <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-            <NotFoundPage />
-          </PublicLayout>
-        } />
-      </Routes>
+          {/* ─── Public Routes ─── */}
+          <Route path="/" element={
+            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+              <HomePage openModal={openModal} />
+            </PublicLayout>
+          } />
+          <Route path="/contact" element={
+            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+              <HomePage openModal={openModal} scrollToContactOnLoad />
+            </PublicLayout>
+          } />
+          <Route path="/compare" element={
+            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+              <ComparisonPage />
+            </PublicLayout>
+          } />
+          <Route path="/wholesale-distributor" element={
+            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+              <WholesaleDistributorPage />
+            </PublicLayout>
+          } />
+          <Route path="/blog" element={
+            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+              <BlogListing />
+            </PublicLayout>
+          } />
+          <Route path="/blog/:slug" element={
+            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+              <BlogPost />
+            </PublicLayout>
+          } />
+          <Route path="*" element={
+            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+              <NotFoundPage />
+            </PublicLayout>
+          } />
+        </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }

@@ -6,9 +6,15 @@ export default function SEO({
   description, 
   keywords, 
   image = '/imgs/og-image.jpg',
-  includeFAQ = false 
+  includeFAQ = false,
+  canonicalUrl,
+  ogType = 'website',
+  noindex = false
 }) {
   useEffect(() => {
+    const resolvedCanonical = canonicalUrl || window.location.href;
+    const resolvedImage = image?.startsWith('http') ? image : `${window.location.origin}${image.startsWith('/') ? image : `/${image}`}`;
+
     // Update title
     if (title) {
       document.title = `${title} | A3Distributors`;
@@ -28,6 +34,49 @@ export default function SEO({
       if (metaKeywords) {
         metaKeywords.setAttribute('content', keywords);
       }
+    }
+
+    // Update robots
+    const robots = document.querySelector('meta[name="robots"]');
+    if (robots) {
+      robots.setAttribute(
+        'content',
+        noindex
+          ? 'noindex, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+          : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+      );
+    }
+
+    // Update Open Graph tags
+    const ogTypeTag = document.querySelector('meta[property="og:type"]');
+    if (ogTypeTag) ogTypeTag.setAttribute('content', ogType);
+
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle && title) ogTitle.setAttribute('content', `${title} | A3Distributors`);
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription && description) ogDescription.setAttribute('content', description);
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    if (ogImage) ogImage.setAttribute('content', resolvedImage);
+
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute('content', resolvedCanonical);
+
+    // Update Twitter card tags
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitle && title) twitterTitle.setAttribute('content', `${title} | A3Distributors`);
+
+    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+    if (twitterDescription && description) twitterDescription.setAttribute('content', description);
+
+    const twitterImage = document.querySelector('meta[name="twitter:image"]');
+    if (twitterImage) twitterImage.setAttribute('content', resolvedImage);
+
+    // Update canonical
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) {
+      canonical.setAttribute('href', resolvedCanonical);
     }
 
     // Remove any existing structured data scripts to prevent duplicates
@@ -69,7 +118,7 @@ export default function SEO({
       const scripts = document.querySelectorAll('script[type="application/ld+json"][data-schema]');
       scripts.forEach(script => script.remove());
     };
-  }, [title, description, keywords, includeFAQ]);
+  }, [title, description, keywords, image, includeFAQ, canonicalUrl, ogType, noindex]);
 
   return null;
 }

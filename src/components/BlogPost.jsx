@@ -5,11 +5,9 @@ import { supabase } from '../lib/supabase';
 import { useSettings } from '../hooks/useSettings';
 import { getBlogsWithFallback } from '../lib/blogFallback';
 import SEO from './SEO';
-import BlogAdUnit from './BlogAdUnit';
 import '../styles/blogPost.css';
 
 const FALLBACK_BLOG_IMAGE = '/imgs/logo-footer.png';
-const BLOG_DETAIL_AD_SLOT = '2573632378';
 
 function resolveImageUrl(url) {
   if (!url) return FALLBACK_BLOG_IMAGE;
@@ -85,9 +83,13 @@ export default function BlogPost() {
       '@type': 'BlogPosting',
       headline: blog.title,
       description: blog.excerpt,
-      image: blog.featured_image,
+      image: new URL(resolveImageUrl(blog.featured_image), window.location.origin).toString(),
       datePublished: blog.published_at,
       dateModified: blog.updated_at,
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': `${window.location.origin}/blog/${blog.slug}`
+      },
       author: {
         '@type': 'Person',
         name: blog.author
@@ -130,6 +132,8 @@ export default function BlogPost() {
   }
 
   const readMinutes = Math.max(1, Math.ceil((blog.content || '').split(/\s+/).filter(Boolean).length / 220));
+  const canonicalUrl = `${window.location.origin}/blog/${blog.slug}`;
+  const seoImage = resolveImageUrl(blog.featured_image);
 
   return (
     <>
@@ -137,6 +141,9 @@ export default function BlogPost() {
         title={blog.title}
         description={blog.meta_description || blog.excerpt}
         keywords={blog.meta_keywords || blog.tags || `${settings.businessName}, blog`}
+        image={seoImage}
+        canonicalUrl={canonicalUrl}
+        ogType="article"
       />
 
       <div className="blog-post-container">
@@ -288,12 +295,6 @@ export default function BlogPost() {
           </Link>
         </div>
       </div>
-      {/* AdSense Ad Container */}
-      <BlogAdUnit 
-        slot={BLOG_DETAIL_AD_SLOT} 
-        containerClassName="blog-post-ads"
-        insClassName="blog-ads-unit"
-      />
     </>
   );
 }
