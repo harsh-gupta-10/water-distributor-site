@@ -78,15 +78,12 @@ export default function SettingsPage() {
 
     async function createSettingsTable() {
         // Table will be created via Supabase SQL editor
-        console.log('Settings table needs to be created in Supabase');
         toast('Settings table not found! Please run the SQL script below in Supabase.', 'error');
     }
 
     async function handleSave() {
         setSaving(true);
         try {
-            console.log('📤 Saving settings:', settings);
-            
             // Check if settings row exists
             const { data: existing } = await supabase
                 .from('settings')
@@ -96,7 +93,7 @@ export default function SettingsPage() {
 
             if (existing) {
                 // Update existing
-                const { data, error } = await supabase
+                const { error } = await supabase
                     .from('settings')
                     .update({ 
                         config: settings,
@@ -108,10 +105,9 @@ export default function SettingsPage() {
                     console.error('❌ Save error:', error);
                     throw error;
                 }
-                console.log('✅ Settings updated successfully:', data);
             } else {
                 // Insert new
-                const { data, error } = await supabase
+                const { error } = await supabase
                     .from('settings')
                     .insert({ 
                         id: 1,
@@ -122,12 +118,10 @@ export default function SettingsPage() {
                     console.error('❌ Insert error:', error);
                     throw error;
                 }
-                console.log('✅ Settings inserted successfully:', data);
             }
 
             // Trigger refresh on all components listening to settings
             window.dispatchEvent(new Event('settingsUpdated'));
-            console.log('📡 Broadcasted settings update to all components');
 
             toast('✅ Settings saved! Website will refresh automatically within 5 seconds.', 'success');
         } catch (err) {

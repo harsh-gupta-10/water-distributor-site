@@ -4,20 +4,9 @@ import { Search } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useSettings } from '../hooks/useSettings';
 import { getBlogsWithFallback } from '../lib/blogFallback';
+import { FALLBACK_BLOG_IMAGE, resolveBlogImageUrl } from '../lib/blogImage';
 import SEO from './SEO';
 import '../styles/blogListing.css';
-
-const FALLBACK_BLOG_IMAGE = '/imgs/logo-footer.png';
-
-function resolveImageUrl(url) {
-  if (!url) return FALLBACK_BLOG_IMAGE;
-  const value = String(url).trim();
-  if (!value) return FALLBACK_BLOG_IMAGE;
-  if (/^https?:\/\//i.test(value) || value.startsWith('/') || value.startsWith('data:')) {
-    return value;
-  }
-  return `/${value.replace(/^\/+/, '')}`;
-}
 
 const BLOG_CATEGORIES = [
   { value: 'all', label: 'All Posts' },
@@ -188,7 +177,7 @@ export default function BlogListing() {
           {blog.featured_image ? (
             <div className="blog-image">
               <img
-                src={resolveImageUrl(blog.featured_image)}
+                src={resolveBlogImageUrl(blog.featured_image)}
                 alt={blog.title}
                 onError={(e) => {
                   if (e.currentTarget.src !== window.location.origin + FALLBACK_BLOG_IMAGE) {

@@ -10,13 +10,12 @@ export default function AnalyticsPage() {
 
     async function fetchData() {
         setLoading(true);
-        const [custRes, invRes, quotRes, prodRes, payRes, invItemsRes] = await Promise.all([
+        const [custRes, invRes, quotRes, prodRes, payRes] = await Promise.all([
             supabase.from('customers').select('id, name, created_at, location'),
             supabase.from('invoices').select('*'),
             supabase.from('quotations').select('created_at, status, products, location'),
             supabase.from('products').select('id, name, status, price'),
             supabase.from('payments').select('amount, payment_method, payment_date'),
-            supabase.from('invoice_items').select('quantity, price, invoice_id, product_id, description'),
         ]);
 
         const customers = custRes.data || [];
@@ -24,7 +23,10 @@ export default function AnalyticsPage() {
         const quotations = quotRes.data || [];
         const products = prodRes.data || [];
         const payments = payRes.data || [];
-        const invoiceItems = invItemsRes.data || [];
+        const customerById = {};
+        customers.forEach((customer) => {
+            customerById[customer.id] = customer;
+        });
 
         const totalRevenue = invoices.reduce((s, i) => s + parseFloat(i.total_amount || 0), 0);
         const totalPaid = payments.reduce((s, p) => s + parseFloat(p.amount || 0), 0);
@@ -71,7 +73,7 @@ export default function AnalyticsPage() {
         // Area-wise sales (extract from customer locations and quotations)
         const areaSales = {};
         invoices.forEach(inv => {
-            const cust = customers.find(c => c.id === inv.customer_id);
+            const cust = customerById[inv.customer_id];
             if (cust && cust.location) {
                 const area = extractArea(cust.location);
                 areaSales[area] = (areaSales[area] || 0) + parseFloat(inv.total_amount || 0);
@@ -106,7 +108,7 @@ export default function AnalyticsPage() {
             .sort((a, b) => b[1] - a[1])
             .slice(0, 10)
             .map(([custId, value]) => {
-                const cust = customers.find(c => c.id === custId);
+                const cust = customerById[custId];
                 return { name: cust?.name || 'Unknown', value };
             });
 

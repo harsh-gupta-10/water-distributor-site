@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Plus, Edit2, Eye, Search, Upload, FileUp } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { saveBlogsToCache } from '../../lib/blogFallback';
+import { parseFallbackBlogsImport } from '../../lib/blogFallbackImport';
 import { useToast } from '../components/Toast';
 import Modal from '../components/Modal';
 
@@ -171,26 +172,7 @@ export default function BlogsPage() {
 
         try {
             const text = await file.text();
-            
-            // Extract JSON from the JS module format
-            let blogsData = [];
-            
-            // Try to parse as JSON array directly
-            try {
-                blogsData = JSON.parse(text);
-            } catch {
-                // Try to extract from JS module format
-                const match = text.match(/const\s+blogsFallback\s*=\s*(\[[\s\S]*?\]);/);
-                if (match) {
-                    blogsData = JSON.parse(match[1]);
-                } else {
-                    throw new Error('Invalid fallback file format');
-                }
-            }
-
-            if (!Array.isArray(blogsData)) {
-                throw new Error('File must contain an array of blogs');
-            }
+            const blogsData = parseFallbackBlogsImport(text);
 
             // Import all blogs to database
             let successCount = 0;
@@ -199,7 +181,7 @@ export default function BlogsPage() {
             for (const blog of blogsData) {
                 try {
                     // Remove id to let database generate new one
-                    const { id, ...blogWithoutId } = blog;
+                    const { id: _id, ...blogWithoutId } = blog;
                     
                     // Check if blog with this slug already exists
                     const { data: existing } = await supabase

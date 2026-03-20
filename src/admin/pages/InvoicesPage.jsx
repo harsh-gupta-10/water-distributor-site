@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { Plus, Search, Eye, Edit2, Trash2 } from 'lucide-react';
@@ -39,18 +39,25 @@ export default function InvoicesPage() {
         fetchAll();
     }
 
-    const custMap = {};
-    customers.forEach(c => { custMap[c.id] = c; });
+    const customerById = useMemo(() => {
+        const map = {};
+        customers.forEach((customer) => {
+            map[customer.id] = customer;
+        });
+        return map;
+    }, [customers]);
 
-    const filtered = invoices.filter(inv => {
+    const normalizedSearch = search.trim().toLowerCase();
+
+    const filtered = useMemo(() => invoices.filter((inv) => {
         const matchStatus = statusFilter === 'all' || inv.payment_status === statusFilter;
-        const cust = custMap[inv.customer_id];
-        const custName = cust ? `${cust.name} ${cust.business_name || ''}` : '';
-        const matchSearch = !search ||
-            inv.invoice_number.toLowerCase().includes(search.toLowerCase()) ||
-            custName.toLowerCase().includes(search.toLowerCase());
+        const customer = customerById[inv.customer_id];
+        const customerName = customer ? `${customer.name} ${customer.business_name || ''}` : '';
+        const matchSearch = !normalizedSearch ||
+            inv.invoice_number.toLowerCase().includes(normalizedSearch) ||
+            customerName.toLowerCase().includes(normalizedSearch);
         return matchStatus && matchSearch;
-    });
+    }), [invoices, statusFilter, normalizedSearch, customerById]);
 
     const totalPages = Math.ceil(filtered.length / perPage);
     const paginated = filtered.slice((page - 1) * perPage, page * perPage);
@@ -58,7 +65,7 @@ export default function InvoicesPage() {
 
     const exportCols = [
         { label: 'Invoice #', accessor: i => i.invoice_number },
-        { label: 'Customer', accessor: i => custMap[i.customer_id]?.name || '' },
+        { label: 'Customer', accessor: i => customerById[i.customer_id]?.name || '' },
         { label: 'Date', accessor: i => i.invoice_date },
         { label: 'Due Date', accessor: i => i.due_date || '' },
         { label: 'Total', accessor: i => i.total_amount },
@@ -118,7 +125,7 @@ export default function InvoicesPage() {
                                 {paginated.length === 0 ? (
                                     <tr><td colSpan={9} style={{ textAlign: 'center', padding: 40, color: '#9ca3af' }}>No invoices found</td></tr>
                                 ) : paginated.map(inv => {
-                                    const cust = custMap[inv.customer_id];
+                                    const cust = customerById[inv.customer_id];
                                     const balance = parseFloat(inv.total_amount) - parseFloat(inv.amount_paid);
                                     return (
                                         <tr key={inv.id}>

@@ -2,8 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { Copy, Pencil, RefreshCw, Trash2, Upload } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { useToast } from '../components/Toast';
+import {
+  MAX_UPLOAD_BYTES,
+  sanitizeBaseName,
+  validateUploadFile,
+} from '../../lib/uploadSanitizers';
 
-const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
 const SHARED_MEDIA_BUCKET = import.meta.env.VITE_SUPABASE_MEDIA_BUCKET || 'media';
 
 const uploadTargets = {
@@ -18,22 +22,6 @@ const uploadTargets = {
     folder: 'products',
   },
 };
-
-function ensureWebp(file) {
-  if (!file) return false;
-  const lowerName = file.name.toLowerCase();
-  return file.type === 'image/webp' && lowerName.endsWith('.webp');
-}
-
-function sanitizeBaseName(value) {
-  return String(value || '')
-    .trim()
-    .toLowerCase()
-    .replace(/\.webp$/i, '')
-    .replace(/[^a-z0-9-_.]+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-}
 
 function formatSize(bytes) {
   if (!Number.isFinite(bytes)) return '-';
@@ -81,18 +69,9 @@ export default function UploadsPage() {
   }
 
   async function handleUpload() {
-    if (!file) {
-      toast('Choose a .webp image to upload.', 'error');
-      return;
-    }
-
-    if (!ensureWebp(file)) {
-      toast('Only .webp images are allowed.', 'error');
-      return;
-    }
-
-    if (file.size > MAX_UPLOAD_BYTES) {
-      toast('File too large. Maximum is 50MB.', 'error');
+    const validationError = validateUploadFile(file, MAX_UPLOAD_BYTES);
+    if (validationError) {
+      toast(validationError, 'error');
       return;
     }
 

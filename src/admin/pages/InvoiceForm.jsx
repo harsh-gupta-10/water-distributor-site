@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
@@ -23,6 +23,13 @@ export default function InvoiceForm() {
     const [taxRate, setTaxRate] = useState(0);
     const [notes, setNotes] = useState('');
     const [items, setItems] = useState([{ product_id: '', description: '', quantity: 1, price: '' }]);
+    const productsById = useMemo(() => {
+        const map = {};
+        products.forEach((product) => {
+            map[product.id] = product;
+        });
+        return map;
+    }, [products]);
 
     async function fetchData() {
         setLoading(true);
@@ -82,7 +89,7 @@ export default function InvoiceForm() {
             const updated = { ...item, [field]: value };
             // Auto-fill price and description when product selected
             if (field === 'product_id' && value) {
-                const prod = products.find(p => p.id === value);
+                const prod = productsById[value];
                 if (prod) {
                     updated.description = prod.name;
                     if (!item.price) updated.price = prod.price;

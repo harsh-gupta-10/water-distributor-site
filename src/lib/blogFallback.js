@@ -1,15 +1,15 @@
-import blogsFallback from '../data/blogsFallback';
+import blogsFallback from '../data/blogsFallback.js';
 
 const BLOG_CACHE_KEY = 'a3_blog_cache_v1';
 
-function toISODate(value) {
+export function toISODate(value) {
   if (!value) return new Date().toISOString();
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return new Date().toISOString();
   return d.toISOString();
 }
 
-function normalizeBlog(raw, index = 0) {
+export function normalizeBlog(raw, index = 0) {
   const createdAt = toISODate(raw?.created_at);
   const publishedAt = raw?.published_at ? toISODate(raw.published_at) : createdAt;
   const title = String(raw?.title || 'Untitled Post').trim();
@@ -34,7 +34,7 @@ function normalizeBlog(raw, index = 0) {
   };
 }
 
-function sortBlogs(items) {
+export function sortBlogs(items) {
   return [...items].sort((a, b) => {
     const aDate = new Date(a.published_at || a.created_at).getTime();
     const bDate = new Date(b.published_at || b.created_at).getTime();

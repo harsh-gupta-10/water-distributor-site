@@ -14,6 +14,7 @@ import productsData from "../data/products.json";
 
 import { useSettingsSync } from "../hooks/useSettings";
 import { supabase } from "../lib/supabase";
+import { safeJsonLdStringify } from "../lib/jsonLd";
 
 // Map icon strings from JSON to actual components
 const iconMap = { Droplets, GlassWater, Wine, Zap };
@@ -319,7 +320,7 @@ export default function Products({ onQuotationClick }) {
     <section id="products" className="products" ref={ref}>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productListSchema) }}
+        dangerouslySetInnerHTML={{ __html: safeJsonLdStringify(productListSchema) }}
       />
 
       <div className="container">

@@ -4,20 +4,9 @@ import { ArrowLeft, Share2, Copy } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useSettings } from '../hooks/useSettings';
 import { getBlogsWithFallback } from '../lib/blogFallback';
+import { FALLBACK_BLOG_IMAGE, resolveBlogImageUrl } from '../lib/blogImage';
 import SEO from './SEO';
 import '../styles/blogPost.css';
-
-const FALLBACK_BLOG_IMAGE = '/imgs/logo-footer.png';
-
-function resolveImageUrl(url) {
-  if (!url) return FALLBACK_BLOG_IMAGE;
-  const value = String(url).trim();
-  if (!value) return FALLBACK_BLOG_IMAGE;
-  if (/^https?:\/\//i.test(value) || value.startsWith('/') || value.startsWith('data:')) {
-    return value;
-  }
-  return `/${value.replace(/^\/+/, '')}`;
-}
 
 function stripHtml(value) {
   return String(value || '').replace(/<[^>]*>/g, ' ');
@@ -114,7 +103,7 @@ export default function BlogPost() {
   const contentWordCount = stripHtml(blog.content).split(/\s+/).filter(Boolean).length;
   const readMinutes = Math.max(1, Math.ceil(contentWordCount / 220));
   const canonicalUrl = `${window.location.origin}/blog/${blog.slug}`;
-  const seoImage = resolveImageUrl(blog.featured_image);
+  const seoImage = resolveBlogImageUrl(blog.featured_image);
   const publishedAt = blog.published_at || blog.created_at;
   const modifiedAt = blog.updated_at || blog.published_at || blog.created_at;
 
@@ -244,8 +233,8 @@ export default function BlogPost() {
 
           {blog.featured_image && (
             <div className="blog-post-image">
-              <img
-                src={resolveImageUrl(blog.featured_image)}
+                <img
+                src={resolveBlogImageUrl(blog.featured_image)}
                 alt={blog.title}
                 loading="eager"
                 onError={(e) => {
@@ -294,7 +283,7 @@ export default function BlogPost() {
                 <Link key={post.id} to={`/blog/${post.slug}`} className="blog-related-card">
                   {post.featured_image && (
                     <img
-                      src={resolveImageUrl(post.featured_image)}
+                      src={resolveBlogImageUrl(post.featured_image)}
                       alt={post.title}
                       onError={(e) => {
                         if (e.currentTarget.src !== window.location.origin + FALLBACK_BLOG_IMAGE) {

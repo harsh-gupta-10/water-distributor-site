@@ -18,7 +18,6 @@ export function useSettings() {
         
         // Listen for custom refresh event from admin panel
         const handleRefresh = () => {
-            console.log('🔄 Settings refresh triggered');
             loadSettings();
         };
         window.addEventListener('settingsUpdated', handleRefresh);
@@ -36,7 +35,7 @@ export function useSettings() {
         setLoading(true);
         try {
             // Try to fetch from database first
-            const { data, error } = await supabase
+            const { data } = await supabase
                 .from('settings')
                 .select('config')
                 .eq('id', 1)
@@ -47,12 +46,10 @@ export function useSettings() {
                 const mergedSettings = { ...siteConfig, ...data.config };
                 setSettings(mergedSettings);
                 setSource('db');
-                console.log('✅ Settings loaded from database:', mergedSettings);
             } else {
                 // No data in database or empty config - use local file
                 setSettings(siteConfig);
                 setSource('local');
-                console.log('📄 Using local siteConfig.js (database empty or not found)');
             }
         } catch (err) {
             // Database error - fallback to local file
