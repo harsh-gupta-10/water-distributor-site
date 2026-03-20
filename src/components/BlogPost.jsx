@@ -4,6 +4,8 @@ import { ArrowLeft, Share2, Copy } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useSettings } from '../hooks/useSettings';
 import { getBlogsWithFallback } from '../lib/blogFallback';
+import { FALLBACK_BLOG_IMAGE, resolveBlogImageUrl } from '../lib/blogImage';
+import { sanitizeHtml } from '../lib/sanitize';
 import SEO from './SEO';
 import '../styles/blogPost.css';
 
