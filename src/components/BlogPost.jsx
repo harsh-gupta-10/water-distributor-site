@@ -4,7 +4,6 @@ import { ArrowLeft, Share2, Copy } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useSettings } from '../hooks/useSettings';
 import { getBlogsWithFallback } from '../lib/blogFallback';
-import { FALLBACK_BLOG_IMAGE, resolveBlogImageUrl } from '../lib/blogImage';
 import SEO from './SEO';
 import '../styles/blogPost.css';
 
@@ -247,7 +246,10 @@ export default function BlogPost() {
           )}
 
           <div className="blog-post-content">
-            <div className="blog-post-body" dangerouslySetInnerHTML={{ __html: blog.content }} />
+            <div
+              className="blog-post-body"
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(blog.content) }}
+            />
 
             {tagList.length > 0 && (
               <div className="blog-post-tags">
