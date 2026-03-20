@@ -18,8 +18,6 @@ export default function InvoicesPage() {
     const navigate = useNavigate();
     const toast = useToast();
 
-    useEffect(() => { fetchAll(); }, []);
-
     async function fetchAll() {
         setLoading(true);
         const [invRes, custRes] = await Promise.all([
@@ -30,6 +28,8 @@ export default function InvoicesPage() {
         setCustomers(custRes.data || []);
         setLoading(false);
     }
+
+    useEffect(() => { fetchAll(); }, []);
 
     async function deleteInvoice() {
         if (!deleteId) return;

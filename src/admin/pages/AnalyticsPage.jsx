@@ -6,8 +6,6 @@ export default function AnalyticsPage() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => { fetchData(); }, []);
-
     async function fetchData() {
         setLoading(true);
         const [custRes, invRes, quotRes, prodRes, payRes] = await Promise.all([
@@ -182,6 +180,8 @@ export default function AnalyticsPage() {
         
         return forecast;
     }
+
+    useEffect(() => { fetchData(); }, []);
 
     if (loading) return <div style={{ textAlign: 'center', padding: '80px 0', color: '#9ca3af' }}>Loading analytics...</div>;
     if (!data) return null;
