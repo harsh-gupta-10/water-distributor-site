@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 import { Check, X, ArrowRight, Phone } from "lucide-react";
 import SEO from "./SEO";
@@ -54,7 +55,53 @@ const comparisonData = [
   },
 ];
 
-function ComparisonRow({ feature, a3, competitor, a3Better }) {
+const COMPARISON_PAGE_UPDATED = "2026-03-20";
+const COMPARISON_PAGE_UPDATED_LABEL = "20 March 2026";
+const COMPARISON_PAGE_REVIEWER = "A3Distributors Sales Operations Team";
+
+const comparisonEvidence = [
+  {
+    title: "Volume discounts are tied to published order tiers",
+    stat: "Discount tiers begin at 50-200 units and scale through 200-500 and 500+ unit brackets.",
+    note: "This creates a repeatable pricing model for small teams and high-volume buyers.",
+    sourceLabel: "A3Distributor wholesale pricing tiers",
+    sourceUrl: "/wholesale-distributor",
+  },
+  {
+    title: "Demand planning uses a practical hydration benchmark",
+    stat: "Office hydration planning commonly uses 1.5-2.5 liters per employee per day.",
+    note: "The same benchmark helps estimate monthly jar demand and prevent stockouts.",
+    sourceLabel: "A3Distributor office water planning guide",
+    sourceUrl: "/blog/how-much-bottled-water-does-an-office-need-per-month",
+  },
+  {
+    title: "Service comparison covers operational factors, not only headline price",
+    stat: "Evaluation includes delivery speed, MOQ flexibility, support, payment terms, and return flow.",
+    note: "These factors typically affect continuity of supply more than one-time rate differences.",
+    sourceLabel: "A3Distributor comparison methodology",
+    sourceUrl: "/compare",
+  },
+];
+
+const comparisonFaqData = [
+  {
+    question: "How should I compare two beverage distributors for my business?",
+    answer:
+      "Start with delivery reliability, minimum order flexibility, and support responsiveness before price. A lower per-unit quote can still cost more if late deliveries, high MOQs, or limited support interrupt operations.",
+  },
+  {
+    question: "What is a good way to estimate monthly water ordering needs?",
+    answer:
+      "Use employee count, average daily consumption, and working days to calculate demand. A practical benchmark for offices is around 1.5-2.5 liters per employee per day, then add a small safety buffer for peak days.",
+  },
+  {
+    question: "When does wholesale pricing become meaningfully better than retail buying?",
+    answer:
+      "Wholesale pricing usually becomes more efficient once ordering is consistent and volume-based tiers apply. Regularly scheduled business orders typically unlock better rates, improved delivery planning, and fewer stock disruptions.",
+  },
+];
+
+function ComparisonRow({ feature, a3, competitor }) {
   return (
     <tr>
       <td className="comparison-table__feature">{feature}</td>
@@ -79,6 +126,63 @@ export default function ComparisonPage() {
   const { ref: tableRef, inView: tableInView } = useInView({ threshold: 0.05, triggerOnce: true });
   const { ref: ctaRef, inView: ctaInView } = useInView({ threshold: 0.1, triggerOnce: true });
   const siteConfig = useSettingsSync();
+  const canonicalUrl = `${window.location.origin}/compare`;
+
+  const seoSchemas = useMemo(() => {
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: `${window.location.origin}/`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Distributor Comparison",
+          item: canonicalUrl,
+        },
+      ],
+    };
+
+    const webPageSchema = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      url: canonicalUrl,
+      name: "A3Distributor vs Other Local Distributors - Comparison",
+      description:
+        "Feature-by-feature comparison for wholesale beverage distribution across pricing, delivery, MOQ flexibility, service support, and reliability.",
+      inLanguage: "en-IN",
+      dateModified: COMPARISON_PAGE_UPDATED,
+      author: {
+        "@type": "Organization",
+        name: "A3Distributors",
+        url: `${window.location.origin}/`,
+      },
+      reviewedBy: {
+        "@type": "Organization",
+        name: COMPARISON_PAGE_REVIEWER,
+      },
+    };
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: comparisonFaqData.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      })),
+    };
+
+    return [breadcrumbSchema, webPageSchema, faqSchema];
+  }, [canonicalUrl]);
 
   const handleWhatsApp = () => {
     const message = encodeURIComponent(
@@ -97,6 +201,9 @@ export default function ComparisonPage() {
         title="A3Distributor vs Other Local Distributors - Comparison"
         description="Compare A3Distributor with other local wholesale distributors. See why we offer better pricing, faster delivery, wider product selection, and superior customer support for water and beverage distribution."
         keywords="A3 comparison, wholesale distributor comparison, best local distributor, beverage wholesale India, water distributor Mumbai comparison, distributor vs distributor"
+        canonicalUrl={canonicalUrl}
+        author={COMPARISON_PAGE_REVIEWER}
+        extraSchemas={seoSchemas}
       />
       
       <main className="comparison-page">
@@ -112,6 +219,9 @@ export default function ComparisonPage() {
               <p className="comparison-hero__subtitle">
                 Why thousands of Indian businesses choose A3Distributor over other local suppliers 
                 for reliable, cost-effective wholesale water & beverage distribution.
+              </p>
+              <p className="page-meta">
+                Reviewed by <strong>{COMPARISON_PAGE_REVIEWER}</strong> · Last updated {COMPARISON_PAGE_UPDATED_LABEL}
               </p>
             </div>
           </div>
@@ -168,6 +278,50 @@ export default function ComparisonPage() {
                     <p>{item.competitor}</p>
                   </div>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="comparison-evidence">
+          <div className="container">
+            <div className="comparison-intro">
+              <h2>Evidence and Methodology</h2>
+              <p>
+                This page uses operational criteria and published planning references so businesses can compare
+                distributors on reliability, not only on headline rates.
+              </p>
+            </div>
+
+            <div className="page-evidence-grid">
+              {comparisonEvidence.map((item) => (
+                <article key={item.title} className="page-evidence-card">
+                  <h3>{item.title}</h3>
+                  <p>{item.stat}</p>
+                  <p>{item.note}</p>
+                  <a href={item.sourceUrl} className="page-evidence-source">
+                    Source: {item.sourceLabel}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="comparison-faq">
+          <div className="container">
+            <div className="comparison-intro">
+              <h2>Frequently Asked Questions</h2>
+              <p>
+                Quick answers for teams evaluating wholesale water and beverage suppliers in Mumbai.
+              </p>
+            </div>
+            <div className="page-faq-list">
+              {comparisonFaqData.map((faq) => (
+                <article key={faq.question} className="page-faq-item">
+                  <h3>{faq.question}</h3>
+                  <p>{faq.answer}</p>
+                </article>
               ))}
             </div>
           </div>

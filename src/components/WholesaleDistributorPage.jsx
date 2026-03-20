@@ -16,6 +16,10 @@ import {
 import SEO from "./SEO";
 import { useSettingsSync } from "../hooks/useSettings";
 
+const WHOLESALE_PAGE_UPDATED = "2026-03-20";
+const WHOLESALE_PAGE_UPDATED_LABEL = "20 March 2026";
+const WHOLESALE_PAGE_REVIEWER = "A3Distributors Sales Operations Team";
+
 const keyFeatures = [
   {
     icon: TrendingDown,
@@ -103,6 +107,48 @@ const whyBestList = [
   "Real-time inventory visibility - never face stock-out situations",
 ];
 
+const wholesaleEvidence = [
+  {
+    title: "Demand planning starts with a measurable hydration range",
+    stat: "Office demand estimation commonly uses 1.5-2.5 liters per employee per working day.",
+    note: "This makes procurement predictable and reduces emergency replenishment costs.",
+    sourceLabel: "A3Distributor office water planning guide",
+    sourceUrl: "/blog/how-much-bottled-water-does-an-office-need-per-month",
+  },
+  {
+    title: "Pricing tiers are mapped to business order volume",
+    stat: "Published discount brackets cover 50-200, 200-500, and 500+ unit order ranges.",
+    note: "Volume-tier pricing allows teams to choose stable weekly or monthly purchase schedules.",
+    sourceLabel: "A3Distributor wholesale pricing tiers",
+    sourceUrl: "/wholesale-distributor",
+  },
+  {
+    title: "Comparison criteria are transparent and operational",
+    stat: "Supplier evaluation includes delivery speed, MOQ flexibility, payment terms, and support response.",
+    note: "Operational criteria help buyers avoid disruptions that pure price comparisons can miss.",
+    sourceLabel: "A3Distributor comparison framework",
+    sourceUrl: "/compare",
+  },
+];
+
+const wholesaleFaqData = [
+  {
+    question: "How do I estimate bulk water requirements for my office?",
+    answer:
+      "Use employee count, expected daily consumption, and working days. A practical benchmark is around 1.5-2.5 liters per employee per day, then convert total liters into your preferred jar or bottle format.",
+  },
+  {
+    question: "What order volume usually unlocks better wholesale pricing?",
+    answer:
+      "Pricing generally improves as orders move into consistent volume tiers. Businesses that order on fixed weekly or monthly cycles tend to receive better rates and smoother delivery planning than irregular buyers.",
+  },
+  {
+    question: "What should I check before finalizing a distributor partner?",
+    answer:
+      "Verify delivery reliability, stock consistency, response time, billing clarity, and return handling. These fundamentals directly affect business continuity and often matter more than a small price difference.",
+  },
+];
+
 function PricingCard({ name, range, discount, features, popular, cta, whatsappNumber }) {
   const handleClick = () => {
     const message = encodeURIComponent(
@@ -162,9 +208,32 @@ export default function WholesaleDistributorPage() {
       description:
         'Wholesale supplier for packaged drinking water, soft drinks, juices, and energy drinks with fast delivery and volume discounts in Mumbai.',
       inLanguage: 'en-IN',
+      dateModified: WHOLESALE_PAGE_UPDATED,
+      author: {
+        '@type': 'Organization',
+        name: 'A3Distributors',
+        url: `${window.location.origin}/`,
+      },
+      reviewedBy: {
+        '@type': 'Organization',
+        name: WHOLESALE_PAGE_REVIEWER,
+      },
     };
 
-    return [breadcrumbSchema, webPageSchema];
+    const faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: wholesaleFaqData.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer,
+        },
+      })),
+    };
+
+    return [breadcrumbSchema, webPageSchema, faqSchema];
   }, [canonicalUrl]);
 
   const handleWhatsApp = () => {
@@ -184,6 +253,7 @@ export default function WholesaleDistributorPage() {
         keywords="best wholesale distributor mumbai, wholesale water distributor, bulk beverage supplier, same day water delivery mumbai, beverage wholesale india"
         canonicalUrl={canonicalUrl}
         image="/imgs/og-image.jpg"
+        author={WHOLESALE_PAGE_REVIEWER}
         extraSchemas={seoSchemas}
       />
 
@@ -201,6 +271,9 @@ export default function WholesaleDistributorPage() {
               <p className="wholesale-hero__subtitle">
                 Supplying quality water and beverages to 500+ businesses across Mumbai.
                 Unbeatable wholesale pricing, massive product selection, and delivery you can count on.
+              </p>
+              <p className="page-meta">
+                Reviewed by <strong>{WHOLESALE_PAGE_REVIEWER}</strong> · Last updated {WHOLESALE_PAGE_UPDATED_LABEL}
               </p>
               <div className="wholesale-hero__buttons">
                 <button onClick={handleWhatsApp} className="btn btn-primary">
@@ -293,6 +366,50 @@ export default function WholesaleDistributorPage() {
                   </li>
                 ))}
               </ul>
+            </div>
+          </div>
+        </section>
+
+        <section className="wholesale-evidence">
+          <div className="container">
+            <div className="section-header">
+              <span className="section-label">Evidence</span>
+              <h2 className="section-title">How We Build Reliable Supply Plans</h2>
+              <div className="mandala-divider" />
+              <p className="section-subtitle">
+                Our recommendations are based on practical demand planning, published volume tiers, and
+                transparent procurement criteria.
+              </p>
+            </div>
+            <div className="page-evidence-grid">
+              {wholesaleEvidence.map((item) => (
+                <article key={item.title} className="page-evidence-card">
+                  <h3>{item.title}</h3>
+                  <p>{item.stat}</p>
+                  <p>{item.note}</p>
+                  <a href={item.sourceUrl} className="page-evidence-source">
+                    Source: {item.sourceLabel}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="wholesale-faq">
+          <div className="container">
+            <div className="section-header">
+              <span className="section-label">FAQ</span>
+              <h2 className="section-title">Frequently Asked Questions</h2>
+              <div className="mandala-divider" />
+            </div>
+            <div className="page-faq-list">
+              {wholesaleFaqData.map((faq) => (
+                <article key={faq.question} className="page-faq-item">
+                  <h3>{faq.question}</h3>
+                  <p>{faq.answer}</p>
+                </article>
+              ))}
             </div>
           </div>
         </section>

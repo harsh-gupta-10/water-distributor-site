@@ -42,7 +42,9 @@ const OrdersPage = lazy(() => import("./admin/pages/OrdersPage"));
 const OrderForm = lazy(() => import("./admin/pages/OrderForm"));
 const OrderView = lazy(() => import("./admin/pages/OrderView"));
 
-function buildHomeSchemas(origin) {
+function buildHomeSchemas(origin, canonicalPath = "/") {
+  const isContactPage = canonicalPath === "/contact";
+  const pageUrl = `${origin}${canonicalPath}`;
   const products = productsData.categories.flatMap((category) =>
     (category.products || []).slice(0, 4).map((product) => ({
       "@type": "ListItem",
@@ -71,11 +73,14 @@ function buildHomeSchemas(origin) {
   const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "@id": `${origin}/#webpage`,
-    url: `${origin}/`,
-    name: "Wholesale Water & Beverage Distributor in Mumbai",
-    description:
-      "Bulk water and beverage supplier in Mumbai for offices, retailers, institutions, and events with fast delivery and competitive wholesale pricing.",
+    "@id": `${pageUrl}#webpage`,
+    url: pageUrl,
+    name: isContactPage
+      ? "Contact Wholesale Water & Beverage Distributor in Mumbai"
+      : "Wholesale Water & Beverage Distributor in Mumbai",
+    description: isContactPage
+      ? "Contact A3Distributors for bulk water and beverage supply in Mumbai. Get pricing, delivery timelines, and custom quotes for offices, events, and retail businesses."
+      : "Bulk water and beverage supplier in Mumbai for offices, retailers, institutions, and events with fast delivery and competitive wholesale pricing.",
     inLanguage: "en-IN",
     isPartOf: { "@id": `${origin}/#website` },
     about: { "@id": `${origin}/#organization` },
@@ -95,17 +100,22 @@ function buildHomeSchemas(origin) {
       {
         "@type": "ListItem",
         position: 2,
-        name: "Products",
-        item: `${origin}/#products`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: "Blog",
-        item: `${origin}/blog`,
+        name: isContactPage ? "Contact" : "Products",
+        item: isContactPage ? `${origin}/contact` : `${origin}/#products`,
       },
     ],
   };
+
+  if (isContactPage) {
+    return [webPageSchema, breadcrumbSchema];
+  }
+
+  breadcrumbSchema.itemListElement.push({
+    "@type": "ListItem",
+    position: 3,
+    name: "Blog",
+    item: `${origin}/blog`,
+  });
 
   const productListSchema = {
     "@context": "https://schema.org",
@@ -129,7 +139,7 @@ function HomePage({ openModal, scrollToContactOnLoad = false, canonicalPath = "/
 
   const origin = typeof window !== "undefined" ? window.location.origin : "https://a3distributors.com";
   const isContactPage = canonicalPath === "/contact";
-  const homeSchemas = useMemo(() => buildHomeSchemas(origin), [origin]);
+  const homeSchemas = useMemo(() => buildHomeSchemas(origin, canonicalPath), [origin, canonicalPath]);
 
   const seoTitle = isContactPage
     ? "Contact Wholesale Water & Beverage Distributor in Mumbai"

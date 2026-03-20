@@ -3720,6 +3720,17 @@ a.contact__card:hover {
   margin-top: 24px;
 }
 
+.page-meta {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: var(--gray-500);
+}
+
+.page-meta strong {
+  color: var(--gray-700);
+  font-weight: 600;
+}
+
 .comparison-section {
   padding: var(--section-padding);
   background: var(--white);
@@ -3844,6 +3855,87 @@ a.contact__card:hover {
   background: var(--gradient-hero);
   padding: 80px 0;
   text-align: center;
+}
+
+.comparison-evidence,
+.comparison-faq,
+.wholesale-evidence,
+.wholesale-faq {
+  padding: var(--section-padding);
+  background: var(--gradient-section);
+}
+
+.comparison-faq,
+.wholesale-faq {
+  background: var(--white);
+}
+
+.page-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.page-evidence-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 22px;
+}
+
+.page-evidence-card h3 {
+  margin-bottom: 10px;
+  font-size: 1.05rem;
+  color: var(--gray-900);
+}
+
+.page-evidence-card p {
+  margin-bottom: 10px;
+  color: var(--gray-600);
+  line-height: 1.65;
+  font-size: 0.93rem;
+}
+
+.page-evidence-card p:last-of-type {
+  margin-bottom: 12px;
+}
+
+.page-evidence-source {
+  font-size: 0.85rem;
+  color: var(--primary-blue);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.page-evidence-source:hover {
+  text-decoration: underline;
+}
+
+.page-faq-list {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: 14px;
+}
+
+.page-faq-item {
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+}
+
+.page-faq-item h3 {
+  font-size: 1.02rem;
+  color: var(--gray-900);
+  margin-bottom: 8px;
+}
+
+.page-faq-item p {
+  font-size: 0.94rem;
+  color: var(--gray-600);
+  line-height: 1.65;
 }
 
 .comparison-cta__content {
@@ -4375,6 +4467,14 @@ a.contact__card:hover {
 
   .wholesale-cta__content p {
     font-size: 1rem;
+  }
+
+  .page-meta {
+    font-size: 0.82rem;
+  }
+
+  .page-evidence-grid {
+    grid-template-columns: 1fr;
   }
 }
 

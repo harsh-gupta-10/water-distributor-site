@@ -7,5 +7,15 @@
       "permanent": true
     }
   ],
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/blog", "destination": "/blog/index.html" },
+    {
+      "source": "/blog/how-much-bottled-water-does-an-office-need-per-month",
+      "destination": "/blog/how-much-bottled-water-does-an-office-need-per-month/index.html"
+    },
+    { "source": "/compare", "destination": "/compare/index.html" },
+    { "source": "/wholesale-distributor", "destination": "/wholesale-distributor/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
