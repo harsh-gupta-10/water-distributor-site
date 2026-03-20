@@ -19,6 +19,18 @@ function resolveImageUrl(url) {
   return `/${value.replace(/^\/+/, '')}`;
 }
 
+function stripHtml(value) {
+  return String(value || '').replace(/<[^>]*>/g, ' ');
+}
+
+function toTagList(tags) {
+  if (Array.isArray(tags)) return tags.map((tag) => String(tag).trim()).filter(Boolean);
+  return String(tags || '')
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+}
+
 export default function BlogPost() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -57,71 +69,30 @@ export default function BlogPost() {
     }
   }
 
-  const handleShare = () => {
+  const handleShare = async () => {
     const url = window.location.href;
-    if (navigator.share) {
-      navigator.share({
-        title: blog.title,
-        description: blog.excerpt,
-        url: url
-      });
-    } else {
-      // Fallback: Copy to clipboard
-      navigator.clipboard.writeText(url);
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: blog.title,
+          description: blog.excerpt,
+          url,
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+      }
+    } catch {
+      // Ignore aborted share flow.
     }
   };
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(window.location.href);
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+    } catch {
+      // Ignore clipboard failures.
+    }
   };
-
-  // Add structured data for the current blog post.
-  useEffect(() => {
-    if (!blog) return;
-    const structuredData = {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: blog.title,
-      description: blog.excerpt,
-      image: new URL(resolveImageUrl(blog.featured_image), window.location.origin).toString(),
-      datePublished: blog.published_at,
-      dateModified: blog.updated_at,
-      mainEntityOfPage: {
-        '@type': 'WebPage',
-        '@id': `${window.location.origin}/blog/${blog.slug}`
-      },
-      author: {
-        '@type': 'Person',
-        name: blog.author
-      },
-      publisher: {
-        '@type': 'Organization',
-        '@id': 'https://a3distributors.com/#organization',
-        name: settings.businessName,
-        logo: {
-          '@type': 'ImageObject',
-          url: `${window.location.origin}/imgs/logos/logo.png`
-        }
-      },
-      inLanguage: 'en-IN',
-      articleSection: blog.category,
-      keywords: blog.meta_keywords || blog.tags || undefined
-    };
-
-    const existingBlogSchemas = document.querySelectorAll('script[type="application/ld+json"][data-schema="blog"]');
-    existingBlogSchemas.forEach(script => script.remove());
-
-    const schemaScript = document.createElement('script');
-    schemaScript.type = 'application/ld+json';
-    schemaScript.setAttribute('data-schema', 'blog');
-    schemaScript.textContent = JSON.stringify(structuredData);
-    document.head.appendChild(schemaScript);
-
-    return () => {
-      const schemas = document.querySelectorAll('script[type="application/ld+json"][data-schema="blog"]');
-      schemas.forEach(script => script.remove());
-    };
-  }, [blog, settings.businessName]);
 
   if (loading) {
     return (
@@ -139,40 +110,108 @@ export default function BlogPost() {
     );
   }
 
-  const readMinutes = Math.max(1, Math.ceil((blog.content || '').split(/\s+/).filter(Boolean).length / 220));
+  const tagList = toTagList(blog.tags);
+  const contentWordCount = stripHtml(blog.content).split(/\s+/).filter(Boolean).length;
+  const readMinutes = Math.max(1, Math.ceil(contentWordCount / 220));
   const canonicalUrl = `${window.location.origin}/blog/${blog.slug}`;
   const seoImage = resolveImageUrl(blog.featured_image);
+  const publishedAt = blog.published_at || blog.created_at;
+  const modifiedAt = blog.updated_at || blog.published_at || blog.created_at;
+
+  const articleSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: blog.title,
+    description: blog.meta_description || blog.excerpt,
+    image: new URL(seoImage, window.location.origin).toString(),
+    datePublished: publishedAt,
+    dateModified: modifiedAt,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': canonicalUrl,
+    },
+    author: {
+      '@type': 'Person',
+      name: blog.author || 'A3Distributors Team',
+    },
+    publisher: {
+      '@type': 'Organization',
+      '@id': 'https://a3distributors.com/#organization',
+      name: settings.businessName || 'A3Distributors',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${window.location.origin}/imgs/logos/logo.png`,
+      },
+    },
+    inLanguage: 'en-IN',
+    articleSection: blog.category,
+    keywords: (tagList || []).join(', ') || undefined,
+  };
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: `${window.location.origin}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: `${window.location.origin}/blog`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: blog.title,
+        item: canonicalUrl,
+      },
+    ],
+  };
+
+  const seoSchemas = [articleSchema, breadcrumbSchema];
 
   return (
     <>
       <SEO
         title={blog.title}
         description={blog.meta_description || blog.excerpt}
-        keywords={blog.meta_keywords || blog.tags || `${settings.businessName}, blog`}
+        keywords={blog.meta_keywords || tagList.join(', ') || `${settings.businessName}, blog`}
         image={seoImage}
         canonicalUrl={canonicalUrl}
         ogType="article"
-        publishedTime={blog.published_at}
-        modifiedTime={blog.updated_at}
+        publishedTime={publishedAt}
+        modifiedTime={modifiedAt}
+        author={blog.author || 'A3Distributors Team'}
+        articleSection={blog.category}
+        articleTags={tagList}
+        extraSchemas={seoSchemas}
       />
 
       <div className="blog-post-container">
-        {/* Back Button */}
         <Link to="/blog" className="back-button">
           <ArrowLeft size={20} />
           Back to Blog
         </Link>
 
         <article className="blog-post-article">
-          {/* Header */}
           <header className="blog-post-header">
             <div className="blog-post-meta-top">
-              <span className="blog-post-category">{blog.category}</span>
+              <Link
+                to={`/blog?category=${encodeURIComponent(blog.category)}`}
+                className="blog-post-category"
+              >
+                {blog.category}
+              </Link>
               <span className="blog-post-date">
-                {new Date(blog.published_at).toLocaleDateString('en-US', {
+                {new Date(publishedAt).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
-                  day: 'numeric'
+                  day: 'numeric',
                 })}
               </span>
             </div>
@@ -180,32 +219,29 @@ export default function BlogPost() {
             <p className="blog-post-excerpt">{blog.excerpt}</p>
             <div className="blog-post-author">
               <div className="author-info">
-                <span className="author-name">{blog.author}</span>
+                <span className="author-name">{blog.author || 'A3Distributors Team'}</span>
+                <span className="author-separator">•</span>
+                <span className="read-time">{readMinutes} min read</span>
                 <span className="author-separator">•</span>
                 <span className="read-time">
-                  {readMinutes} min read
+                  Updated {new Date(modifiedAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })}
                 </span>
               </div>
               <div className="share-buttons">
-                <button
-                  className="share-btn"
-                  onClick={handleShare}
-                  title="Share this post"
-                >
+                <button className="share-btn" onClick={handleShare} title="Share this post">
                   <Share2 size={18} />
                 </button>
-                <button
-                  className="share-btn"
-                  onClick={handleCopyLink}
-                  title="Copy link"
-                >
+                <button className="share-btn" onClick={handleCopyLink} title="Copy link">
                   <Copy size={18} />
                 </button>
               </div>
             </div>
           </header>
 
-          {/* Featured Image */}
           {blog.featured_image && (
             <div className="blog-post-image">
               <img
@@ -221,25 +257,20 @@ export default function BlogPost() {
             </div>
           )}
 
-          {/* Content */}
           <div className="blog-post-content">
-            <div
-              className="blog-post-body"
-              dangerouslySetInnerHTML={{ __html: blog.content }}
-            />
+            <div className="blog-post-body" dangerouslySetInnerHTML={{ __html: blog.content }} />
 
-            {/* Tags */}
-            {blog.tags && (
+            {tagList.length > 0 && (
               <div className="blog-post-tags">
-                <h3>Tags</h3>
+                <h2>Tags</h2>
                 <div className="tags-list">
-                  {blog.tags.split(',').map((tag, idx) => (
+                  {tagList.map((tag) => (
                     <Link
-                      key={idx}
-                      to={`/blog?search=${encodeURIComponent(tag.trim())}`}
+                      key={tag}
+                      to={`/blog?search=${encodeURIComponent(tag)}`}
                       className="tag-link"
                     >
-                      #{tag.trim()}
+                      #{tag}
                     </Link>
                   ))}
                 </div>
@@ -247,21 +278,19 @@ export default function BlogPost() {
             )}
           </div>
 
-          {/* Author Box */}
           <div className="blog-author-box">
             <div className="author-box-content">
-              <h3>{blog.author}</h3>
+              <h3>{blog.author || 'A3Distributors Team'}</h3>
               <p>{settings.businessName} Team</p>
             </div>
           </div>
         </article>
 
-        {/* Related Posts */}
         {relatedBlogs.length > 0 && (
           <section className="blog-related">
             <h2>Related Articles</h2>
             <div className="blog-related-grid">
-              {relatedBlogs.map(post => (
+              {relatedBlogs.map((post) => (
                 <Link key={post.id} to={`/blog/${post.slug}`} className="blog-related-card">
                   {post.featured_image && (
                     <img
@@ -279,9 +308,9 @@ export default function BlogPost() {
                     <h3>{post.title}</h3>
                     <p>{post.excerpt}</p>
                     <span className="related-date">
-                      {new Date(post.published_at).toLocaleDateString('en-US', {
+                      {new Date(post.published_at || post.created_at).toLocaleDateString('en-US', {
                         month: 'short',
-                        day: 'numeric'
+                        day: 'numeric',
                       })}
                     </span>
                   </div>
@@ -291,7 +320,7 @@ export default function BlogPost() {
           </section>
         )}
       </div>
-      {/* Conversion CTA Section */}
+
       <div className="blog-conversion-cta">
         <div className="blog-conversion-content">
           <h3>Need Bulk Water or Soft Drink Supply?</h3>
@@ -308,3 +337,4 @@ export default function BlogPost() {
     </>
   );
 }
+

@@ -115,9 +115,12 @@ export default function BlogListing() {
     ? `${BLOG_CATEGORIES.find(c => c.value === selectedCategory)?.label || 'Blog'} - ${brandName} Blog`
     : `Blog - ${brandName}`;
 
-  const pageDescription = `Explore the ${brandName} blog for insights on water distribution, products, industry news, and business tips.`;
+  const pageDescription =
+    `Explore ${brandName} insights on wholesale water supply, beverage distribution, pricing trends, product updates, and business buying guides.`;
+
   const hasFilters = Boolean(searchQuery.trim() || (selectedCategory && selectedCategory !== 'all'));
   const canonicalUrl = `${window.location.origin}/blog`;
+  const totalCategoryCount = new Set((allBlogs || []).map((blog) => blog.category).filter(Boolean)).size;
 
   const blogCollectionSchema = useMemo(() => {
     if (hasFilters) return null;
@@ -142,7 +145,43 @@ export default function BlogListing() {
     };
   }, [hasFilters, filteredBlogs, brandName, canonicalUrl, pageDescription]);
 
+  const blogSchema = useMemo(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: `${brandName} Blog`,
+    description: pageDescription,
+    url: canonicalUrl,
+    inLanguage: 'en-IN',
+  }), [brandName, pageDescription, canonicalUrl]);
+
+  const breadcrumbSchema = useMemo(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: `${window.location.origin}/`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: canonicalUrl,
+      },
+    ],
+  }), [canonicalUrl]);
+
+  const seoSchemas = useMemo(() => {
+    const schemas = [blogSchema, breadcrumbSchema];
+    if (blogCollectionSchema) schemas.push(blogCollectionSchema);
+    return schemas;
+  }, [blogSchema, breadcrumbSchema, blogCollectionSchema]);
+
   function renderBlogCard(blog, { featured = false } = {}) {
+    const HeadingTag = featured ? 'h2' : 'h3';
+
     return (
       <article className={`blog-card${featured ? ' blog-card--featured' : ''}`} key={blog.id}>
         <Link to={`/blog/${blog.slug}`} className="blog-card-link">
@@ -164,7 +203,7 @@ export default function BlogListing() {
           )}
           <div className="blog-content">
             {featured && <span className="blog-featured-badge">Featured</span>}
-            <h2 className="blog-title">{blog.title}</h2>
+            <HeadingTag className="blog-title">{blog.title}</HeadingTag>
             <p className="blog-excerpt">{blog.excerpt}</p>
             <div className="blog-meta">
               <span className="blog-author">By {blog.author || brandName}</span>
@@ -187,26 +226,53 @@ export default function BlogListing() {
       <SEO
         title={pageTitle}
         description={pageDescription}
-        keywords={`${brandName}, blog, water distribution, products, industry insights`}
+        keywords={`${brandName}, wholesale blog, water distribution blog, beverage business blog, supply chain insights`}
         canonicalUrl={canonicalUrl}
         noindex={hasFilters}
         ogType="website"
         image="/imgs/og-image.jpg"
-        extraSchemas={blogCollectionSchema ? [blogCollectionSchema] : []}
+        extraSchemas={seoSchemas}
       />
 
       <div className="blog-listing-container">
         <div className="blog-shell">
+          <header className="blog-header">
+            <div className="blog-header-content">
+              <span className="blog-kicker">Industry Insights</span>
+              <h1>Water &amp; Beverage Distribution Blog</h1>
+              <p>
+                Practical guides, wholesale buying tips, and supply insights for offices,
+                retailers, and event businesses looking for reliable beverage distribution.
+              </p>
+              <div className="blog-header-stats">
+                <div>
+                  <strong>{allBlogs.length}</strong>
+                  <span>Total Articles</span>
+                </div>
+                <div>
+                  <strong>{totalCategoryCount}</strong>
+                  <span>Categories</span>
+                </div>
+                <div>
+                  <strong>{filteredBlogs.length}</strong>
+                  <span>Matching Posts</span>
+                </div>
+              </div>
+            </div>
+          </header>
+
           <div className="blog-controls">
             <form onSubmit={handleSearch} className="blog-search-form">
-              <Search size={18} className="blog-search-icon" />
-              <input
-                type="text"
-                placeholder="Search blog posts..."
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className="blog-search-input"
-              />
+              <div className="blog-search-field">
+                <Search size={18} className="blog-search-icon" />
+                <input
+                  type="text"
+                  placeholder="Search blog posts..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  className="blog-search-input"
+                />
+              </div>
               <button type="submit" className="blog-search-btn">Search</button>
             </form>
 
@@ -228,7 +294,7 @@ export default function BlogListing() {
             <div className="blog-loading">Loading blog posts...</div>
           ) : filteredBlogs.length === 0 ? (
             <div className="blog-empty">
-              <h3>No matching posts found</h3>
+              <h2>No matching posts found</h2>
               <p>Try another keyword or browse a different category.</p>
             </div>
           ) : (
@@ -265,7 +331,6 @@ export default function BlogListing() {
                 </div>
               </section>
 
-              {/* Pagination */}
               {totalPages > 1 && (
                 <div className="blog-pagination">
                   <button

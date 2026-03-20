@@ -92,10 +92,14 @@
 }
 
 .blog-search-form {
-  position: relative;
   display: flex;
   gap: 10px;
   margin-bottom: 16px;
+}
+
+.blog-search-field {
+  position: relative;
+  flex: 1;
 }
 
 .blog-search-icon {
@@ -522,6 +526,10 @@
     flex-direction: column;
   }
 
+  .blog-search-field {
+    width: 100%;
+  }
+
   .blog-search-input {
     width: 100%;
   }
@@ -571,6 +579,10 @@
   .blog-search-form {
     flex-direction: column;
     gap: 8px;
+  }
+
+  .blog-search-field {
+    width: 100%;
   }
 
   .blog-search-input {

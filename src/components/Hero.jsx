@@ -20,6 +20,9 @@ const trustSignals = [
 export default function Hero({ onQuotationClick }) {
   const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
   const siteConfig = useSettingsSync();
+  const subtitle =
+    siteConfig.heroSubtitle ||
+    "A3Distributors supplies top water & cold drink brands to offices, shops, events, and wholesalers with on-time bulk delivery in Mumbai.";
 
   return (
     <section id="home" className="hero" ref={ref}>
@@ -41,7 +44,7 @@ export default function Hero({ onQuotationClick }) {
             Your Trusted Water &amp; Beverage{" "}
             <span className="hero__title-highlight">Distribution</span> Partner
           </h1>
-          <p className="hero__subtitle">{siteConfig.heroSubtitle}</p>
+          <p className="hero__subtitle">{subtitle}</p>
 
           <div className="hero__actions">
             <button
@@ -60,6 +63,14 @@ export default function Hero({ onQuotationClick }) {
             </a>
           </div>
 
+          <div className="hero__seo-links" aria-label="Popular pages">
+            <a href="/wholesale-distributor">Wholesale Distributor</a>
+            <span>•</span>
+            <a href="/blog">Water &amp; Beverage Blog</a>
+            <span>•</span>
+            <a href="/compare">Compare Distributors</a>
+          </div>
+
           <div className="hero__trust">
             {trustSignals.map(({ icon: Icon, label }) => (
               <div key={label} className="hero__trust-item">
@@ -73,7 +84,6 @@ export default function Hero({ onQuotationClick }) {
         </div>
       </div>
 
-      {/* Scroll indicator */}
       <a href="#products" className="hero__scroll">
         <ChevronRight size={20} className="hero__scroll-icon" />
         <span>Explore Products</span>

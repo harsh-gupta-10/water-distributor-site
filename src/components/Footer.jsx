@@ -61,10 +61,10 @@ export default function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className="footer__column">
+          <div className="footer__column footer__column--quick">
             <h4 className="footer__column-title">Quick Links</h4>
             <ul className="footer__links">
-              {quickLinks.map(({ label, href, type }) => (
+              {quickLinks.map(({ label, href }) => (
                 <li key={label}>
                   <Link to={href} className="footer__link">
                     <ChevronRight size={14} />
@@ -76,7 +76,7 @@ export default function Footer() {
           </div>
 
           {/* Products */}
-          <div className="footer__column">
+          <div className="footer__column footer__column--products">
             <h4 className="footer__column-title">Products</h4>
             <ul className="footer__links">
               {productLinks.map((name) => (
@@ -91,7 +91,7 @@ export default function Footer() {
           </div>
 
           {/* Service Areas & Info */}
-          <div className="footer__column">
+          <div className="footer__column footer__column--service">
             <h4 className="footer__column-title">Service Areas</h4>
             <ul className="footer__links">
               {siteConfig.serviceAreas.slice(0, 3).map((area) => (

@@ -26,6 +26,7 @@ export default function QuotationsPage() {
         const { error } = await supabase.from('quotations').update({ status: newStatus }).eq('id', id);
         if (!error) {
             setQuotations(prev => prev.map(q => q.id === id ? { ...q, status: newStatus } : q));
+            window.dispatchEvent(new Event('quotation-status-changed'));
         }
     }
 

@@ -660,8 +660,31 @@ ol {
 .hero__actions {
   display: flex;
   gap: 16px;
-  margin-bottom: 48px;
+  margin-bottom: 24px;
   flex-wrap: wrap;
+}
+
+.hero__seo-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 28px;
+  flex-wrap: wrap;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.88rem;
+}
+
+.hero__seo-links a {
+  color: rgba(255, 255, 255, 0.88);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.35);
+  text-underline-offset: 3px;
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+}
+
+.hero__seo-links a:hover {
+  color: #ffffff;
+  text-decoration-color: rgba(255, 255, 255, 0.75);
 }
 
 .hero__btn {
@@ -761,6 +784,9 @@ ol {
   .hero__actions {
     justify-content: center;
   }
+  .hero__seo-links {
+    justify-content: center;
+  }
   .hero__trust {
     justify-content: center;
   }
@@ -781,6 +807,11 @@ ol {
   .hero__trust {
     flex-direction: column;
     align-items: center;
+  }
+  .hero__seo-links {
+    justify-content: center;
+    font-size: 0.82rem;
+    gap: 8px;
   }
 }
 
@@ -892,14 +923,86 @@ ol {
   transition: gap var(--transition-fast);
 }
 
-.category-card:hover .category-card__cta {
+
+
+.products-seo-copy {
+  margin-top: 30px;
+  background: #ffffff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.products-seo-copy h3 {
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+  color: var(--gray-900);
+}
+
+.products-seo-copy p {
+  margin: 0 0 14px;
+  color: var(--gray-600);
+  line-height: 1.7;
+}
+
+.products-seo-copy__list {
+  list-style: disc;
+  padding-left: 18px;
+  margin: 0;
+  display: grid;
   gap: 8px;
 }
 
-@media (max-width: 768px) {
+.products-seo-copy__list li {
+  color: var(--gray-700);
+  line-height: 1.6;
+  font-size: 0.93rem;
+}
+
+.products-seo-copy__list strong {
+  color: var(--gray-900);
+}
+
+
+
+@media (max-width: 767px) {
+  .products-seo-copy {
+    padding: 18px 16px;
+  }
+
+  .products-seo-copy h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
   .category-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 14px;
+  }
+
+  .category-card {
+    min-height: 164px;
+  }
+
+  .category-card__img-wrap {
+    width: 150px;
+    min-height: 150px;
+  }
+
+  .category-card__content {
+    padding: 18px 16px;
+  }
+
+  .category-card__name {
+    font-size: 1rem;
+    line-height: 1.28;
+  }
+
+  .category-card__footer {
+    gap: 8px;
+    flex-wrap: wrap;
   }
 }
 
@@ -1064,6 +1167,22 @@ ol {
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
+.modal__close.product-modal__close {
+  position: static;
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+}
+
+.modal__close.product-modal__close:hover {
+  background: var(--gray-50);
+  border-color: var(--gray-300);
+}
+
 .product-modal__header-icon {
   flex-shrink: 0;
   width: 48px;
@@ -1219,6 +1338,7 @@ ol {
 @media (max-width: 640px) {
   .product-modal__header {
     padding: 20px;
+    gap: 12px;
   }
   .product-modal__list {
     grid-template-columns: 1fr;
@@ -1230,6 +1350,10 @@ ol {
   }
   .product-modal__item-img-wrap {
     height: 120px;
+  }
+  .modal__close.product-modal__close {
+    width: 32px;
+    height: 32px;
   }
   .product-modal__footer {
     padding: 16px 20px 20px;
@@ -2196,9 +2320,17 @@ a.contact__card:hover {
 
 @media (max-width: 600px) {
   .footer__grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 16px;
     text-align: center;
+  }
+  .footer__brand,
+  .footer__column--service {
+    grid-column: 1 / -1;
+  }
+  .footer__column--quick,
+  .footer__column--products {
+    grid-column: span 1;
   }
   .footer__logo {
     justify-content: center;
@@ -2211,9 +2343,33 @@ a.contact__card:hover {
   .footer__contact-item {
     justify-content: center;
   }
+  .footer__column--quick .footer__links,
+  .footer__column--products .footer__links,
+  .footer__column--service .footer__links {
+    align-items: center;
+  }
+  .footer__column--quick .footer__link,
+  .footer__column--products .footer__link,
+  .footer__column--service .footer__link {
+    justify-content: center;
+  }
+  .footer__column--service .footer__hours {
+    justify-content: center;
+    align-items: center;
+  }
   .footer__bottom {
     flex-direction: column;
     text-align: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .footer__grid {
+    grid-template-columns: 1fr;
+  }
+  .footer__column--quick,
+  .footer__column--products {
+    grid-column: 1 / -1;
   }
 }
 
@@ -4370,3 +4526,5 @@ a.contact__card:hover {
     width: 100%;
   }
 }
+
+

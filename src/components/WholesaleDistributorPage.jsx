@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 import {
   CheckCircle,
@@ -102,12 +103,12 @@ const whyBestList = [
   "Real-time inventory visibility - never face stock-out situations",
 ];
 
-function PricingCard({ name, range, discount, features, popular, cta }) {
+function PricingCard({ name, range, discount, features, popular, cta, whatsappNumber }) {
   const handleClick = () => {
     const message = encodeURIComponent(
       `Hi, I'm interested in the ${name} plan (${range}). Please share more details.`
     );
-    window.open(`https://wa.me/${siteConfig.whatsappNumber}?text=${message}`, "_blank");
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
   };
 
   return (
@@ -142,6 +143,30 @@ export default function WholesaleDistributorPage() {
   const { ref: ctaRef, inView: ctaInView } = useInView({ threshold: 0.1, triggerOnce: true });
   const siteConfig = useSettingsSync();
 
+  const canonicalUrl = `${window.location.origin}/wholesale-distributor`;
+  const seoSchemas = useMemo(() => {
+    const breadcrumbSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${window.location.origin}/` },
+        { '@type': 'ListItem', position: 2, name: 'Wholesale Distributor', item: canonicalUrl },
+      ],
+    };
+
+    const webPageSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      url: canonicalUrl,
+      name: 'Best Wholesale Water & Beverage Distributor in Mumbai',
+      description:
+        'Wholesale supplier for packaged drinking water, soft drinks, juices, and energy drinks with fast delivery and volume discounts in Mumbai.',
+      inLanguage: 'en-IN',
+    };
+
+    return [breadcrumbSchema, webPageSchema];
+  }, [canonicalUrl]);
+
   const handleWhatsApp = () => {
     const message = encodeURIComponent(siteConfig.whatsappMessages.general);
     window.open(`https://wa.me/${siteConfig.whatsappNumber}?text=${message}`, "_blank");
@@ -153,14 +178,16 @@ export default function WholesaleDistributorPage() {
 
   return (
     <>
-      <SEO 
+      <SEO
         title="Best Wholesale Water & Beverage Distributor in Mumbai"
-        description="A3Distributor is Mumbai's leading wholesale water and beverage supplier. Best prices, 500+ products, same-day delivery. Serving small businesses to large enterprises. GST billing, flexible payment terms."
-        keywords="best wholesale distributor, wholesale water distributor, beverage distributor Mumbai, bulk water supply, wholesale drinks supplier, water distributor near me, beverage wholesale India, drink distributor, soft drink wholesale"
+        description="A3Distributor is Mumbai's leading wholesale water and beverage supplier. Best prices, 500+ products, same-day delivery. Serving small businesses to large enterprises with GST billing and flexible payment terms."
+        keywords="best wholesale distributor mumbai, wholesale water distributor, bulk beverage supplier, same day water delivery mumbai, beverage wholesale india"
+        canonicalUrl={canonicalUrl}
+        image="/imgs/og-image.jpg"
+        extraSchemas={seoSchemas}
       />
-      
+
       <main className="wholesale-page">
-        {/* Hero Section */}
         <section className="wholesale-hero" ref={heroRef}>
           <div className="container">
             <div className={`wholesale-hero__content ${heroInView ? "animate-fadeInUp" : ""}`}>
@@ -172,7 +199,7 @@ export default function WholesaleDistributorPage() {
                 Best Wholesale Water & Beverage Distributor
               </h1>
               <p className="wholesale-hero__subtitle">
-                Supplying quality water and beverages to 500+ businesses across Mumbai. 
+                Supplying quality water and beverages to 500+ businesses across Mumbai.
                 Unbeatable wholesale pricing, massive product selection, and delivery you can count on.
               </p>
               <div className="wholesale-hero__buttons">
@@ -203,7 +230,6 @@ export default function WholesaleDistributorPage() {
           </div>
         </section>
 
-        {/* Key Features */}
         <section className="wholesale-features" ref={featuresRef}>
           <div className="container">
             <div className={`section-header ${featuresInView ? "animate-fadeInUp" : ""}`}>
@@ -230,7 +256,6 @@ export default function WholesaleDistributorPage() {
           </div>
         </section>
 
-        {/* Pricing Tiers */}
         <section className="wholesale-pricing" ref={pricingRef}>
           <div className="container">
             <div className={`section-header ${pricingInView ? "animate-fadeInUp" : ""}`}>
@@ -249,14 +274,13 @@ export default function WholesaleDistributorPage() {
                   className={pricingInView ? "animate-fadeInUp" : ""}
                   style={{ animationDelay: `${0.15 * index}s` }}
                 >
-                  <PricingCard {...tier} />
+                  <PricingCard {...tier} whatsappNumber={siteConfig.whatsappNumber} />
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Why We're the Best */}
         <section className="wholesale-why" ref={whyRef}>
           <div className="container">
             <div className={`wholesale-why__content ${whyInView ? "animate-fadeInUp" : ""}`}>
@@ -273,13 +297,12 @@ export default function WholesaleDistributorPage() {
           </div>
         </section>
 
-        {/* Final CTA */}
         <section className="wholesale-cta" ref={ctaRef}>
           <div className="container">
             <div className={`wholesale-cta__content ${ctaInView ? "animate-fadeInUp" : ""}`}>
               <h2>Ready to Start Saving on Wholesale Orders?</h2>
               <p>
-                Join hundreds of successful businesses already partnering with A3Distributor. 
+                Join hundreds of successful businesses already partnering with A3Distributor.
                 Get your customized quote in under 5 minutes. No commitments, no pressure.
               </p>
               <div className="wholesale-cta__buttons">
@@ -289,8 +312,8 @@ export default function WholesaleDistributorPage() {
                 </button>
               </div>
               <p className="wholesale-cta__note">
-                Questions? Call us at <a href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a> 
-                {" "}— We're available 24/7
+                Questions? Call us at <a href={`tel:${siteConfig.phone}`}>{siteConfig.phoneDisplay}</a>
+                {' '}— We're available 24/7
               </p>
             </div>
           </div>

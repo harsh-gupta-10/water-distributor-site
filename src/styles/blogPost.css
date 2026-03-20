@@ -239,6 +239,7 @@
   border-top: 1px solid #eee;
 }
 
+.blog-post-tags h2,
 .blog-post-tags h3 {
   font-size: 16px;
   font-weight: 600;
@@ -566,3 +567,4 @@
     max-width: 280px;
   }
 }
+

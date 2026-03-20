@@ -8,6 +8,23 @@ import Modal from '../components/Modal';
 const BLOG_IMAGE_BUCKET = import.meta.env.VITE_SUPABASE_MEDIA_BUCKET || import.meta.env.VITE_SUPABASE_BLOG_BUCKET || 'media';
 const MAX_BLOG_IMAGE_SIZE_BYTES = 50 * 1024 * 1024;
 
+function createEmptyForm() {
+    return {
+        title: '',
+        slug: '',
+        excerpt: '',
+        content: '',
+        featured_image: '',
+        author: 'A3Distributor',
+        category: 'business',
+        tags: '',
+        status: 'draft',
+        published_at: new Date().toISOString().slice(0, 10),
+        meta_description: '',
+        meta_keywords: '',
+    };
+}
+
 function normalizeFileName(name) {
     return name
         .toLowerCase()
@@ -28,20 +45,7 @@ export default function BlogsPage() {
     const [search, setSearch] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [editingId, setEditingId] = useState(null);
-    const [form, setForm] = useState({
-        title: '',
-        slug: '',
-        excerpt: '',
-        content: '',
-        featured_image: '',
-        author: 'A3Distributor',
-        category: 'business',
-        tags: '',
-        status: 'draft',
-        published_at: new Date().toISOString().slice(0, 10),
-        meta_description: '',
-        meta_keywords: '',
-    });
+    const [form, setForm] = useState(createEmptyForm);
 
     useEffect(() => {
         fetchBlogs();
@@ -318,42 +322,10 @@ export default function BlogsPage() {
                 throw new Error('Blog must have title, slug, and content');
             }
 
-            // Check if blog with this slug already exists
-            const { data: existing } = await supabase
-                .from('blogs')
-                .select('id')
-                .eq('slug', blogData.slug)
-                .single();
-
-            const { id, ...blogWithoutId } = blogData;
-
-            if (existing) {
-                // Update existing
-                const { error } = await supabase
-                    .from('blogs')
-                    .update({
-                        ...blogWithoutId,
-                        updated_at: new Date().toISOString(),
-                    })
-                    .eq('id', existing.id);
-                
-                if (error) throw error;
-                toast(`Blog "${blogData.title}" updated successfully`, 'success');
-            } else {
-                // Insert new
-                const { error } = await supabase
-                    .from('blogs')
-                    .insert([{
-                        ...blogWithoutId,
-                        created_at: blogData.created_at || new Date().toISOString(),
-                        updated_at: new Date().toISOString(),
-                    }]);
-                
-                if (error) throw error;
-                toast(`Blog "${blogData.title}" imported successfully`, 'success');
-            }
-
-            await fetchBlogs();
+            setEditingId(null);
+            setForm(mapBlogToForm(blogData));
+            setShowModal(true);
+            toast(`Loaded "${blogData.title}" into the form. Review and save when ready.`, 'success');
         } catch (error) {
             toast('Failed to import blog: ' + error.message, 'error');
         }
@@ -369,26 +341,31 @@ export default function BlogsPage() {
     }
 
     function openEdit(blog) {
-        setForm(blog);
+        setForm(mapBlogToForm(blog));
         setEditingId(blog.id);
         setShowModal(true);
     }
 
     function resetForm() {
-        setForm({
-            title: '',
-            slug: '',
-            excerpt: '',
-            content: '',
-            featured_image: '',
-            author: 'A3Distributor',
-            category: 'business',
-            tags: '',
-            status: 'draft',
-            published_at: new Date().toISOString().slice(0, 10),
-            meta_description: '',
-            meta_keywords: '',
-        });
+        setForm(createEmptyForm());
+    }
+
+    function mapBlogToForm(blog = {}) {
+        return {
+            ...createEmptyForm(),
+            title: blog.title || '',
+            slug: blog.slug || '',
+            excerpt: blog.excerpt || '',
+            content: blog.content || '',
+            featured_image: blog.featured_image || '',
+            author: blog.author || 'A3Distributor',
+            category: blog.category || 'business',
+            tags: Array.isArray(blog.tags) ? blog.tags.join(', ') : (blog.tags || ''),
+            status: blog.status || 'draft',
+            published_at: String(blog.published_at || new Date().toISOString().slice(0, 10)).slice(0, 10),
+            meta_description: blog.meta_description || '',
+            meta_keywords: Array.isArray(blog.meta_keywords) ? blog.meta_keywords.join(', ') : (blog.meta_keywords || ''),
+        };
     }
 
     function generateSlug(title) {

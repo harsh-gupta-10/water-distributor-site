@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 import {
   Droplets,
@@ -34,6 +34,46 @@ function getProductImage(filename) {
   return `/imgs/products/${resolved}`;
 }
 
+function buildProductListSchema(displayCategories, settings) {
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://a3distributors.com";
+  const items = (displayCategories || []).flatMap((category) =>
+    (category.products || []).slice(0, 4).map((product) => ({
+      "@type": "ListItem",
+      position: 0,
+      item: {
+        "@type": "Product",
+        name: product.name,
+        category: category.name,
+        description:
+          product.description ||
+          `${product.name} available for bulk supply in ${category.name} category`,
+        url: `${origin}/#products`,
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "INR",
+          availability: "https://schema.org/InStock",
+          url: `${origin}/#products`,
+          seller: {
+            "@type": "Organization",
+            name: settings.businessName || "A3Distributors",
+          },
+        },
+      },
+    }))
+  );
+
+  const listItems = items.map((item, index) => ({ ...item, position: index + 1 }));
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Wholesale Water and Beverage Products",
+    numberOfItems: listItems.length,
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    itemListElement: listItems,
+  };
+}
+
 // Build categories with resolved icons and images
 const categories = productsData.categories.map((cat) => ({
   ...cat,
@@ -63,6 +103,7 @@ function CategoryCard({ category, onClick, delay, animate }) {
       style={{ opacity: animate ? 1 : 0, animationDelay: `${delay}s` }}
       onClick={onClick}
       role="button"
+      aria-label={`View ${category.name} products`}
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
@@ -73,7 +114,7 @@ function CategoryCard({ category, onClick, delay, animate }) {
         {previewImg ? (
           <img
             src={previewImg}
-            alt={category.name}
+            alt={`${category.name} wholesale products`}
             className="category-card__img"
             width={208}
             height={158}
@@ -105,29 +146,32 @@ function ProductListModal({ category, onClose, onGetPrice, settings }) {
   const Icon = category.icon;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="product-modal" onClick={(e) => e.stopPropagation()}>
-        <button className="modal__close" onClick={onClose}>
-          <X size={18} />
-        </button>
-
-        <div
-          className="product-modal__header"
-          style={{ borderColor: category.color }}
-        >
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="product-modal" onClick={(e) => e.stopPropagation()}>
           <div
-            className="product-modal__header-icon"
-            style={{ background: category.bgColor, color: category.color }}
+            className="product-modal__header"
+            style={{ borderColor: category.color }}
           >
-            <Icon size={24} />
+            <div
+              className="product-modal__header-icon"
+              style={{ background: category.bgColor, color: category.color }}
+            >
+              <Icon size={24} />
+            </div>
+            <div>
+              <h2 className="product-modal__title">{category.name}</h2>
+              <p className="product-modal__subtitle">
+                {category.products.length} products available for bulk supply
+              </p>
+            </div>
+            <button
+              className="modal__close product-modal__close"
+              onClick={onClose}
+              aria-label="Close product list"
+            >
+              <X size={18} />
+            </button>
           </div>
-          <div>
-            <h2 className="product-modal__title">{category.name}</h2>
-            <p className="product-modal__subtitle">
-              {category.products.length} products available for bulk supply
-            </p>
-          </div>
-        </div>
 
         <div className="product-modal__list">
           {category.products.map((product) => (
@@ -136,7 +180,7 @@ function ProductListModal({ category, onClose, onGetPrice, settings }) {
                 {product.imageSrc ? (
                   <img
                     src={product.imageSrc}
-                    alt={product.name}
+                    alt={`${product.name} in ${category.name}`}
                     className="product-modal__item-img"
                     width={80}
                     height={80}
@@ -219,11 +263,16 @@ export default function Products({ onQuotationClick }) {
   useEffect(() => {
     async function loadDbProducts() {
       try {
-        const { data, error } = await supabase.from('products').select('*').eq('status', 'active').order('position', { ascending: true }).order('created_at', { ascending: false });
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .eq('status', 'active')
+          .order('position', { ascending: true })
+          .order('created_at', { ascending: false });
         if (error) throw error;
         if (data && data.length > 0) {
           const catMap = {};
-          data.forEach(p => {
+          data.forEach((p) => {
             if (!catMap[p.category]) catMap[p.category] = [];
             catMap[p.category].push({
               name: p.name,
@@ -231,18 +280,17 @@ export default function Products({ onQuotationClick }) {
               description: p.description,
               price: p.price,
               stock: p.stock,
-              color: catMap[p.category]?.length ? catMap[p.category][0].color : undefined // Will resolve below
+              color: catMap[p.category]?.length ? catMap[p.category][0].color : undefined,
             });
           });
 
           // Merge DB products over JSON categories
-          const newCats = categories.map(cat => {
+          const newCats = categories.map((cat) => {
             const dbProducts = catMap[cat.name];
             if (dbProducts && dbProducts.length > 0) {
-              // Map DB products, carrying over category color
               return {
                 ...cat,
-                products: dbProducts.map(dbp => ({ ...dbp, color: cat.products[0]?.color || cat.color }))
+                products: dbProducts.map((dbp) => ({ ...dbp, color: cat.products[0]?.color || cat.color })),
               };
             }
             return cat;
@@ -257,8 +305,23 @@ export default function Products({ onQuotationClick }) {
     loadDbProducts();
   }, []);
 
+  const totalProducts = useMemo(
+    () => displayCategories.reduce((sum, category) => sum + (category.products?.length || 0), 0),
+    [displayCategories]
+  );
+
+  const productListSchema = useMemo(
+    () => buildProductListSchema(displayCategories, settings),
+    [displayCategories, settings]
+  );
+
   return (
     <section id="products" className="products" ref={ref}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productListSchema) }}
+      />
+
       <div className="container">
         <div
           className={`section-header ${inView ? "animate-fadeInUp" : ""}`}
@@ -285,6 +348,26 @@ export default function Products({ onQuotationClick }) {
               animate={inView}
             />
           ))}
+        </div>
+
+        <div className="products-seo-copy">
+          <h3>Bulk Water and Beverage Categories for Businesses</h3>
+          <p>
+            We currently manage <strong>{totalProducts}+ products</strong> across
+            packaged drinking water, soft drinks, juices, and energy drinks for
+            offices, retailers, hotels, events, and institutional supply.
+          </p>
+          <ul className="products-seo-copy__list">
+            {displayCategories.map((category) => {
+              const preview = (category.products || []).slice(0, 3).map((product) => product.name).join(', ');
+              return (
+                <li key={category.id}>
+                  <strong>{category.name}:</strong> {preview}
+                  {category.products.length > 3 ? ', and more.' : '.'}
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
 

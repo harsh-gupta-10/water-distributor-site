@@ -1,11 +1,34 @@
 import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Plus, Search, Edit2, Trash2, GripVertical, Upload } from 'lucide-react';
+import { Plus, Search, Edit2, GripVertical, Upload } from 'lucide-react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import * as XLSX from 'xlsx';
 import Modal from '../components/Modal';
 import ExportButtons from '../components/ExportButtons';
 import { useToast } from '../components/Toast';
+
+const PRODUCT_IMAGE_BUCKET = import.meta.env.VITE_SUPABASE_MEDIA_BUCKET || 'media';
+const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
+
+function createEmptyProductForm() {
+    return { name: '', image_path: '', category: '', sku: '', price: '', stock: '', description: '', status: 'active' };
+}
+
+function sanitizeBaseName(value) {
+    return String(value || '')
+        .trim()
+        .toLowerCase()
+        .replace(/\.webp$/i, '')
+        .replace(/[^a-z0-9-_.]+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+}
+
+function ensureWebp(file) {
+    if (!file) return false;
+    const lowerName = file.name.toLowerCase();
+    return file.type === 'image/webp' && lowerName.endsWith('.webp');
+}
 
 export default function ProductsPage() {
     const [products, setProducts] = useState([]);
@@ -18,10 +41,15 @@ export default function ProductsPage() {
     const [editing, setEditing] = useState(null);
     const [deleteId, setDeleteId] = useState(null);
     const [importing, setImporting] = useState(false);
-    const [form, setForm] = useState({ name: '', image_path: '', category: '', sku: '', price: '', stock: '', description: '', status: 'active' });
+    const [uploadModalOpen, setUploadModalOpen] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
+    const [uploadFile, setUploadFile] = useState(null);
+    const [uploadName, setUploadName] = useState('');
+    const [form, setForm] = useState(createEmptyProductForm());
     const perPage = 15;
     const toast = useToast();
     const fileInputRef = useRef(null);
+    const uploadFileInputRef = useRef(null);
 
     useEffect(() => { fetchProducts(); }, []);
 
@@ -34,7 +62,7 @@ export default function ProductsPage() {
 
     function openAdd() {
         setEditing(null);
-        setForm({ name: '', image_path: '', category: '', sku: '', price: '', stock: '', description: '', status: 'active' });
+        setForm(createEmptyProductForm());
         setModalOpen(true);
     }
 
@@ -45,6 +73,67 @@ export default function ProductsPage() {
             price: p.price || '', stock: p.stock ?? '', description: p.description || '', status: p.status || 'active',
         });
         setModalOpen(true);
+    }
+
+    function openUploadModal() {
+        setUploadModalOpen(true);
+    }
+
+    function closeUploadModal() {
+        setUploadModalOpen(false);
+        setUploadFile(null);
+        setUploadName('');
+        if (uploadFileInputRef.current) {
+            uploadFileInputRef.current.value = '';
+        }
+    }
+
+    async function uploadProductImage() {
+        if (!uploadFile) {
+            toast('Choose a .webp image to upload', 'error');
+            return;
+        }
+
+        if (!ensureWebp(uploadFile)) {
+            toast('Only .webp images are allowed', 'error');
+            return;
+        }
+
+        if (uploadFile.size > MAX_UPLOAD_BYTES) {
+            toast('Image too large. Maximum allowed size is 50MB.', 'error');
+            return;
+        }
+
+        const fallbackName = form.name || editing?.name || uploadFile.name;
+        const baseName = sanitizeBaseName(uploadName || fallbackName) || `product-${Date.now()}`;
+        const targetPath = `products/${baseName}.webp`;
+
+        setUploadingImage(true);
+        try {
+            const { error } = await supabase.storage
+                .from(PRODUCT_IMAGE_BUCKET)
+                .upload(targetPath, uploadFile, {
+                    cacheControl: '31536000',
+                    upsert: true,
+                    contentType: 'image/webp',
+                });
+
+            if (error) throw error;
+
+            const { data } = supabase.storage.from(PRODUCT_IMAGE_BUCKET).getPublicUrl(targetPath);
+            const publicUrl = data?.publicUrl || '';
+
+            if (publicUrl) {
+                setForm(prev => ({ ...prev, image_path: publicUrl }));
+            }
+
+            toast('Product image uploaded and added to the form', 'success');
+            closeUploadModal();
+        } catch (error) {
+            toast(error.message || 'Image upload failed', 'error');
+        } finally {
+            setUploadingImage(false);
+        }
     }
 
     async function saveProduct() {
@@ -151,7 +240,6 @@ export default function ProductsPage() {
                 return;
             }
 
-            // Replace mode: clear current catalog before importing file rows.
             const { error: deleteError } = await supabase
                 .from('products')
                 .delete()
@@ -187,7 +275,6 @@ export default function ProductsPage() {
     async function handleDragEnd(result) {
         if (!result.destination) return;
 
-        // Only allow reordering if search and status filters are clear
         if (search || statusFilter !== 'all') {
             toast('Please clear search and status filters to reorder products. Category filter is allowed.', 'info');
             return;
@@ -197,21 +284,17 @@ export default function ProductsPage() {
         const destinationIndex = result.destination.index;
         if (sourceIndex === destinationIndex) return;
 
-        // The Draggable index maps directly to the `filtered` array index
         const newFiltered = Array.from(filtered);
         const [movedItem] = newFiltered.splice(sourceIndex, 1);
         newFiltered.splice(destinationIndex, 0, movedItem);
 
-        // Find the original indices of these filtered items within the main `products` array
         const indicesInProducts = filtered.map(fItem => products.findIndex(p => p.id === fItem.id));
 
         const newProducts = [...products];
-        // Distribute the newly ordered category items back into their original global slots
         indicesInProducts.forEach((globalIndex, i) => {
             newProducts[globalIndex] = newFiltered[i];
         });
 
-        // Calculate explicit positions for the entire list to guarantee continuous ascending order
         const updates = [];
         newProducts.forEach((p, idx) => {
             if (p.position !== idx) {
@@ -220,18 +303,16 @@ export default function ProductsPage() {
             }
         });
 
-        // Update local state immediately for snappy UI
         setProducts(newProducts);
 
         try {
-            // Update in background
             await Promise.all(updates.map(update =>
                 supabase.from('products').update({ position: update.position }).eq('id', update.id)
             ));
             toast('Product order updated');
         } catch (err) {
             toast('Failed to update order', 'error');
-            fetchProducts(); // rollback on error
+            fetchProducts();
         }
     }
 
@@ -280,6 +361,9 @@ export default function ProductsPage() {
                         style={{ display: 'none' }}
                         onChange={handleImportFileChange}
                     />
+                    <button className="btn-admin btn-admin--secondary" onClick={openUploadModal}>
+                        <Upload size={16} /> Upload to Supabase
+                    </button>
                     <button className="btn-admin btn-admin--primary" onClick={openAdd}>
                         <Plus size={16} /> Add Product
                     </button>
@@ -359,8 +443,6 @@ export default function ProductsPage() {
                                                             <td>
                                                                 <div className="data-table__actions">
                                                                     <button className="data-table__action-btn" title="Edit" onClick={() => openEdit(p)}><Edit2 size={15} /></button>
-                                                                    {/* Delete button disabled for now */}
-                                                                    {/* <button className="data-table__action-btn data-table__action-btn--danger" title="Delete" onClick={() => setDeleteId(p.id)}><Trash2 size={15} /></button> */}
                                                                 </div>
                                                             </td>
                                                         </tr>
@@ -389,7 +471,6 @@ export default function ProductsPage() {
                 </div>
             </div>
 
-            {/* Add/Edit Modal */}
             <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Product' : 'Add Product'} footer={
                 <>
                     <button className="btn-admin btn-admin--secondary" onClick={() => setModalOpen(false)}>Cancel</button>
@@ -409,11 +490,61 @@ export default function ProductsPage() {
                             <option value="inactive">Inactive</option>
                         </select>
                     </div>
-                    <div className="form-field form-field--full"><label>Image Path</label><input value={form.image_path} onChange={e => setForm({ ...form, image_path: e.target.value })} placeholder="/imgs/product.webp" /></div>
+                    <div className="form-field form-field--full">
+                        <label>Image Path</label>
+                        <input value={form.image_path} onChange={e => setForm({ ...form, image_path: e.target.value })} placeholder="/imgs/product.webp" />
+                        <div style={{ display: 'flex', gap: 8, marginTop: 8, flexWrap: 'wrap' }}>
+                            <button type="button" className="btn-admin btn-admin--secondary" onClick={openUploadModal}>
+                                <Upload size={16} /> Upload to Supabase
+                            </button>
+                            <button type="button" className="btn-admin btn-admin--secondary" onClick={() => setForm(prev => ({ ...prev, image_path: '' }))} disabled={!form.image_path}>
+                                Clear
+                            </button>
+                        </div>
+                        <small style={{ color: '#6b7280', marginTop: 6, display: 'block' }}>
+                            Uploads go to bucket: {PRODUCT_IMAGE_BUCKET} / folder: products
+                        </small>
+                    </div>
                     <div className="form-field form-field--full"><label>Description</label><textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} placeholder="Product description..." /></div>
                 </div>
             </Modal>
 
+            <Modal
+                isOpen={uploadModalOpen}
+                onClose={closeUploadModal}
+                title="Upload Product Image"
+                footer={
+                    <>
+                        <button className="btn-admin btn-admin--secondary" onClick={closeUploadModal}>Cancel</button>
+                        <button className="btn-admin btn-admin--primary" onClick={uploadProductImage} disabled={uploadingImage}>
+                            <Upload size={16} /> {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                        </button>
+                    </>
+                }
+            >
+                <div style={{ display: 'grid', gap: 16 }}>
+                    <div className="form-field">
+                        <label>Choose .webp file</label>
+                        <input
+                            ref={uploadFileInputRef}
+                            type="file"
+                            accept="image/webp,.webp"
+                            onChange={e => setUploadFile(e.target.files?.[0] || null)}
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label>File name (optional)</label>
+                        <input
+                            value={uploadName}
+                            onChange={e => setUploadName(e.target.value)}
+                            placeholder="product-name"
+                        />
+                    </div>
+                    <div style={{ fontSize: '0.85rem', color: '#6b7280' }}>
+                        The public URL will be inserted into the product form automatically after upload.
+                    </div>
+                </div>
+            </Modal>
         </>
     );
 }

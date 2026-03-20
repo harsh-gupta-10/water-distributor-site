@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from "react";
+import { Suspense, lazy, useEffect, useMemo, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -18,6 +18,7 @@ import WholesaleDistributorPage from "./components/WholesaleDistributorPage";
 import NotFoundPage from "./components/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
 import SEO from "./components/SEO";
+import productsData from "./data/products.json";
 
 const BlogListing = lazy(() => import("./components/BlogListing"));
 const BlogPost = lazy(() => import("./components/BlogPost"));
@@ -41,7 +42,83 @@ const OrdersPage = lazy(() => import("./admin/pages/OrdersPage"));
 const OrderForm = lazy(() => import("./admin/pages/OrderForm"));
 const OrderView = lazy(() => import("./admin/pages/OrderView"));
 
-function HomePage({ openModal, scrollToContactOnLoad = false }) {
+function buildHomeSchemas(origin) {
+  const products = productsData.categories.flatMap((category) =>
+    (category.products || []).slice(0, 4).map((product) => ({
+      "@type": "ListItem",
+      position: 0,
+      item: {
+        "@type": "Product",
+        name: product.name,
+        category: category.name,
+        description: `${product.name} in ${category.name} category for bulk business supply`,
+        url: `${origin}/#products`,
+        offers: {
+          "@type": "Offer",
+          priceCurrency: "INR",
+          availability: "https://schema.org/InStock",
+          url: `${origin}/#products`,
+        },
+      },
+    }))
+  );
+
+  const itemList = products.map((item, index) => ({
+    ...item,
+    position: index + 1,
+  }));
+
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${origin}/#webpage`,
+    url: `${origin}/`,
+    name: "Wholesale Water & Beverage Distributor in Mumbai",
+    description:
+      "Bulk water and beverage supplier in Mumbai for offices, retailers, institutions, and events with fast delivery and competitive wholesale pricing.",
+    inLanguage: "en-IN",
+    isPartOf: { "@id": `${origin}/#website` },
+    about: { "@id": `${origin}/#organization` },
+    primaryImageOfPage: `${origin}/imgs/og-image.jpg`,
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `${origin}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Products",
+        item: `${origin}/#products`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Blog",
+        item: `${origin}/blog`,
+      },
+    ],
+  };
+
+  const productListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Water and Beverage Products",
+    itemListOrder: "https://schema.org/ItemListOrderAscending",
+    itemListElement: itemList,
+  };
+
+  return [webPageSchema, breadcrumbSchema, productListSchema];
+}
+
+function HomePage({ openModal, scrollToContactOnLoad = false, canonicalPath = "/" }) {
   useEffect(() => {
     if (!scrollToContactOnLoad) return;
     const contactSection = document.getElementById("contact");
@@ -50,13 +127,32 @@ function HomePage({ openModal, scrollToContactOnLoad = false }) {
     }
   }, [scrollToContactOnLoad]);
 
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://a3distributors.com";
+  const isContactPage = canonicalPath === "/contact";
+  const homeSchemas = useMemo(() => buildHomeSchemas(origin), [origin]);
+
+  const seoTitle = isContactPage
+    ? "Contact Wholesale Water & Beverage Distributor in Mumbai"
+    : "Wholesale Water & Beverage Distributor in Mumbai";
+
+  const seoDescription = isContactPage
+    ? "Contact A3Distributors for bulk water and beverage supply in Mumbai. Get pricing, delivery timelines, and custom quotes for offices, events, and retail businesses."
+    : "A3Distributors is a trusted wholesale water and beverage distributor in Mumbai. Bulk supply for offices, events, and retailers with fast delivery and competitive pricing.";
+
+  const seoKeywords = isContactPage
+    ? "contact water distributor mumbai, bulk water supplier phone number, beverage distributor contact, wholesale water quote mumbai"
+    : "wholesale water distributor mumbai, beverage distributor mumbai, bulk water supply for office, soft drink wholesale supplier, bisleri distributor, pepsi coca cola wholesale";
+
   return (
     <>
       <SEO
-        title="Home - Wholesale Water & Beverage Distribution"
-        description="A3Distributors — Reliable water & cold drink distribution for businesses across India. Bulk supply of Bisleri, Kinley, Coca-Cola, Pepsi & more. Best wholesale pricing and on-time delivery."
-        keywords="wholesale distributor, water distributor, beverage distributor, bulk water supply, cold drink supplier, Coca-Cola distributor, Pepsi distributor, beverage wholesale India"
-        includeFAQ={true}
+        title={seoTitle}
+        description={seoDescription}
+        keywords={seoKeywords}
+        canonicalUrl={`${origin}${canonicalPath}`}
+        includeFAQ={!isContactPage}
+        image="/imgs/og-image.jpg"
+        extraSchemas={homeSchemas}
       />
       <main>
         <Hero onQuotationClick={openModal} />
@@ -123,41 +219,62 @@ function App() {
           </Route>
 
           {/* ─── Public Routes ─── */}
-          <Route path="/" element={
-            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-              <HomePage openModal={openModal} />
-            </PublicLayout>
-          } />
-          <Route path="/contact" element={
-            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-              <HomePage openModal={openModal} scrollToContactOnLoad />
-            </PublicLayout>
-          } />
-          <Route path="/compare" element={
-            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-              <ComparisonPage />
-            </PublicLayout>
-          } />
-          <Route path="/wholesale-distributor" element={
-            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-              <WholesaleDistributorPage />
-            </PublicLayout>
-          } />
-          <Route path="/blog" element={
-            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-              <BlogListing />
-            </PublicLayout>
-          } />
-          <Route path="/blog/:slug" element={
-            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-              <BlogPost />
-            </PublicLayout>
-          } />
-          <Route path="*" element={
-            <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
-              <NotFoundPage />
-            </PublicLayout>
-          } />
+          <Route
+            path="/"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <HomePage openModal={openModal} />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <HomePage openModal={openModal} scrollToContactOnLoad canonicalPath="/contact" />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/compare"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <ComparisonPage />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/wholesale-distributor"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <WholesaleDistributorPage />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/blog"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <BlogListing />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/blog/:slug"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <BlogPost />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <NotFoundPage />
+              </PublicLayout>
+            }
+          />
         </Routes>
       </Suspense>
     </BrowserRouter>
