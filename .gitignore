@@ -17,8 +17,14 @@ dist-ssr
 .env.local
 .env.*.local
 
+# Temporary directories
+tmpclaude-*/
+.venv/
+venv/
+
 # Editor directories and files
 .vscode/*
+.agents/
 !.vscode/extensions.json
 .idea
 .DS_Store

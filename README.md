@@ -1,16 +1,49 @@
-# React + Vite
+# A3 Distributors
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A water & beverage distribution site with an admin dashboard. Built with React + Vite.
 
-Currently, two official plugins are available:
+## Get Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+For production:
+```bash
+npm run build
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## What's Inside
 
-## Expanding the ESLint configuration
+- **Public Site** - Product showcase, blog, quotations
+- **Admin Dashboard** - Manage orders, invoices, customers, products
+- **Backend** - Supabase for auth & database
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project Structure
+
+```
+src/
+├── components/   # Public site components
+├── admin/        # Admin dashboard
+├── data/         # Products, config, content
+├── lib/          # Utilities & Supabase client
+└── styles/       # CSS (no Tailwind)
+```
+
+## Tech Stack
+
+- React 19 + Router 7
+- Vite
+- Supabase
+- Custom CSS + Lucide icons
+
+## Documentation
+
+- [Features](./features.md) - Public site features
+- [Admin Features](./admin-features.md) - Dashboard stuff
+- [Design System](./DESIGN.md) - Styling & components
+
+---
+
+Ready to ship.
