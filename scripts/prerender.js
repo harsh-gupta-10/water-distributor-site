@@ -532,8 +532,6 @@ async function main() {
   const publishedBlogs = sortBlogs((blogsFallback || []).map(normalizeBlog)).filter(
     (blog) => blog.status === "published"
   );
-  const featuredBlog = publishedBlogs[0] || null;
-
   const routeMap = [];
 
   routeMap.push({
@@ -618,23 +616,23 @@ async function main() {
     },
   });
 
-  if (featuredBlog) {
-    const blogSchemas = buildBlogPostSchemas(SITE_ORIGIN, featuredBlog);
+  for (const blog of publishedBlogs) {
+    const blogSchemas = buildBlogPostSchemas(SITE_ORIGIN, blog);
     routeMap.push({
-      path: `/blog/${featuredBlog.slug}`,
+      path: `/blog/${blog.slug}`,
       seo: {
-        path: `/blog/${featuredBlog.slug}`,
-        title: featuredBlog.title,
-        description: featuredBlog.meta_description || featuredBlog.excerpt,
-        keywords: featuredBlog.meta_keywords || toTagList(featuredBlog.tags).join(", "),
+        path: `/blog/${blog.slug}`,
+        title: blog.title,
+        description: blog.meta_description || blog.excerpt,
+        keywords: blog.meta_keywords || toTagList(blog.tags).join(", "),
         canonicalUrl: blogSchemas.canonicalUrl,
         includeFAQ: false,
         image: blogSchemas.seoImage,
-        author: featuredBlog.author || "A3Distributors Team",
+        author: blog.author || "A3Distributors Team",
         ogType: "article",
         publishedTime: blogSchemas.publishedAt,
         modifiedTime: blogSchemas.modifiedAt,
-        articleSection: featuredBlog.category,
+        articleSection: blog.category,
         articleTags: blogSchemas.tagList,
         extraSchemas: [blogSchemas.articleSchema, blogSchemas.breadcrumbSchema],
       },
