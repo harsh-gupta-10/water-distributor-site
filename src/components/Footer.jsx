@@ -123,14 +123,7 @@ export default function Footer() {
           </p>
           <p className="footer__gst">{siteConfig.gstInfo}</p>
           <p className="footer__credit">
-            Website made by{" "}
-            <a
-              href="https://harshugupta.in"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Harshugupta.in
-            </a>
+            made by om gupta
           </p>
         </div>
       </div>

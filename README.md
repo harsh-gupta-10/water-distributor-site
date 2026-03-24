@@ -1,6 +1,6 @@
 # A3 Distributors
 
-A water & beverage distribution site with an admin dashboard. Built with React + Vite.
+A water & beverage distribution site with an admin dashboard. Built with React + Vite + Supabase.
 
 ## Get Started
 
@@ -28,7 +28,7 @@ src/
 ├── admin/        # Admin dashboard
 ├── data/         # Products, config, content
 ├── lib/          # Utilities & Supabase client
-└── styles/       # CSS (no Tailwind)
+└── styles/       # CSS (no Tailwind. maybe next time)
 ```
 
 ## Tech Stack
