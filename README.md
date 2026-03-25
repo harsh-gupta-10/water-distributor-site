@@ -1,49 +1,48 @@
 # A3 Distributors
 
-A water & beverage distribution site with an admin dashboard. Built with React + Vite + Supabase.
+A3 Distributors is a water and beverage distribution site i made for my freind and its has built-in admin dashboard. The same app powers the public website, quotation flow, and internal business tools, so the storefront and back office stay in sync.
 
-## Get Started
+## Run It Locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-For production:
+Build for production with:
+
 ```bash
 npm run build
 ```
 
-## What's Inside
+To preview the production build locally:
 
-- **Public Site** - Product showcase, blog, quotations
-- **Admin Dashboard** - Manage orders, invoices, customers, products
-- **Backend** - Supabase for auth & database
-
-## Project Structure
-
+```bash
+npm run preview
 ```
-src/
-├── components/   # Public site components
-├── admin/        # Admin dashboard
-├── data/         # Products, config, content
-├── lib/          # Utilities & Supabase client
-└── styles/       # CSS (no Tailwind. maybe next time)
-```
+
+## What This App Does
+
+- Shows the public site with products, services, blog posts, FAQs, and contact options
+- Lets customers request quotations for bulk orders
+- Gives the team an admin area for orders, invoices, customers, products, and analytics
+- Uses Supabase for authentication and database storage
 
 ## Tech Stack
 
-- React 19 + Router 7
+- React 19
+- React Router 7
 - Vite
 - Supabase
-- Custom CSS + Lucide icons
+- Lucide icons
+- Custom CSS
 
-## Documentation
+## Project Layout
 
-- [Features](./features.md) - Public site features
-- [Admin Features](./admin-features.md) - Dashboard stuff
-- [Design System](./DESIGN.md) - Styling & components
+- `src/components/` for public-facing UI pieces
+- `src/admin/` for the dashboard and admin pages
+- `src/data/` for site content, product data, and config
+- `src/lib/` for shared helpers and the Supabase client
+- `src/styles/` for global and page-specific CSS
 
----
-
-Ready to ship.
+If you need to understand the site quickly, start with the feature docs. If you need to change the UI, check the design notes first.
