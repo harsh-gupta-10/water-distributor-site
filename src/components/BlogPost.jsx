@@ -126,7 +126,7 @@ export default function BlogPost() {
     },
     publisher: {
       '@type': 'Organization',
-      '@id': 'https://a3distributors.com/#organization',
+      '@id': `${settings.url || window.location.origin}/#organization`,
       name: settings.businessName || 'A3Distributors',
       logo: {
         '@type': 'ImageObject',

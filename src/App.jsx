@@ -19,6 +19,7 @@ import NotFoundPage from "./components/NotFoundPage";
 import ScrollToTop from "./components/ScrollToTop";
 import SEO from "./components/SEO";
 import productsData from "./data/products.json";
+import siteConfig from "./data/siteConfig";
 
 const BlogListing = lazy(() => import("./components/BlogListing"));
 const BlogPost = lazy(() => import("./components/BlogPost"));
@@ -137,7 +138,7 @@ function HomePage({ openModal, scrollToContactOnLoad = false, canonicalPath = "/
     }
   }, [scrollToContactOnLoad]);
 
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://a3distributors.com";
+  const origin = typeof window !== "undefined" ? window.location.origin : siteConfig.url;
   const isContactPage = canonicalPath === "/contact";
   const homeSchemas = useMemo(() => buildHomeSchemas(origin, canonicalPath), [origin, canonicalPath]);
 
