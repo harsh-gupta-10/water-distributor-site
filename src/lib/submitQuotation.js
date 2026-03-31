@@ -20,7 +20,7 @@ export async function submitQuotation(formData, source = "website") {
     }
 
     return { success: true };
-  } catch (err) {
+  } catch {
     console.error("Quotation submission failed");
     return { success: false, error: "An unexpected error occurred. Please try again later." };
   }

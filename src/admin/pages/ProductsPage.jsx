@@ -39,7 +39,7 @@ export default function ProductsPage() {
     const [page, setPage] = useState(1);
     const [modalOpen, setModalOpen] = useState(false);
     const [editing, setEditing] = useState(null);
-    const [deleteId, setDeleteId] = useState(null);
+
     const [importing, setImporting] = useState(false);
     const [uploadModalOpen, setUploadModalOpen] = useState(false);
     const [uploadingImage, setUploadingImage] = useState(false);
@@ -152,13 +152,13 @@ export default function ProductsPage() {
         fetchProducts();
     }
 
-    async function deleteProduct() {
-        if (!deleteId) return;
-        const { error } = await supabase.from('products').delete().eq('id', deleteId);
-        if (error) { toast(error.message, 'error'); } else { toast('Product deleted'); }
-        setDeleteId(null);
-        fetchProducts();
-    }
+      // async function deleteProduct() {
+  //         if (!deleteId) return;
+  //         const { error } = await supabase.from('products').delete().eq('id', deleteId);
+  //         if (error) { toast(error.message, 'error'); } else { toast('Product deleted'); }
+  //         setDeleteId(null);
+  //         fetchProducts();
+  //     }
 
     function parseNumber(value, fallback = 0) {
         if (value === null || value === undefined || value === '') return fallback;
@@ -310,7 +310,7 @@ export default function ProductsPage() {
                 supabase.from('products').update({ position: update.position }).eq('id', update.id)
             ));
             toast('Product order updated');
-        } catch (err) {
+        } catch {
             toast('Failed to update order', 'error');
             fetchProducts();
         }

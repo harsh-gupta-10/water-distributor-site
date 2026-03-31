@@ -112,7 +112,10 @@ export function sanitizeHtml(html) {
   sanitized = sanitized.replace(/\s+on\w+\s*=\s*(?:(['"])(?:(?!\1).)*\1|[^\s>]+)/gim, '');
 
   // 3. Remove dangerous URIs
-  const dangerousUriPattern = /(href|src|formaction)\s*=\s*(?:(['"])\s*(?:javascript|vbscript|data\s*:(?!\s*image\/))(?:(?!\2).)*\2|(?:\s*javascript|vbscript|data\s*:(?!\s*image\/))[^\s>]+)/gim;
+  // This pattern matches href, src, or formaction attributes and looks for potentially dangerous
+  // URI schemes (javascript:, vbscript:, data:) even if they are obfuscated with HTML entities,
+  // control characters, or whitespace.
+  const dangerousUriPattern = /(href|src|formaction)\s*=\s*(?:(['"])\s*(?:(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:j|v|d)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:a|b)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:v|s)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:a|c)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:s|r)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:c|i)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:r|p)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:i|t)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:p|:)?(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:t)?(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?::)?|data\s*:(?!\s*image\/))(?:(?!\2).)*\2|(?:\s*(?:(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:j|v|d)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:a|b)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:v|s)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:a|c)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:s|r)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:c|i)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:r|p)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:i|t)(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:p|:)?(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?:t)?(?:&[^;]+;|[\s\x00-\x1F\x7F-\x9F])*(?::)?|data\s*:(?!\s*image\/)))[^\s>]+)/gim;
   sanitized = sanitized.replace(dangerousUriPattern, '$1="#"');
 
   // 4. Strip tags that are not in the whitelist (and their attributes)

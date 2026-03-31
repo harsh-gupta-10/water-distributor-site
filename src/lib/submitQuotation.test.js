@@ -29,7 +29,7 @@ async function submitQuotation(formData, supabase = mockSupabase) {
     }
 
     return { success: true };
-  } catch (err) {
+  } catch {
     // console.error("Quotation submission failed");
     return { success: false, error: "An unexpected error occurred. Please try again later." };
   }
