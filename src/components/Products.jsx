@@ -36,7 +36,7 @@ function getProductImage(filename) {
 }
 
 function buildProductListSchema(displayCategories, settings) {
-  const origin = typeof window !== "undefined" ? window.location.origin : "https://a3distributors.com";
+  const origin = typeof window !== "undefined" ? window.location.origin : (settings?.url || "https://a3distributors.com");
   const items = (displayCategories || []).flatMap((category) =>
     (category.products || []).slice(0, 4).map((product) => ({
       "@type": "ListItem",

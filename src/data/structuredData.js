@@ -1,3 +1,5 @@
+import siteConfig from "./siteConfig";
+
 /**
  * Structured Data (JSON-LD) for A3Distributors
  * Adds schema.org markup for search engine optimization
@@ -7,13 +9,13 @@
 export const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "@id": "https://a3distributors.com/#organization",
+  "@id": `${siteConfig.url}/#organization`,
   "name": "A3Distributors",
   "alternateName": "A3Distributor",
-  "url": "https://a3distributors.com",
+  "url": `${siteConfig.url}`,
   "logo": {
     "@type": "ImageObject",
-    "url": "https://a3distributors.com/imgs/logos/logo.png"
+    "url": `${siteConfig.url}/imgs/logos/logo.png`
   },
   "description": "Leading wholesale water and beverage distributor in India. A3Distributors offers competitive pricing, extensive product range, and reliable delivery for businesses. Authorized distributor of Coca-Cola, Pepsi, Bisleri, and major beverage brands.",
   "address": {
@@ -44,19 +46,19 @@ export const organizationSchema = {
 export const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "@id": "https://a3distributors.com/#website",
-  "url": "https://a3distributors.com",
+  "@id": `${siteConfig.url}/#website`,
+  "url": `${siteConfig.url}`,
   "name": "A3Distributors",
   "alternateName": "A3Distributor",
   "description": "Wholesale water and beverage distribution platform for businesses in India.",
   "publisher": {
-    "@id": "https://a3distributors.com/#organization"
+    "@id": `${siteConfig.url}/#organization`
   },
   "potentialAction": {
     "@type": "SearchAction",
     "target": {
       "@type": "EntryPoint",
-      "urlTemplate": "https://a3distributors.com/blog?search={search_term_string}"
+      "urlTemplate": `${siteConfig.url}/blog?search={search_term_string}`
     },
     "query-input": "required name=search_term_string"
   }
@@ -98,12 +100,12 @@ export const faqSchema = {
 export const productServiceSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
-  "@id": "https://a3distributors.com/#service",
+  "@id": `${siteConfig.url}/#service`,
   "serviceType": "Wholesale Water and Beverage Distribution",
   "name": "Wholesale Water & Beverage Supply",
   "description": "Professional wholesale distribution of packaged drinking water, soft drinks, and beverages. Serving businesses, offices, events, retailers, and institutions across India with competitive pricing and reliable delivery.",
   "provider": {
-    "@id": "https://a3distributors.com/#organization"
+    "@id": `${siteConfig.url}/#organization`
   },
   "areaServed": {
     "@type": "State",
@@ -166,7 +168,7 @@ export const structuredData = {
   "@type": "LocalBusiness",
   "name": "A3Distributors",
   "alternateName": "A3Distributor",
-  "image": "https://a3distributors.com/imgs/logos/logo.png",
+  "image": `${siteConfig.url}/imgs/logos/logo.png`,
   "description": "Reliable water and beverage distribution service for businesses across India. Authorized distributor of major brands including Coca-Cola, Pepsi, Bisleri, and more.",
   "address": {
     "@type": "PostalAddress",
@@ -178,7 +180,7 @@ export const structuredData = {
   },
   "telephone": "+917039414924",
   "email": "contact.a3distributor@gmail.com",
-  "url": "https://a3distributors.com",
+  "url": `${siteConfig.url}`,
   "sameAs": [
     "https://www.facebook.com/a3distributors",
     "https://www.instagram.com/a3distributors",
