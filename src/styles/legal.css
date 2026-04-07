@@ -1,0 +1,297 @@
+/* Legal Pages Styling (Privacy Policy, Terms, About) */
+
+.legal-page {
+  min-height: 100vh;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.legal-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Header Styling */
+.legal-header {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  color: #ffffff;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.legal-header h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin: 0 0 0.75rem;
+  letter-spacing: -0.025em;
+}
+
+.legal-updated {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin: 0;
+}
+
+.legal-header .tagline {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0.5rem 0 0;
+  font-weight: 400;
+}
+
+/* Content Styling */
+.legal-content {
+  padding: 2.5rem 2rem;
+  color: #1e293b;
+  line-height: 1.7;
+}
+
+.legal-content section {
+  margin-bottom: 2.5rem;
+}
+
+.legal-content section:last-child {
+  margin-bottom: 0;
+}
+
+.legal-content h2 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #1e40af;
+  margin: 0 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.legal-content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #334155;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.legal-content p {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+}
+
+.legal-content ul {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+}
+
+.legal-content li {
+  margin-bottom: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.legal-content li strong {
+  color: #1e40af;
+}
+
+.legal-content address {
+  font-style: normal;
+  background: #f8fafc;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+  margin-top: 1rem;
+}
+
+.legal-content a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-content a:hover {
+  color: #1d4ed8;
+}
+
+/* About Page Specific Styles */
+.about-page .about-intro p:first-of-type {
+  font-size: 1.1rem;
+  color: #475569;
+}
+
+.about-page .value-item {
+  background: #f8fafc;
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.about-page .value-item h3 {
+  margin-top: 0;
+  font-size: 1.15rem;
+}
+
+.about-page .value-item p {
+  margin-bottom: 0;
+}
+
+.about-page .product-category {
+  margin-bottom: 1.5rem;
+  padding-left: 0.5rem;
+  border-left: 3px solid #3b82f6;
+}
+
+.about-page .product-category h3 {
+  margin-top: 0;
+}
+
+.about-page .product-category p {
+  margin-bottom: 0;
+}
+
+.about-page .area-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.about-page .area-item {
+  background: #f1f5f9;
+  padding: 1.25rem;
+  border-radius: 8px;
+}
+
+.about-page .area-item h3 {
+  margin-top: 0;
+  color: #1e40af;
+}
+
+.about-page .area-item p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+.about-page .why-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.about-page .why-list li {
+  padding: 0.75rem 0;
+  padding-left: 2rem;
+  position: relative;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.about-page .why-list li:last-child {
+  border-bottom: none;
+}
+
+.about-page .why-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #10b981;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.about-page .about-cta {
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.about-page .about-cta h2 {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.about-page .contact-info {
+  background: #ffffff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+
+.about-page .contact-info p {
+  margin-bottom: 0.5rem;
+}
+
+.about-page .contact-info p:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .legal-page {
+    padding: 1rem 0.5rem;
+  }
+
+  .legal-container {
+    border-radius: 12px;
+  }
+
+  .legal-header {
+    padding: 2rem 1.5rem;
+  }
+
+  .legal-content {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .legal-content h2 {
+    font-size: 1.2rem;
+  }
+
+  .legal-content h3 {
+    font-size: 1.05rem;
+  }
+
+  .about-page .about-cta {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .legal-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .legal-content {
+    padding: 1.25rem 1rem;
+  }
+
+  .legal-content ul {
+    padding-left: 1.25rem;
+  }
+
+  .about-page .value-item,
+  .about-page .area-item {
+    padding: 1rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .legal-page {
+    background: #ffffff;
+    padding: 0;
+  }
+
+  .legal-container {
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .legal-header {
+    background: #1e40af;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .legal-content {
+    padding: 1.5rem;
+  }
+}

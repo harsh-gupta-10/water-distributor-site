@@ -5,6 +5,7 @@ import { saveBlogsToCache } from '../../lib/blogFallback';
 import { parseFallbackBlogsImport } from '../../lib/blogFallbackImport';
 import { useToast } from '../components/Toast';
 import Modal from '../components/Modal';
+import RichTextEditor from '../components/RichTextEditor';
 
 const BLOG_IMAGE_BUCKET = import.meta.env.VITE_SUPABASE_MEDIA_BUCKET || import.meta.env.VITE_SUPABASE_BLOG_BUCKET || 'media';
 const MAX_BLOG_IMAGE_SIZE_BYTES = 50 * 1024 * 1024;
@@ -821,11 +822,10 @@ export default function BlogsPage() {
 
                     <div className="form-field form-field--full">
                         <label>Content *</label>
-                        <textarea
+                        <RichTextEditor
                             value={form.content}
-                            onChange={e => setForm({ ...form, content: e.target.value })}
-                            placeholder="Full blog post content (supports HTML)"
-                            rows={8}
+                            onChange={content => setForm({ ...form, content })}
+                            placeholder="Write your blog post content here..."
                         />
                     </div>
 

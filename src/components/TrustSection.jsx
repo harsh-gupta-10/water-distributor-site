@@ -32,7 +32,7 @@ export default function TrustSection() {
   const siteConfig = useSettingsSync();
 
   return (
-    <section id="about" className="trust" ref={ref}>
+    <section id="trust" className="trust" ref={ref}>
       {/* Subtle tricolor gradient bar */}
       <div className="trust__tricolor" />
 
@@ -41,7 +41,7 @@ export default function TrustSection() {
           className={`section-header ${inView ? "animate-fadeInUp" : ""}`}
           style={{ opacity: inView ? 1 : 0 }}
         >
-          <span className="section-label">About Us</span>
+          <span className="section-label">Why Trust Us</span>
           <h2 className="section-title">
             Serving Local Businesses with Honesty &amp; Reliability
           </h2>

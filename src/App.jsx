@@ -23,6 +23,9 @@ import siteConfig from "./data/siteConfig";
 
 const BlogListing = lazy(() => import("./components/BlogListing"));
 const BlogPost = lazy(() => import("./components/BlogPost"));
+const PrivacyPolicyPage = lazy(() => import("./components/PrivacyPolicyPage"));
+const TermsPage = lazy(() => import("./components/TermsPage"));
+const AboutPage = lazy(() => import("./components/AboutPage"));
 
 // Admin Module
 const AdminLayout = lazy(() => import("./admin/AdminLayout"));
@@ -275,6 +278,30 @@ function App() {
             element={
               <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
                 <BlogPost />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/privacy-policy"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <PrivacyPolicyPage />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/terms-and-conditions"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <TermsPage />
+              </PublicLayout>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <PublicLayout openModal={openModal} isModalOpen={isModalOpen} closeModal={closeModal}>
+                <AboutPage />
               </PublicLayout>
             }
           />

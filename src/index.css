@@ -2298,6 +2298,28 @@ a.contact__card:hover {
   color: var(--gray-500);
 }
 
+.footer__legal-links {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer__legal-links a {
+  color: var(--gray-400);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer__legal-links a:hover {
+  color: var(--primary-blue);
+  text-decoration: underline;
+}
+
+.footer__divider {
+  color: var(--gray-600);
+}
+
 .footer__credit {
   font-size: 0.8rem;
   color: var(--gray-500);

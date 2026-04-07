@@ -12,6 +12,7 @@ const quickLinks = [
   { label: "Wholesale Distributor", href: "/wholesale-distributor", type: "route" },
   { label: "Compare", href: "/compare", type: "route" },
   { label: "Contact", href: "/contact", type: "route" },
+  { label: "About Us", href: "/about", type: "route" },
 ];
 
 const productLinks = [
@@ -120,6 +121,11 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} {siteConfig.businessName}
             {siteConfig.businessNameHighlight}. All rights reserved.
           </p>
+          <div className="footer__legal-links">
+            <Link to="/privacy-policy">Privacy Policy</Link>
+            <span className="footer__divider">|</span>
+            <Link to="/terms-and-conditions">Terms &amp; Conditions</Link>
+          </div>
           <p className="footer__gst">{siteConfig.gstInfo}</p>
           <p className="footer__credit">
             Website made by{" "}
