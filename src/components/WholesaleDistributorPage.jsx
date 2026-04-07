@@ -12,12 +12,14 @@ import {
   Phone,
   MessageCircle,
   ArrowRight,
+  HelpCircle,
 } from "lucide-react";
 import SEO from "./SEO";
 import { useSettingsSync } from "../hooks/useSettings";
+import { createDefinitionSchema } from "../data/structuredData";
 
-const WHOLESALE_PAGE_UPDATED = "2026-03-20";
-const WHOLESALE_PAGE_UPDATED_LABEL = "20 March 2026";
+const WHOLESALE_PAGE_UPDATED = "2026-04-07";
+const WHOLESALE_PAGE_UPDATED_LABEL = "7 April 2026";
 const WHOLESALE_PAGE_REVIEWER = "A3Distributors Sales Operations Team";
 
 const keyFeatures = [
@@ -129,9 +131,21 @@ const wholesaleEvidence = [
     sourceLabel: "A3Distributor comparison framework",
     sourceUrl: "/compare",
   },
+  {
+    title: "Wholesale savings vs retail purchasing",
+    stat: "Businesses ordering through wholesale distributors typically save 15-25% compared to retail purchases.",
+    note: "For a 50-employee office, this translates to annual savings of ₹8,000-15,000 on water supply alone.",
+    sourceLabel: "Industry wholesale pricing analysis",
+    sourceUrl: "/pricing.md",
+  },
 ];
 
 const wholesaleFaqData = [
+  {
+    question: "What is a wholesale water distributor?",
+    answer:
+      "A wholesale water distributor is a B2B supplier that sources packaged drinking water directly from manufacturers and supplies it in bulk to businesses at volume-discounted prices. Unlike retail, wholesale distribution offers lower per-unit costs, scheduled delivery, and business invoicing.",
+  },
   {
     question: "How do I estimate bulk water requirements for my office?",
     answer:
@@ -183,6 +197,7 @@ function PricingCard({ name, range, discount, features, popular, cta, whatsappNu
 
 export default function WholesaleDistributorPage() {
   const { ref: heroRef, inView: heroInView } = useInView({ threshold: 0.1, triggerOnce: true });
+  const { ref: definitionRef, inView: definitionInView } = useInView({ threshold: 0.1, triggerOnce: true });
   const { ref: featuresRef, inView: featuresInView } = useInView({ threshold: 0.05, triggerOnce: true });
   const { ref: pricingRef, inView: pricingInView } = useInView({ threshold: 0.05, triggerOnce: true });
   const { ref: whyRef, inView: whyInView } = useInView({ threshold: 0.05, triggerOnce: true });
@@ -233,7 +248,13 @@ export default function WholesaleDistributorPage() {
       })),
     };
 
-    return [breadcrumbSchema, webPageSchema, faqSchema];
+    const definitionSchema = createDefinitionSchema({
+      term: "Wholesale Water Distributor",
+      definition: "A wholesale water distributor is a B2B supplier that sources packaged drinking water directly from manufacturers and supplies it in bulk to businesses at volume-discounted prices. Unlike retail, wholesale distribution offers lower per-unit costs, scheduled delivery, and business invoicing.",
+      url: canonicalUrl,
+    });
+
+    return [breadcrumbSchema, webPageSchema, faqSchema, definitionSchema];
   }, [canonicalUrl]);
 
   const handleWhatsApp = () => {
@@ -299,6 +320,28 @@ export default function WholesaleDistributorPage() {
                   <span>Google Rating</span>
                 </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="wholesale-definition" ref={definitionRef}>
+          <div className="container">
+            <div className={`wholesale-definition__content ${definitionInView ? "animate-fadeInUp" : ""}`}>
+              <div className="wholesale-definition__icon">
+                <HelpCircle size={32} />
+              </div>
+              <h2>What is a Wholesale Water Distributor?</h2>
+              <p>
+                <strong>A wholesale water distributor</strong> is a B2B supplier that sources packaged drinking water 
+                and beverages directly from manufacturers and supplies them in bulk to businesses at volume-discounted prices. 
+                Unlike retail purchasing, wholesale distribution offers lower per-unit costs, scheduled recurring deliveries, 
+                professional GST invoicing, and dedicated account management.
+              </p>
+              <p>
+                According to industry analysis, businesses ordering through wholesale distributors typically save 
+                <strong> 15-25% compared to retail purchases</strong>. For a typical 50-employee office consuming 
+                approximately 65 water jars per month, this translates to annual savings of ₹8,000-15,000 on water supply alone.
+              </p>
             </div>
           </div>
         </section>

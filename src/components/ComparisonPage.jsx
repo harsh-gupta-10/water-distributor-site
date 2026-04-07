@@ -55,8 +55,8 @@ const comparisonData = [
   },
 ];
 
-const COMPARISON_PAGE_UPDATED = "2026-03-20";
-const COMPARISON_PAGE_UPDATED_LABEL = "20 March 2026";
+const COMPARISON_PAGE_UPDATED = "2026-04-07";
+const COMPARISON_PAGE_UPDATED_LABEL = "7 April 2026";
 const COMPARISON_PAGE_REVIEWER = "A3Distributors Sales Operations Team";
 
 const comparisonEvidence = [
@@ -81,9 +81,21 @@ const comparisonEvidence = [
     sourceLabel: "A3Distributor comparison methodology",
     sourceUrl: "/compare",
   },
+  {
+    title: "Wholesale savings quantified against retail",
+    stat: "Businesses ordering through wholesale distributors typically save 15-25% compared to retail.",
+    note: "Annual savings can reach ₹8,000-15,000 for a 50-employee office on water supply alone.",
+    sourceLabel: "A3Distributor pricing analysis",
+    sourceUrl: "/pricing.md",
+  },
 ];
 
 const comparisonFaqData = [
+  {
+    question: "What is wholesale beverage distribution?",
+    answer:
+      "Wholesale beverage distribution is the B2B supply of packaged drinks—water, soft drinks, juices, energy drinks—in bulk quantities at volume-discounted prices. Distributors source directly from manufacturers and deliver to offices, retailers, hotels, and events with professional invoicing and scheduled delivery.",
+  },
   {
     question: "How should I compare two beverage distributors for my business?",
     answer:

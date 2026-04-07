@@ -38,29 +38,39 @@ function getProductImage(filename) {
 function buildProductListSchema(displayCategories, settings) {
   const origin = typeof window !== "undefined" ? window.location.origin : (settings?.url || "https://a3distributors.com");
   const items = (displayCategories || []).flatMap((category) =>
-    (category.products || []).slice(0, 4).map((product) => ({
-      "@type": "ListItem",
-      position: 0,
-      item: {
-        "@type": "Product",
-        name: product.name,
-        category: category.name,
-        description:
-          product.description ||
-          `${product.name} available for bulk supply in ${category.name} category`,
-        url: `${origin}/#products`,
-        offers: {
-          "@type": "Offer",
-          priceCurrency: "INR",
-          availability: "https://schema.org/InStock",
+    (category.products || []).slice(0, 4).map((product) => {
+      const imageUrl = product.imageSrc
+        ? (product.imageSrc.startsWith("http") ? product.imageSrc : `${origin}${product.imageSrc}`)
+        : undefined;
+      return {
+        "@type": "ListItem",
+        position: 0,
+        item: {
+          "@type": "Product",
+          name: product.name,
+          category: category.name,
+          description:
+            product.description ||
+            `${product.name} available for bulk wholesale supply in ${category.name} category from A3Distributors Mumbai`,
+          image: imageUrl,
           url: `${origin}/#products`,
-          seller: {
-            "@type": "Organization",
-            name: settings.businessName || "A3Distributors",
+          brand: {
+            "@type": "Brand",
+            name: product.name.split(" ")[0],
+          },
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "INR",
+            availability: "https://schema.org/InStock",
+            url: `${origin}/#products`,
+            seller: {
+              "@type": "Organization",
+              name: settings.businessName || "A3Distributors",
+            },
           },
         },
-      },
-    }))
+      };
+    })
   );
 
   const listItems = items.map((item, index) => ({ ...item, position: index + 1 }));
@@ -115,10 +125,11 @@ function CategoryCard({ category, onClick, delay, animate }) {
         {previewImg ? (
           <img
             src={previewImg}
-            alt={`${category.name} wholesale products`}
+            alt={`${category.name} - Wholesale bulk supply for offices and businesses in Mumbai | A3Distributors`}
             className="category-card__img"
             width={208}
             height={158}
+            loading="lazy"
           />
         ) : (
           <Icon size={48} style={{ color: category.color }} />
@@ -181,7 +192,7 @@ function ProductListModal({ category, onClose, onGetPrice, settings }) {
                 {product.imageSrc ? (
                   <img
                     src={product.imageSrc}
-                    alt={`${product.name} in ${category.name}`}
+                    alt={`${product.name} wholesale bulk supply - ${category.name} distributor Mumbai | A3Distributors`}
                     className="product-modal__item-img"
                     width={80}
                     height={80}

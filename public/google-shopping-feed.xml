@@ -1,140 +1,713 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:g="http://base.google.com/ns/1.0" version="2.0">
   <channel>
-    <title>A3Distributors - Product Feed</title>
+    <title>A3Distributors - Wholesale Beverage Products</title>
     <link>https://a3distributors.com</link>
-    <description>Water and beverage distribution products</description>
+    <description>Wholesale water and beverage distribution products for businesses in Mumbai, India</description>
 
-    <!-- WATER PRODUCTS -->
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PACKAGED DRINKING WATER
+         ═══════════════════════════════════════════════════════════════════ -->
+    
     <item>
-      <g:id>bisleri-mineral-water</g:id>
-      <title>Bisleri Mineral Water - 500ml</title>
-      <description>Premium mineral water from Bisleri, available in 500ml bottles. Trusted by millions across India.</description>
+      <g:id>bisleri-500ml</g:id>
+      <title>Bisleri Mineral Water 500ml - Wholesale Pack</title>
+      <description>Premium Bisleri mineral water in 500ml bottles. India's most trusted packaged drinking water brand. Available for bulk wholesale supply to offices, retailers, hotels, and events in Mumbai. Case of 24 bottles.</description>
       <g:link>https://a3distributors.com/#products</g:link>
       <g:image_link>https://a3distributors.com/imgs/products/bisleri.webp</g:image_link>
-      <g:price>25.00 INR</g:price>
-      <g:currency>INR</g:currency>
+      <g:price>480.00 INR</g:price>
+      <g:sale_price>432.00 INR</g:sale_price>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
-      <g:product_type>Beverages > Water > Mineral Water</g:product_type>
-      <g:google_product_category>13103</g:google_product_category>
+      <g:product_type>Beverages > Water > Packaged Drinking Water > Mineral Water</g:product_type>
+      <g:google_product_category>422</g:google_product_category>
       <g:brand>Bisleri</g:brand>
-      <g:mpn>BISLERI-500ML</g:mpn>
+      <g:mpn>BISLERI-500ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:unit_pricing_measure>12 l</g:unit_pricing_measure>
+      <g:unit_pricing_base_measure>1 l</g:unit_pricing_base_measure>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>water</g:custom_label_0>
+      <g:custom_label_1>bestseller</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>bisleri-1l</g:id>
+      <title>Bisleri Mineral Water 1L - Wholesale Pack</title>
+      <description>Bisleri 1 litre packaged drinking water. Ideal for offices, corporate events, and retail. Wholesale case of 12 bottles with free delivery in Mumbai.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/bisleri.webp</g:image_link>
+      <g:price>300.00 INR</g:price>
+      <g:sale_price>270.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Water > Packaged Drinking Water > Mineral Water</g:product_type>
+      <g:google_product_category>422</g:google_product_category>
+      <g:brand>Bisleri</g:brand>
+      <g:mpn>BISLERI-1L-12PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:unit_pricing_measure>12 l</g:unit_pricing_measure>
+      <g:unit_pricing_base_measure>1 l</g:unit_pricing_base_measure>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>water</g:custom_label_0>
+    </item>
+
+    <item>
+      <g:id>bisleri-20l-jar</g:id>
+      <title>Bisleri 20L Water Jar - Office Bulk Supply</title>
+      <description>Bisleri 20 litre water jar for office dispensers. Most economical option for daily office hydration. Free delivery and pickup of empty jars in Mumbai.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/bisleri.webp</g:image_link>
+      <g:price>80.00 INR</g:price>
+      <g:sale_price>70.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Water > Packaged Drinking Water > Water Dispenser Bottles</g:product_type>
+      <g:google_product_category>422</g:google_product_category>
+      <g:brand>Bisleri</g:brand>
+      <g:mpn>BISLERI-20L-JAR</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:unit_pricing_measure>20 l</g:unit_pricing_measure>
+      <g:unit_pricing_base_measure>1 l</g:unit_pricing_base_measure>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>water</g:custom_label_0>
+      <g:custom_label_1>office-supply</g:custom_label_1>
     </item>
 
     <item>
       <g:id>zurica-water-500ml</g:id>
-      <title>Zurica Water - 500ml</title>
-      <description>Premium packaged drinking water by Zurica. Perfect for bulk supply to offices and shops.</description>
+      <title>Zurica Packaged Drinking Water 500ml - Wholesale</title>
+      <description>Zurica premium packaged drinking water. Quality assured water supply for businesses. Wholesale case of 24 bottles available for bulk orders.</description>
       <g:link>https://a3distributors.com/#products</g:link>
       <g:image_link>https://a3distributors.com/imgs/products/Zurica-Water.webp</g:image_link>
-      <g:price>20.00 INR</g:price>
-      <g:currency>INR</g:currency>
+      <g:price>400.00 INR</g:price>
+      <g:sale_price>360.00 INR</g:sale_price>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
-      <g:product_type>Beverages > Water > Mineral Water</g:product_type>
-      <g:google_product_category>13103</g:google_product_category>
+      <g:product_type>Beverages > Water > Packaged Drinking Water</g:product_type>
+      <g:google_product_category>422</g:google_product_category>
       <g:brand>Zurica</g:brand>
-      <g:mpn>ZURICA-500ML</g:mpn>
+      <g:mpn>ZURICA-500ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>water</g:custom_label_0>
     </item>
 
     <item>
-      <g:id>vedica-himalayan-spring-water-500ml</g:id>
-      <title>Vedica Himalayan Spring Water - 500ml</title>
-      <description>Premium Himalayan spring water with natural minerals. Perfect for health-conscious consumers.</description>
+      <g:id>vedica-himalayan-500ml</g:id>
+      <title>Vedica Himalayan Spring Water 500ml - Premium</title>
+      <description>Premium Vedica Himalayan natural spring water with natural minerals. Perfect for corporate offices, hotels, and health-conscious businesses. Case of 24 bottles.</description>
       <g:link>https://a3distributors.com/#products</g:link>
       <g:image_link>https://a3distributors.com/imgs/products/Vedica-Himalayan-Spring-Water.webp</g:image_link>
-      <g:price>35.00 INR</g:price>
-      <g:currency>INR</g:currency>
+      <g:price>720.00 INR</g:price>
+      <g:sale_price>650.00 INR</g:sale_price>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
-      <g:product_type>Beverages > Water > Spring Water</g:product_type>
-      <g:google_product_category>13103</g:google_product_category>
+      <g:product_type>Beverages > Water > Spring Water > Himalayan Water</g:product_type>
+      <g:google_product_category>422</g:google_product_category>
       <g:brand>Vedica</g:brand>
-      <g:mpn>VEDICA-500ML</g:mpn>
+      <g:mpn>VEDICA-500ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>water</g:custom_label_0>
+      <g:custom_label_1>premium</g:custom_label_1>
     </item>
 
-    <!-- SOFT DRINKS -->
     <item>
-      <g:id>coca-cola-600ml</g:id>
-      <title>Coca-Cola - 600ml Bottle</title>
-      <description>Refreshing Coca-Cola in 600ml bottle. Available for retail and bulk supply.</description>
+      <g:id>bailey-water-500ml</g:id>
+      <title>Bailey Packaged Drinking Water 500ml - Parle Agro</title>
+      <description>Bailey packaged drinking water by Parle Agro. Trusted quality at competitive wholesale prices. Case of 24 bottles for business supply.</description>
       <g:link>https://a3distributors.com/#products</g:link>
-      <g:image_link>https://a3distributors.com/imgs/products/Coca-cola-softdrink.webp</g:image_link>
-      <g:price>40.00 INR</g:price>
-      <g:currency>INR</g:currency>
+      <g:image_link>https://a3distributors.com/imgs/products/Bailey-Packaged-Drinking-Water.webp</g:image_link>
+      <g:price>420.00 INR</g:price>
+      <g:sale_price>380.00 INR</g:sale_price>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
-      <g:product_type>Beverages > Soft Drinks > Cola</g:product_type>
-      <g:google_product_category>13106</g:google_product_category>
+      <g:product_type>Beverages > Water > Packaged Drinking Water</g:product_type>
+      <g:google_product_category>422</g:google_product_category>
+      <g:brand>Bailey</g:brand>
+      <g:mpn>BAILEY-500ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>water</g:custom_label_0>
+    </item>
+
+    <item>
+      <g:id>cloud9-water-500ml</g:id>
+      <title>Cloud9 Packaged Drinking Water 500ml - Wholesale</title>
+      <description>Cloud9 packaged drinking water for bulk business supply. Available in multiple sizes from 200ml to 20L jars. Case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Cloud9-Water.webp</g:image_link>
+      <g:price>360.00 INR</g:price>
+      <g:sale_price>324.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Water > Packaged Drinking Water</g:product_type>
+      <g:google_product_category>422</g:google_product_category>
+      <g:brand>Cloud9</g:brand>
+      <g:mpn>CLOUD9-500ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>water</g:custom_label_0>
+    </item>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SOFT DRINKS - COLA
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <item>
+      <g:id>coca-cola-600ml</g:id>
+      <title>Coca-Cola 600ml Bottle - Wholesale Case</title>
+      <description>Classic Coca-Cola in 600ml PET bottle. India's favourite cola for retail shops, restaurants, and events. Wholesale case of 24 bottles with bulk discounts.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Coca-cola-softdrink.webp</g:image_link>
+      <g:price>960.00 INR</g:price>
+      <g:sale_price>864.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Soft Drinks > Cola > Coca-Cola</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
       <g:brand>Coca-Cola</g:brand>
-      <g:mpn>COCACOLA-600ML</g:mpn>
+      <g:mpn>COCACOLA-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
+      <g:custom_label_1>bestseller</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>coca-cola-2l</g:id>
+      <title>Coca-Cola 2L Family Pack - Wholesale</title>
+      <description>Coca-Cola 2 litre family pack bottles. Perfect for parties, events, and retail. Case of 8 bottles at wholesale prices.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Coca-cola-softdrink.webp</g:image_link>
+      <g:price>720.00 INR</g:price>
+      <g:sale_price>648.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Soft Drinks > Cola > Coca-Cola</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Coca-Cola</g:brand>
+      <g:mpn>COCACOLA-2L-8PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
     </item>
 
     <item>
       <g:id>pepsi-600ml</g:id>
-      <title>Pepsi - 600ml Bottle</title>
-      <description>Classic Pepsi cola for retail and bulk orders. One of our top sellers.</description>
+      <title>Pepsi 600ml Bottle - Wholesale Case</title>
+      <description>Classic Pepsi cola in 600ml bottle. Top-selling soft drink for retailers and events. Case of 24 bottles with competitive wholesale pricing.</description>
       <g:link>https://a3distributors.com/#products</g:link>
       <g:image_link>https://a3distributors.com/imgs/products/Pepsi-Softdrink.webp</g:image_link>
-      <g:price>40.00 INR</g:price>
-      <g:currency>INR</g:currency>
+      <g:price>960.00 INR</g:price>
+      <g:sale_price>864.00 INR</g:sale_price>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
-      <g:product_type>Beverages > Soft Drinks > Cola</g:product_type>
-      <g:google_product_category>13106</g:google_product_category>
+      <g:product_type>Beverages > Soft Drinks > Cola > Pepsi</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
       <g:brand>Pepsi</g:brand>
-      <g:mpn>PEPSI-600ML</g:mpn>
+      <g:mpn>PEPSI-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
+      <g:custom_label_1>bestseller</g:custom_label_1>
     </item>
 
     <item>
-      <g:id>thums-up-500ml</g:id>
-      <title>Thums Up - 500ml Bottle</title>
-      <description>Strong and refreshing Thums Up cola. Perfect for parties and events.</description>
+      <g:id>thums-up-600ml</g:id>
+      <title>Thums Up 600ml - Strong Cola Wholesale</title>
+      <description>Thums Up strong cola in 600ml bottle. India's iconic thunder taste. Wholesale case of 24 bottles for retailers and events.</description>
       <g:link>https://a3distributors.com/#products</g:link>
       <g:image_link>https://a3distributors.com/imgs/products/Thumps-up-Softdrink.webp</g:image_link>
-      <g:price>30.00 INR</g:price>
-      <g:currency>INR</g:currency>
+      <g:price>960.00 INR</g:price>
+      <g:sale_price>864.00 INR</g:sale_price>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
-      <g:product_type>Beverages > Soft Drinks > Cola</g:product_type>
-      <g:google_product_category>13106</g:google_product_category>
+      <g:product_type>Beverages > Soft Drinks > Cola > Thums Up</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
       <g:brand>Thums Up</g:brand>
-      <g:mpn>THUMSUP-500ML</g:mpn>
+      <g:mpn>THUMSUP-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
     </item>
 
-    <!-- JUICES -->
     <item>
-      <g:id>maaza-mango-200ml</g:id>
-      <title>Maaza Mango Juice - 200ml</title>
-      <description>Refreshing mango juice drink. A favorite among juice lovers in India.</description>
+      <g:id>sprite-600ml</g:id>
+      <title>Sprite 600ml - Lemon Lime Soda Wholesale</title>
+      <description>Sprite clear lemon-lime soft drink in 600ml bottle. Refreshing choice for all occasions. Wholesale case of 24 bottles.</description>
       <g:link>https://a3distributors.com/#products</g:link>
-      <g:image_link>https://a3distributors.com/imgs/products/maaza.png</g:image_link>
-      <g:price>15.00 INR</g:price>
-      <g:currency>INR</g:currency>
+      <g:image_link>https://a3distributors.com/imgs/products/C-Softdrink.webp</g:image_link>
+      <g:price>960.00 INR</g:price>
+      <g:sale_price>864.00 INR</g:sale_price>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
-      <g:product_type>Beverages > Juices > Mango Juice</g:product_type>
-      <g:google_product_category>13109</g:google_product_category>
-      <g:brand>Maaza</g:brand>
-      <g:mpn>MAAZA-200ML</g:mpn>
+      <g:product_type>Beverages > Soft Drinks > Lemon Lime > Sprite</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Sprite</g:brand>
+      <g:mpn>SPRITE-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
     </item>
 
-    <!-- ENERGY DRINKS -->
+    <item>
+      <g:id>fanta-600ml</g:id>
+      <title>Fanta Orange 600ml - Wholesale Case</title>
+      <description>Fanta orange flavoured soft drink in 600ml bottle. Bright and bubbly orange soda. Wholesale case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Fanta-Softdrink.webp</g:image_link>
+      <g:price>960.00 INR</g:price>
+      <g:sale_price>864.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Soft Drinks > Orange Soda > Fanta</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Fanta</g:brand>
+      <g:mpn>FANTA-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
+    </item>
+
+    <item>
+      <g:id>mirinda-600ml</g:id>
+      <title>Mirinda Orange 600ml - Wholesale Case</title>
+      <description>Mirinda orange soft drink in 600ml bottle. Sweet and tangy orange flavour. Case of 24 bottles at wholesale prices.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Mirinda-Softdrink.webp</g:image_link>
+      <g:price>960.00 INR</g:price>
+      <g:sale_price>864.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Soft Drinks > Orange Soda > Mirinda</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Mirinda</g:brand>
+      <g:mpn>MIRINDA-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
+    </item>
+
+    <item>
+      <g:id>7up-600ml</g:id>
+      <title>7UP 600ml - Lemon Lime Soda Wholesale</title>
+      <description>7UP refreshing lemon-lime soft drink in 600ml bottle. Light and crisp taste. Wholesale case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/7UP-Softdrink.webp</g:image_link>
+      <g:price>960.00 INR</g:price>
+      <g:sale_price>864.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Soft Drinks > Lemon Lime > 7UP</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>7UP</g:brand>
+      <g:mpn>7UP-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
+    </item>
+
+    <item>
+      <g:id>mountain-dew-600ml</g:id>
+      <title>Mountain Dew 600ml - Citrus Energy Wholesale</title>
+      <description>Mountain Dew high-energy citrus soft drink in 600ml bottle. Bold citrus flavour for the adventurous. Wholesale case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Mountain-Dew-Softdrink.webp</g:image_link>
+      <g:price>960.00 INR</g:price>
+      <g:sale_price>864.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Soft Drinks > Citrus > Mountain Dew</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Mountain Dew</g:brand>
+      <g:mpn>MOUNTAINDEW-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
+    </item>
+
+    <item>
+      <g:id>campa-cola-600ml</g:id>
+      <title>Campa Cola 600ml - Indian Brand Wholesale</title>
+      <description>Campa Cola classic Indian cola brand in 600ml bottle. Nostalgic taste at affordable prices. Case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Campa-Softdrink.webp</g:image_link>
+      <g:price>720.00 INR</g:price>
+      <g:sale_price>648.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Soft Drinks > Cola > Campa</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Campa</g:brand>
+      <g:mpn>CAMPA-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>softdrink</g:custom_label_0>
+      <g:custom_label_1>indian-brand</g:custom_label_1>
+    </item>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         JUICES & FRUIT DRINKS
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <item>
+      <g:id>maaza-600ml</g:id>
+      <title>Maaza Mango Drink 600ml - Wholesale Case</title>
+      <description>Maaza mango fruit drink in 600ml bottle. India's favourite mango beverage. Perfect for retail and events. Wholesale case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/maaza-Fruitdrink.webp</g:image_link>
+      <g:price>840.00 INR</g:price>
+      <g:sale_price>756.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Juices > Mango Drinks > Maaza</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Maaza</g:brand>
+      <g:mpn>MAAZA-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>juice</g:custom_label_0>
+      <g:custom_label_1>mango</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>maaza-200ml</g:id>
+      <title>Maaza Mango 200ml Tetra Pack - Wholesale</title>
+      <description>Maaza mango drink in convenient 200ml tetra pack. Perfect for lunch boxes and retail. Case of 30 packs at wholesale prices.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/maaza-Fruitdrink.webp</g:image_link>
+      <g:price>450.00 INR</g:price>
+      <g:sale_price>405.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Juices > Mango Drinks > Maaza</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Maaza</g:brand>
+      <g:mpn>MAAZA-200ML-30PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>juice</g:custom_label_0>
+      <g:custom_label_1>mango</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>slice-600ml</g:id>
+      <title>Slice Mango Drink 600ml - Wholesale Case</title>
+      <description>Slice mango fruit drink in 600ml bottle. Thick and pulpy mango goodness. Wholesale case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Slice-Fruitdrink.webp</g:image_link>
+      <g:price>840.00 INR</g:price>
+      <g:sale_price>756.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Juices > Mango Drinks > Slice</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Slice</g:brand>
+      <g:mpn>SLICE-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>juice</g:custom_label_0>
+      <g:custom_label_1>mango</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>frooti-600ml</g:id>
+      <title>Frooti Mango Drink 600ml - Wholesale Case</title>
+      <description>Frooti fresh n juicy mango drink in 600ml bottle. India's iconic mango beverage since 1985. Wholesale case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Frooti-Fruitdrink.webp</g:image_link>
+      <g:price>840.00 INR</g:price>
+      <g:sale_price>756.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Juices > Mango Drinks > Frooti</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Frooti</g:brand>
+      <g:mpn>FROOTI-600ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>juice</g:custom_label_0>
+      <g:custom_label_1>mango</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>tropicana-1l</g:id>
+      <title>Tropicana 100% Juice 1L - Premium Wholesale</title>
+      <description>Tropicana premium 100% fruit juice in 1L pack. Multiple flavours available. Perfect for corporate offices and hotels. Case of 12 packs.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Tropicana-Fruitdrink.webp</g:image_link>
+      <g:price>1440.00 INR</g:price>
+      <g:sale_price>1296.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Juices > Premium Juice > Tropicana</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Tropicana</g:brand>
+      <g:mpn>TROPICANA-1L-12PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>juice</g:custom_label_0>
+      <g:custom_label_1>premium</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>real-juice-1l</g:id>
+      <title>Real Fruit Juice 1L - Multiple Flavours Wholesale</title>
+      <description>Real fruit juice in 1L pack. Available in multiple flavours - Orange, Mixed Fruit, Apple, Pomegranate. Case of 12 packs.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Real-Fruitdrink.webp</g:image_link>
+      <g:price>1200.00 INR</g:price>
+      <g:sale_price>1080.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Juices > Fruit Juice > Real</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Real</g:brand>
+      <g:mpn>REAL-1L-12PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>juice</g:custom_label_0>
+    </item>
+
+    <item>
+      <g:id>lipton-ice-tea-350ml</g:id>
+      <title>Lipton Ice Tea 350ml - Wholesale Case</title>
+      <description>Lipton refreshing ice tea in 350ml PET bottle. Perfect blend of tea and lemon. Wholesale case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Lipton-Fruitdrink.webp</g:image_link>
+      <g:price>840.00 INR</g:price>
+      <g:sale_price>756.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Tea > Iced Tea > Lipton</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Lipton</g:brand>
+      <g:mpn>LIPTON-350ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>juice</g:custom_label_0>
+      <g:custom_label_1>tea</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>7up-nimbooz-350ml</g:id>
+      <title>7UP Nimbooz Masala Soda 350ml - Wholesale</title>
+      <description>7UP Nimbooz refreshing nimbu pani masala soda in 350ml bottle. Authentic Indian lemon drink taste. Case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Nimbooz7up-Fruitdrink.webp</g:image_link>
+      <g:price>720.00 INR</g:price>
+      <g:sale_price>648.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Soft Drinks > Lemon > Nimbooz</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>7UP</g:brand>
+      <g:mpn>NIMBOOZ-350ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>juice</g:custom_label_0>
+      <g:custom_label_1>lemon</g:custom_label_1>
+    </item>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ENERGY & SPORTS DRINKS
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <item>
+      <g:id>sting-250ml</g:id>
+      <title>Sting Energy Drink 250ml - Wholesale Case</title>
+      <description>Sting energy drink in 250ml can. Boost your energy with caffeine and vitamins. Popular choice for gyms and events. Case of 24 cans.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/sting-Energydrink.webp</g:image_link>
+      <g:price>720.00 INR</g:price>
+      <g:sale_price>648.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Energy Drinks > Sting</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Sting</g:brand>
+      <g:mpn>STING-250ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>energy</g:custom_label_0>
+      <g:custom_label_1>bestseller</g:custom_label_1>
+    </item>
+
     <item>
       <g:id>red-bull-250ml</g:id>
-      <title>Red Bull Energy Drink - 250ml</title>
-      <description>Premium energy drink for boosting energy and performance. Available for bulk orders.</description>
+      <title>Red Bull Energy Drink 250ml - Premium Wholesale</title>
+      <description>Red Bull premium energy drink in 250ml can. World's leading energy drink brand. Perfect for gyms, events, and retail. Case of 24 cans.</description>
       <g:link>https://a3distributors.com/#products</g:link>
       <g:image_link>https://a3distributors.com/imgs/products/Red-Bull-Energydrink.webp</g:image_link>
-      <g:price>100.00 INR</g:price>
-      <g:currency>INR</g:currency>
+      <g:price>2880.00 INR</g:price>
+      <g:sale_price>2592.00 INR</g:sale_price>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
-      <g:product_type>Beverages > Energy Drinks</g:product_type>
-      <g:google_product_category>13107</g:google_product_category>
+      <g:product_type>Beverages > Energy Drinks > Red Bull</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
       <g:brand>Red Bull</g:brand>
-      <g:mpn>REDBULL-250ML</g:mpn>
+      <g:mpn>REDBULL-250ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>energy</g:custom_label_0>
+      <g:custom_label_1>premium</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>gatorade-500ml</g:id>
+      <title>Gatorade Sports Drink 500ml - Wholesale Case</title>
+      <description>Gatorade sports hydration drink in 500ml bottle. Essential electrolytes for athletes and fitness enthusiasts. Case of 24 bottles.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Gatorade-Energydrink.webp</g:image_link>
+      <g:price>1440.00 INR</g:price>
+      <g:sale_price>1296.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Sports Drinks > Gatorade</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Gatorade</g:brand>
+      <g:mpn>GATORADE-500ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>energy</g:custom_label_0>
+      <g:custom_label_1>sports</g:custom_label_1>
+    </item>
+
+    <item>
+      <g:id>cloud9-energy-250ml</g:id>
+      <title>Cloud9 Energy Drink 250ml - Wholesale Case</title>
+      <description>Cloud9 energy drink in 250ml can. Affordable energy boost for everyday needs. Case of 24 cans at wholesale prices.</description>
+      <g:link>https://a3distributors.com/#products</g:link>
+      <g:image_link>https://a3distributors.com/imgs/products/Cloud9-Energydrink.webp</g:image_link>
+      <g:price>600.00 INR</g:price>
+      <g:sale_price>540.00 INR</g:sale_price>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:product_type>Beverages > Energy Drinks > Cloud9</g:product_type>
+      <g:google_product_category>413</g:google_product_category>
+      <g:brand>Cloud9</g:brand>
+      <g:mpn>CLOUD9-ENERGY-250ML-24PK</g:mpn>
+      <g:identifier_exists>yes</g:identifier_exists>
+      <g:shipping>
+        <g:country>IN</g:country>
+        <g:service>Standard</g:service>
+        <g:price>0 INR</g:price>
+      </g:shipping>
+      <g:custom_label_0>energy</g:custom_label_0>
     </item>
 
   </channel>

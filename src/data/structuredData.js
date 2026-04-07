@@ -1,9 +1,47 @@
-import siteConfig from "./siteConfig";
+import siteConfig from "./siteConfig.js";
 
 /**
  * Structured Data (JSON-LD) for A3Distributors
  * Adds schema.org markup for search engine optimization
  */
+
+// HowTo Schema Generator - for step-by-step content
+export function createHowToSchema({ name, description, steps, totalTime, image }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": name,
+    "description": description,
+    "image": image ? `${siteConfig.url}${image}` : undefined,
+    "totalTime": totalTime, // ISO 8601 format, e.g., "PT30M"
+    "step": steps.map((step, index) => ({
+      "@type": "HowToStep",
+      "position": index + 1,
+      "name": step.name,
+      "text": step.text,
+      "url": step.url || undefined,
+      "image": step.image ? `${siteConfig.url}${step.image}` : undefined,
+    })),
+  };
+}
+
+// Definition/DefinedTerm Schema Generator - for "What is X" content
+export function createDefinitionSchema({ term, definition, url }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "name": term,
+    "description": definition,
+    "url": url || siteConfig.url,
+    "inDefinedTermSet": {
+      "@type": "DefinedTermSet",
+      "name": "Wholesale Distribution Glossary",
+      "publisher": {
+        "@id": `${siteConfig.url}/#organization`
+      }
+    }
+  };
+}
 
 // Organization Schema
 export const organizationSchema = {

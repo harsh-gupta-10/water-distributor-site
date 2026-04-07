@@ -20,7 +20,6 @@ const productLinks = [
   "Aquafina",
   "Coca-Cola",
   "Pepsi",
-  "Sprite",
   "Thums Up",
   "Maaza",
 ];

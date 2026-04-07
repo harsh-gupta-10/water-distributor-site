@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Plus, Edit2, Eye, Search, Upload, FileUp } from 'lucide-react';
+import { Plus, Edit2, Eye, Search, Upload, FileUp, Trash2, Copy, ArrowUpDown, Filter, CheckSquare, Square, MoreVertical } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { saveBlogsToCache } from '../../lib/blogFallback';
 import { parseFallbackBlogsImport } from '../../lib/blogFallbackImport';
@@ -47,18 +47,57 @@ export default function BlogsPage() {
     const [showModal, setShowModal] = useState(false);
     const [editingId, setEditingId] = useState(null);
     const [form, setForm] = useState(createEmptyForm);
+    
+    // New state for enhanced features
+    const [sortBy, setSortBy] = useState('created_at');
+    const [sortOrder, setSortOrder] = useState('desc');
+    const [filterStatus, setFilterStatus] = useState('all');
+    const [filterCategory, setFilterCategory] = useState('all');
+    const [selectedBlogs, setSelectedBlogs] = useState([]);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [blogToDelete, setBlogToDelete] = useState(null);
 
     useEffect(() => {
         fetchBlogs();
     }, []);
 
     useEffect(() => {
-        const filtered = blogs.filter(blog =>
+        let filtered = blogs.filter(blog =>
             blog.title.toLowerCase().includes(search.toLowerCase()) ||
             blog.slug.toLowerCase().includes(search.toLowerCase())
         );
+        
+        // Apply status filter
+        if (filterStatus !== 'all') {
+            filtered = filtered.filter(blog => blog.status === filterStatus);
+        }
+        
+        // Apply category filter
+        if (filterCategory !== 'all') {
+            filtered = filtered.filter(blog => blog.category === filterCategory);
+        }
+        
+        // Apply sorting
+        filtered.sort((a, b) => {
+            let aVal = a[sortBy];
+            let bVal = b[sortBy];
+            
+            if (sortBy === 'title') {
+                aVal = (aVal || '').toLowerCase();
+                bVal = (bVal || '').toLowerCase();
+            } else if (sortBy === 'created_at' || sortBy === 'published_at' || sortBy === 'updated_at') {
+                aVal = new Date(aVal || 0).getTime();
+                bVal = new Date(bVal || 0).getTime();
+            }
+            
+            if (sortOrder === 'asc') {
+                return aVal > bVal ? 1 : -1;
+            }
+            return aVal < bVal ? 1 : -1;
+        });
+        
         setFilteredBlogs(filtered);
-    }, [search, blogs]);
+    }, [search, blogs, filterStatus, filterCategory, sortBy, sortOrder]);
 
     async function fetchBlogs() {
         setLoading(true);
@@ -125,6 +164,134 @@ export default function BlogsPage() {
             toast('Error saving blog: ' + error.message, 'error');
         }
     }
+
+    // Delete single blog
+    async function deleteBlog(blog) {
+        setBlogToDelete(blog);
+        setShowDeleteConfirm(true);
+    }
+
+    async function confirmDelete() {
+        if (!blogToDelete) return;
+        
+        try {
+            const { error } = await supabase
+                .from('blogs')
+                .delete()
+                .eq('id', blogToDelete.id);
+            
+            if (error) throw error;
+            toast('Blog deleted successfully', 'success');
+            setShowDeleteConfirm(false);
+            setBlogToDelete(null);
+            fetchBlogs();
+        } catch (error) {
+            toast('Error deleting blog: ' + error.message, 'error');
+        }
+    }
+
+    // Duplicate blog
+    async function duplicateBlog(blog) {
+        try {
+            const newBlog = {
+                title: `${blog.title} (Copy)`,
+                slug: `${blog.slug}-copy-${Date.now()}`,
+                excerpt: blog.excerpt,
+                content: blog.content,
+                featured_image: blog.featured_image,
+                author: blog.author,
+                category: blog.category,
+                tags: blog.tags,
+                status: 'draft',
+                published_at: new Date().toISOString().slice(0, 10),
+                meta_description: blog.meta_description,
+                meta_keywords: blog.meta_keywords,
+                created_at: new Date().toISOString(),
+                updated_at: new Date().toISOString(),
+            };
+
+            const { error } = await supabase.from('blogs').insert([newBlog]);
+            if (error) throw error;
+            
+            toast('Blog duplicated successfully', 'success');
+            fetchBlogs();
+        } catch (error) {
+            toast('Error duplicating blog: ' + error.message, 'error');
+        }
+    }
+
+    // Toggle blog selection
+    function toggleBlogSelection(blogId) {
+        setSelectedBlogs(prev => 
+            prev.includes(blogId) 
+                ? prev.filter(id => id !== blogId)
+                : [...prev, blogId]
+        );
+    }
+
+    // Select/deselect all
+    function toggleSelectAll() {
+        if (selectedBlogs.length === filteredBlogs.length) {
+            setSelectedBlogs([]);
+        } else {
+            setSelectedBlogs(filteredBlogs.map(b => b.id));
+        }
+    }
+
+    // Bulk delete
+    async function bulkDelete() {
+        if (selectedBlogs.length === 0) return;
+        
+        if (!window.confirm(`Are you sure you want to delete ${selectedBlogs.length} blog(s)?`)) {
+            return;
+        }
+
+        try {
+            const { error } = await supabase
+                .from('blogs')
+                .delete()
+                .in('id', selectedBlogs);
+            
+            if (error) throw error;
+            toast(`${selectedBlogs.length} blog(s) deleted successfully`, 'success');
+            setSelectedBlogs([]);
+            fetchBlogs();
+        } catch (error) {
+            toast('Error deleting blogs: ' + error.message, 'error');
+        }
+    }
+
+    // Bulk update status
+    async function bulkUpdateStatus(newStatus) {
+        if (selectedBlogs.length === 0) return;
+
+        try {
+            const { error } = await supabase
+                .from('blogs')
+                .update({ status: newStatus, updated_at: new Date().toISOString() })
+                .in('id', selectedBlogs);
+            
+            if (error) throw error;
+            toast(`${selectedBlogs.length} blog(s) updated to ${newStatus}`, 'success');
+            setSelectedBlogs([]);
+            fetchBlogs();
+        } catch (error) {
+            toast('Error updating blogs: ' + error.message, 'error');
+        }
+    }
+
+    // Toggle sort
+    function handleSort(field) {
+        if (sortBy === field) {
+            setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+        } else {
+            setSortBy(field);
+            setSortOrder('desc');
+        }
+    }
+
+    // Get unique categories from blogs
+    const categories = [...new Set(blogs.map(b => b.category).filter(Boolean))];
 
     function exportFallbackFile() {
         try {
@@ -417,8 +584,9 @@ export default function BlogsPage() {
             </div>
 
             <div className="card" style={{ marginBottom: 20 }}>
-                <div style={{ display: 'flex', gap: 8 }}>
-                    <div style={{ flex: 1, position: 'relative' }}>
+                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                    {/* Search */}
+                    <div style={{ flex: 1, minWidth: 200, position: 'relative' }}>
                         <Search size={16} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
                         <input
                             type="text"
@@ -428,30 +596,152 @@ export default function BlogsPage() {
                             style={{ width: '100%', paddingLeft: 36, padding: '10px 12px', border: '1px solid #e5e7eb', borderRadius: 6 }}
                         />
                     </div>
+                    
+                    {/* Status Filter */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <Filter size={14} style={{ color: '#6b7280' }} />
+                        <select 
+                            value={filterStatus} 
+                            onChange={e => setFilterStatus(e.target.value)}
+                            style={{ padding: '10px 12px', border: '1px solid #e5e7eb', borderRadius: 6, background: '#fff' }}
+                        >
+                            <option value="all">All Status</option>
+                            <option value="published">Published</option>
+                            <option value="draft">Draft</option>
+                        </select>
+                    </div>
+                    
+                    {/* Category Filter */}
+                    <select 
+                        value={filterCategory} 
+                        onChange={e => setFilterCategory(e.target.value)}
+                        style={{ padding: '10px 12px', border: '1px solid #e5e7eb', borderRadius: 6, background: '#fff' }}
+                    >
+                        <option value="all">All Categories</option>
+                        {categories.map(cat => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+                    
+                    {/* Sort */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <ArrowUpDown size={14} style={{ color: '#6b7280' }} />
+                        <select 
+                            value={`${sortBy}-${sortOrder}`} 
+                            onChange={e => {
+                                const [field, order] = e.target.value.split('-');
+                                setSortBy(field);
+                                setSortOrder(order);
+                            }}
+                            style={{ padding: '10px 12px', border: '1px solid #e5e7eb', borderRadius: 6, background: '#fff' }}
+                        >
+                            <option value="created_at-desc">Newest First</option>
+                            <option value="created_at-asc">Oldest First</option>
+                            <option value="title-asc">Title A-Z</option>
+                            <option value="title-desc">Title Z-A</option>
+                            <option value="published_at-desc">Recently Published</option>
+                            <option value="updated_at-desc">Recently Updated</option>
+                        </select>
+                    </div>
                 </div>
+                
+                {/* Bulk Actions Bar */}
+                {selectedBlogs.length > 0 && (
+                    <div style={{ 
+                        marginTop: 12, 
+                        padding: '10px 14px', 
+                        background: '#eff6ff', 
+                        borderRadius: 6, 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between',
+                        border: '1px solid #bfdbfe'
+                    }}>
+                        <span style={{ fontWeight: 500, color: '#1d4ed8' }}>
+                            {selectedBlogs.length} blog(s) selected
+                        </span>
+                        <div style={{ display: 'flex', gap: 8 }}>
+                            <button 
+                                className="btn-admin btn-admin--secondary" 
+                                style={{ padding: '6px 12px', fontSize: '0.85rem' }}
+                                onClick={() => bulkUpdateStatus('published')}
+                            >
+                                Publish
+                            </button>
+                            <button 
+                                className="btn-admin btn-admin--secondary" 
+                                style={{ padding: '6px 12px', fontSize: '0.85rem' }}
+                                onClick={() => bulkUpdateStatus('draft')}
+                            >
+                                Unpublish
+                            </button>
+                            <button 
+                                className="btn-admin btn-admin--secondary" 
+                                style={{ padding: '6px 12px', fontSize: '0.85rem', color: '#dc2626', borderColor: '#fecaca' }}
+                                onClick={bulkDelete}
+                            >
+                                <Trash2 size={14} /> Delete
+                            </button>
+                            <button 
+                                className="btn-admin btn-admin--secondary" 
+                                style={{ padding: '6px 12px', fontSize: '0.85rem' }}
+                                onClick={() => setSelectedBlogs([])}
+                            >
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div className="card">
                 {filteredBlogs.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
-                        <p>No blogs found. {search ? 'Try a different search.' : 'Create your first blog post!'}</p>
+                        <p>No blogs found. {search || filterStatus !== 'all' || filterCategory !== 'all' ? 'Try different filters.' : 'Create your first blog post!'}</p>
                     </div>
                 ) : (
                     <table className="data-table">
                         <thead>
                             <tr>
-                                <th>Title</th>
+                                <th style={{ width: 40 }}>
+                                    <button 
+                                        onClick={toggleSelectAll}
+                                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+                                        title={selectedBlogs.length === filteredBlogs.length ? 'Deselect all' : 'Select all'}
+                                    >
+                                        {selectedBlogs.length === filteredBlogs.length && filteredBlogs.length > 0 
+                                            ? <CheckSquare size={16} style={{ color: '#2563eb' }} />
+                                            : <Square size={16} style={{ color: '#9ca3af' }} />
+                                        }
+                                    </button>
+                                </th>
+                                <th onClick={() => handleSort('title')} style={{ cursor: 'pointer' }}>
+                                    Title {sortBy === 'title' && (sortOrder === 'asc' ? '↑' : '↓')}
+                                </th>
                                 <th>Slug</th>
                                 <th>Category</th>
                                 <th>Author</th>
                                 <th>Status</th>
-                                <th>Published</th>
+                                <th onClick={() => handleSort('published_at')} style={{ cursor: 'pointer' }}>
+                                    Published {sortBy === 'published_at' && (sortOrder === 'asc' ? '↑' : '↓')}
+                                </th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredBlogs.map(blog => (
-                                <tr key={blog.id}>
+                                <tr key={blog.id} style={{ background: selectedBlogs.includes(blog.id) ? '#eff6ff' : undefined }}>
+                                    <td>
+                                        <button 
+                                            onClick={() => toggleBlogSelection(blog.id)}
+                                            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
+                                        >
+                                            {selectedBlogs.includes(blog.id) 
+                                                ? <CheckSquare size={16} style={{ color: '#2563eb' }} />
+                                                : <Square size={16} style={{ color: '#d1d5db' }} />
+                                            }
+                                        </button>
+                                    </td>
                                     <td style={{ fontWeight: 600 }}>{blog.title}</td>
                                     <td style={{ fontSize: '0.85rem', color: '#6b7280', fontFamily: 'monospace' }}>/{blog.slug}</td>
                                     <td><span style={{ fontSize: '0.85rem', background: '#f3f4f6', padding: '4px 8px', borderRadius: 4 }}>{blog.category}</span></td>
@@ -462,6 +752,8 @@ export default function BlogsPage() {
                                         <div style={{ display: 'flex', gap: 6 }}>
                                             <button className="data-table__action-btn" title="Edit" onClick={() => openEdit(blog)}><Edit2 size={15} /></button>
                                             <a href={`/blog/${blog.slug}`} target="_blank" rel="noopener noreferrer" className="data-table__action-btn" title="View"><Eye size={15} style={{ cursor: 'pointer' }} /></a>
+                                            <button className="data-table__action-btn" title="Duplicate" onClick={() => duplicateBlog(blog)}><Copy size={15} /></button>
+                                            <button className="data-table__action-btn" title="Delete" onClick={() => deleteBlog(blog)} style={{ color: '#dc2626' }}><Trash2 size={15} /></button>
                                         </div>
                                     </td>
                                 </tr>
@@ -470,6 +762,22 @@ export default function BlogsPage() {
                     </table>
                 )}
             </div>
+
+            {/* Delete Confirmation Modal */}
+            <Modal 
+                isOpen={showDeleteConfirm} 
+                onClose={() => { setShowDeleteConfirm(false); setBlogToDelete(null); }} 
+                title="Delete Blog Post"
+                footer={
+                    <>
+                        <button className="btn-admin btn-admin--secondary" onClick={() => { setShowDeleteConfirm(false); setBlogToDelete(null); }}>Cancel</button>
+                        <button className="btn-admin" style={{ background: '#dc2626', color: '#fff' }} onClick={confirmDelete}>Delete</button>
+                    </>
+                }
+            >
+                <p>Are you sure you want to delete <strong>{blogToDelete?.title}</strong>?</p>
+                <p style={{ color: '#6b7280', fontSize: '0.9rem', marginTop: 8 }}>This action cannot be undone.</p>
+            </Modal>
 
             <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editingId ? 'Edit Blog Post' : 'New Blog Post'} footer={
                 <>

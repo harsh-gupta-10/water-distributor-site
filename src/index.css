@@ -4147,6 +4147,56 @@ a.contact__card:hover {
   letter-spacing: 1px;
 }
 
+.wholesale-definition {
+  padding: 60px 0;
+  background: linear-gradient(135deg, var(--primary-50) 0%, var(--white) 100%);
+}
+
+.wholesale-definition__content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px;
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--gray-100);
+}
+
+.wholesale-definition__icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 24px;
+  background: var(--primary-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-600);
+}
+
+.wholesale-definition__content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: 20px;
+}
+
+.wholesale-definition__content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--gray-700);
+  margin-bottom: 16px;
+}
+
+.wholesale-definition__content p:last-child {
+  margin-bottom: 0;
+}
+
+.wholesale-definition__content strong {
+  color: var(--primary-700);
+}
+
 .wholesale-features {
   padding: var(--section-padding);
   background: var(--white);
