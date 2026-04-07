@@ -17,7 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
 const INDEX_HTML_PATH = path.join(DIST, "index.html");
-const SITE_ORIGIN = "https://a3distributors.com";
+const SITE_ORIGIN = "https://a3distributor.com";
 
 const COMPARISON_PAGE_UPDATED = "2026-03-20";
 const COMPARISON_PAGE_REVIEWER = "A3Distributors Sales Operations Team";

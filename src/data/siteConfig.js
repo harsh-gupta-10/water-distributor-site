@@ -7,7 +7,7 @@
 const siteConfig = {
   // --- Business Info ---
   businessName: "A3",
-  url: "https://a3distributors.com",
+  url: "https://a3distributor.com",
   businessNameHighlight: "Distributors", // colored part of the name
   tagline: "Your Trusted Water & Beverage Distribution Partner",
   footerDescription:

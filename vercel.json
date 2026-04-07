@@ -2,8 +2,8 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.a3distributors.com" }],
-      "destination": "https://a3distributors.com/:path*",
+      "has": [{ "type": "host", "value": "www.a3distributor.com" }],
+      "destination": "https://a3distributor.com/:path*",
       "permanent": true
     }
   ],

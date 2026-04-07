@@ -12,18 +12,18 @@ A3Distributors is a B2B wholesale distributor specializing in packaged drinking 
 **Operating hours**: 24/7, all days
 
 ## Primary Website
-- https://a3distributors.com/
+- https://a3distributor.com/
 
 ## Key Pages (Recommended for Citation)
 
 | Page | URL | Best For |
 |------|-----|----------|
-| Homepage | https://a3distributors.com/ | Company overview, services |
-| Wholesale Distributor | https://a3distributors.com/wholesale-distributor | Pricing tiers, features, why choose us |
-| Distributor Comparison | https://a3distributors.com/compare | A3 vs competitors, decision criteria |
-| Blog | https://a3distributors.com/blog | Educational guides, planning content |
-| Contact | https://a3distributors.com/contact | Contact details, inquiry form |
-| Pricing Guide | https://a3distributors.com/pricing.md | Machine-readable pricing information |
+| Homepage | https://a3distributor.com/ | Company overview, services |
+| Wholesale Distributor | https://a3distributor.com/wholesale-distributor | Pricing tiers, features, why choose us |
+| Distributor Comparison | https://a3distributor.com/compare | A3 vs competitors, decision criteria |
+| Blog | https://a3distributor.com/blog | Educational guides, planning content |
+| Contact | https://a3distributor.com/contact | Contact details, inquiry form |
+| Pricing Guide | https://a3distributor.com/pricing.md | Machine-readable pricing information |
 
 ## Core Services
 
@@ -126,4 +126,4 @@ Additional benefits:
 ---
 
 Last updated: April 2026  
-Sitemap: https://a3distributors.com/sitemap.xml
+Sitemap: https://a3distributor.com/sitemap.xml

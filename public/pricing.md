@@ -69,7 +69,7 @@ Coverage: Chembur, Sion, BKC, Kurla, Mankhurd, Govandi, Deonar, Tilak Nagar, Vas
 1. **WhatsApp**: Message +91 7039414924 with your requirements
 2. **Phone**: Call +91 7039414924 (available 24/7)
 3. **Email**: contact.a3distributor@gmail.com
-4. **Website**: https://a3distributors.com/contact
+4. **Website**: https://a3distributor.com/contact
 
 Response time: Within 30 minutes during business hours.
 
