@@ -182,7 +182,7 @@ export default function AboutPage() {
               <div className="about-story__image">
                 <div className="about-story__image-card">
                   <img 
-                    src="/imgs/hero-bg.webp" 
+                    src="/imgs/about img.webp" 
                     alt="A3Distributor warehouse operations" 
                     loading="lazy"
                   />
@@ -328,7 +328,7 @@ export default function AboutPage() {
                 </div>
                 <div className="cta-contact">
                   <Mail size={18} strokeWidth={1.5} />
-                  <span>info@a3distributor.com</span>
+                  <span>contact.a3distributor@gmail.com</span>
                 </div>
                 <div className="cta-contact">
                   <MapPin size={18} strokeWidth={1.5} />
