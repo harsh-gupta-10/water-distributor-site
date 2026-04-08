@@ -780,7 +780,7 @@ export default function BlogsPage() {
                 <p style={{ color: '#6b7280', fontSize: '0.9rem', marginTop: 8 }}>This action cannot be undone.</p>
             </Modal>
 
-            <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editingId ? 'Edit Blog Post' : 'New Blog Post'} footer={
+            <Modal isOpen={showModal} onClose={() => setShowModal(false)} title={editingId ? 'Edit Blog Post' : 'New Blog Post'} wide footer={
                 <>
                     <button className="btn-admin btn-admin--secondary" onClick={() => setShowModal(false)}>Cancel</button>
                     <button className="btn-admin btn-admin--primary" onClick={saveBlog}>Save Blog</button>

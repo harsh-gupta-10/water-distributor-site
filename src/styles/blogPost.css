@@ -231,6 +231,49 @@
   height: auto;
   border-radius: 8px;
   margin: 24px 0;
+  display: block;
+}
+
+/* Centered images from editor */
+.blog-post-body p[style*="text-align: center"],
+.blog-post-body [style*="text-align: center"] {
+  text-align: center !important;
+}
+
+.blog-post-body p[style*="text-align: center"] img,
+.blog-post-body [style*="text-align: center"] img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Images with inline width */
+.blog-post-body img[width] {
+  max-width: 100%;
+}
+
+/* Table styling from editor */
+.blog-post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+}
+
+.blog-post-body th,
+.blog-post-body td {
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.blog-post-body th {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: #1a365d;
+}
+
+.blog-post-body tr:hover td {
+  background: #f8fafc;
 }
 
 .blog-post-tags {
